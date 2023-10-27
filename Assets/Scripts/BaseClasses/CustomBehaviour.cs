@@ -39,7 +39,7 @@ namespace BaseClasses
 
         protected internal class GetOnObject : Attribute {}
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             DependencyInjector.Inject(this);
         }
