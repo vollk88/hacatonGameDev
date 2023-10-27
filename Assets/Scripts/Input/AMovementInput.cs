@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cinemachine;
 using System.Collections;
 using UnityEngine.InputSystem;
 
@@ -7,11 +8,13 @@ namespace Input
 	public abstract class AMovementInput : IInput
 	{
 		protected readonly WaitForFixedUpdate WaitForFixedUpdate = new();
-		
-		protected readonly UnitController Unit;
+
 		protected readonly float UnitSpeed;
 		protected Vector3 MoveDirection;
 
+		private readonly Transform _cinemachineBrainTransform;
+		private readonly UnitController _unit;
+		
 		private Coroutine _moveCoroutine;
 		private Coroutine _jumpCoroutine;
 		
@@ -23,8 +26,9 @@ namespace Input
 		
 		protected AMovementInput(UnitController unitController, float characterSpeed)
 		{
+			_cinemachineBrainTransform = Object.FindObjectOfType<CinemachineBrain>().transform;
 			UnitSpeed = characterSpeed;
-			Unit = unitController;
+			_unit = unitController;
 		}
 
 		protected abstract IEnumerator Move();
@@ -32,12 +36,10 @@ namespace Input
 		protected virtual void StartMove(InputAction.CallbackContext context)
 		{
 			IsMove = true;
-			Vector2 readValue = context.ReadValue<Vector2>();
-			MoveDirection = new Vector3(readValue.x, 0f, readValue.y);
 			
 			if(_moveCoroutine != null)
-				Unit.StopCoroutine(_moveCoroutine);
-			_moveCoroutine = Unit.StartCoroutine(Move());
+				_unit.StopCoroutine(_moveCoroutine);
+			_moveCoroutine = _unit.StartCoroutine(Move());
 		}
 		
 		protected virtual void EndMove(InputAction.CallbackContext context)
@@ -46,7 +48,7 @@ namespace Input
 			MoveDirection = Vector3.zero;
 			
 			if(_moveCoroutine != null)
-				Unit.StopCoroutine(_moveCoroutine);
+				_unit.StopCoroutine(_moveCoroutine);
 		}
 
 		protected virtual void StartSprint(InputAction.CallbackContext context)
@@ -57,6 +59,13 @@ namespace Input
 		protected virtual void EndSprint(InputAction.CallbackContext context)
 		{
 			IsSprint = false;
+		}
+
+		protected void UpdateCharacterRotationAndMovementDirection()
+		{
+			_unit.SetRotation(_cinemachineBrainTransform.rotation);
+			MoveDirection = _unit.Transform.forward;
+			MoveDirection.y = 0;
 		}
 
 		public void SubscribeEvents()
@@ -79,7 +88,7 @@ namespace Input
 
 		public override string ToString()
 		{
-			return $"IsMove {IsMove}\nIsJump {IsSprint}\n_moveVector {MoveDirection}\nUnit.Transform.position {Unit.Transform.position}";
+			return $"IsMove {IsMove}\nIsJump {IsSprint}\n_moveVector {MoveDirection}\nUnit.Transform.position {_unit.Transform.position}";
 		}
 	}
 }

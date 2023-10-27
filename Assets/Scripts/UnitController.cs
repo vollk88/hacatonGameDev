@@ -35,6 +35,11 @@ public class UnitController : CustomBehaviour
 #endif
 	}
 
+	public void SetRotation(Quaternion rotation)
+	{
+		Transform.rotation = rotation;
+	}
+
 	public void SetMovementInput(IInput movementInput)
 	{
 		_movementInput.UnsubscribeEvents();
