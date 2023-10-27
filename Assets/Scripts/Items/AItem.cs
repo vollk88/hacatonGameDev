@@ -1,5 +1,4 @@
-﻿using System;
-using BaseClasses;
+﻿using BaseClasses;
 using Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +10,7 @@ namespace Items
 	{
 		public Sprite Icon { get; set; }
 		
+		/// <summary>Взять предмет и добавить в инвентарь.</summary>
 		public void Take(InputAction.CallbackContext obj)
 		{
 			InputManager.PlayerActions.Take.started -= Take;
@@ -19,6 +19,7 @@ namespace Items
 			Destroy(gameObject);
 		}
 
+		/// <summary>Выкинуть предмет.</summary>
 		public void Drop()
 		{
 			InventoryController.Remove(this);
