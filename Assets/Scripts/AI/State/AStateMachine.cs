@@ -6,10 +6,15 @@ namespace AI.State
 {
 	public abstract class AStateMachine
 	{
+		public abstract AUnit AUnit { get; protected set; }
+		
 		protected IState CurrentState;
 		protected Dictionary<Type, IState> States = new ();
-		
-		public abstract void Init();
+
+		public virtual void Init(AUnit aUnit)
+		{
+			AUnit = aUnit;
+		}
 		
 		public void AddState(IState state)
 		{
@@ -34,6 +39,9 @@ namespace AI.State
 			CurrentState?.Update();
 		}
 
-		public abstract T GetState<T>() where T : IState;
+		public T GetState <T>() where T : IState
+		{
+			return (T) States[typeof(T)];
+		}
 	}
 }
