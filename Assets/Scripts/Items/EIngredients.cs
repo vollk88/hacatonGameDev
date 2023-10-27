@@ -1,6 +1,6 @@
 ﻿namespace Items
 {
-	public enum EVegetables
+	public enum EIngredients
 	{
 		Squash, //кабачок
 		Onion, //лук
