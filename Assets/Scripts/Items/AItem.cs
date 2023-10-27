@@ -3,37 +3,41 @@ using BaseClasses;
 using Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Inventory;
 
 namespace Items
 {
 	public abstract class AItem : CustomBehaviour, IItem
 	{
 		public Sprite Icon { get; set; }
+		
 		public void Take(InputAction.CallbackContext obj)
 		{
-			throw new NotImplementedException();
+			InputManager.PlayerActions.Take.started -= Take;
+			
+			InventoryController.Add(this);
+			Destroy(gameObject);
 		}
 
 		public void Drop()
 		{
-			throw new System.NotImplementedException();
+			InventoryController.Remove(this);
+			Instantiate(gameObject, transform.position, Quaternion.identity);
 		}
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if (other.gameObject.CompareTag("Player"))
-			{
-				InputManager.PlayerActions.Take.started += Take;
-			}	
+			if (!other.gameObject.CompareTag("Player")) return;
+			
+			InputManager.PlayerActions.Take.started += Take;
 		}
 
 
 		private void OnTriggerExit(Collider other)
 		{
-			if (other.gameObject.CompareTag("Player"))
-			{
-				InputManager.PlayerActions.Take.started -= Take;
-			}
+			if (!other.gameObject.CompareTag("Player")) return;
+			
+			InputManager.PlayerActions.Take.started -= Take;
 		}
 	}
 }
