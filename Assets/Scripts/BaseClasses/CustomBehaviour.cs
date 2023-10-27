@@ -22,7 +22,7 @@ namespace BaseClasses
             {
                 Type dependencyType = field.FieldType;
 
-                if (field.GetValue(monoBehaviour) is Component)
+                if (dependencyType.IsSubclassOf(typeof(Component)))
                 {
                     Component component = monoBehaviour.GetComponent(dependencyType);
                     field.SetValue(monoBehaviour, component);
