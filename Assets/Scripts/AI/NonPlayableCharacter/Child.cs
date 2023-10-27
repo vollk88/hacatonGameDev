@@ -5,8 +5,8 @@ namespace AI.NonPlayableCharacter
 {
 	public class Child : AUnit
 	{
-		public override AStateMachine StateMachine { get; } = new ChildStateMachine();
-		
-		
+		private ChildStateMachine _stateMachine;
+
+		public override AStateMachine StateMachine => _stateMachine ??= new ChildStateMachine(this);
 	}
 }

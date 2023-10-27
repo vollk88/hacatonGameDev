@@ -6,12 +6,11 @@ namespace AI.State
 {
 	public abstract class AStateMachine
 	{
-		public abstract AUnit AUnit { get; protected set; }
-		
+		protected readonly AUnit AUnit;
 		protected IState CurrentState;
 		protected Dictionary<Type, IState> States = new ();
 
-		public virtual void Init(AUnit aUnit)
+		protected AStateMachine(AUnit aUnit)
 		{
 			AUnit = aUnit;
 		}

@@ -20,16 +20,11 @@ namespace AI
 		public Rigidbody Rigidbody => _rigidbody;
 
 #endregion
-        void Start()
-        {
-			StateMachine.Init(this);
-        }
 
         // Update is called once per frame
         void Update()
         {
 	        StateMachine.Update();
-        
         }
     }
 }

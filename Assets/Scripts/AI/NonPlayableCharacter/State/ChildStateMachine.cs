@@ -4,11 +4,10 @@ namespace AI.NonPlayableCharacter.State
 {
 	public class ChildStateMachine : AStateMachine
 	{
-		public override AUnit AUnit { get; protected set; }
+		public Child Child => (Child) AUnit;
 
-		public override void Init(AUnit aUnit)
+		public ChildStateMachine(AUnit aUnit) : base(aUnit)
 		{
-			base.Init(aUnit);
 			States.Add(typeof(IdleState), new IdleState(aUnit));
 		}
 	}
