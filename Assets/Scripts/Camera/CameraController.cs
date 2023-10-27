@@ -3,7 +3,7 @@ using Cinemachine;
 using UnityEngine;
 using Cursor = UnityEngine.Cursor;
 
-namespace Camera
+namespace CustomCamera
 {
 	public class CameraController : CustomBehaviour
 	{
