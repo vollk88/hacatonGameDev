@@ -6,13 +6,11 @@ namespace Input
 {
 	public abstract class AMovementInput : IInput
 	{
-		private const bool IS_PLATFORMER = false;
-
 		protected readonly WaitForFixedUpdate WaitForFixedUpdate = new();
 		
 		protected readonly UnitController Unit;
 		protected readonly float UnitSpeed;
-		protected Vector2 MoveDirection;
+		protected Vector3 MoveDirection;
 
 		private Coroutine _moveCoroutine;
 		private Coroutine _jumpCoroutine;
@@ -20,26 +18,22 @@ namespace Input
 		#region properties
 		public bool IsMove { get; private set; }
 
-		public bool IsJump { get; private set; }
-
+		public bool IsSprint { get; private set; }
 		#endregion
 		
 		protected AMovementInput(UnitController unitController, float characterSpeed)
 		{
-			Debug.Log("Init");
 			UnitSpeed = characterSpeed;
 			Unit = unitController;
 		}
 
 		protected abstract IEnumerator Move();
-		protected abstract IEnumerator Jump();
-		
+
 		protected virtual void StartMove(InputAction.CallbackContext context)
 		{
-			Debug.Log("start");
 			IsMove = true;
 			Vector2 readValue = context.ReadValue<Vector2>();
-			MoveDirection = new Vector2(readValue.x, readValue.y) * UnitSpeed;
+			MoveDirection = new Vector3(readValue.x, 0f, readValue.y);
 			
 			if(_moveCoroutine != null)
 				Unit.StopCoroutine(_moveCoroutine);
@@ -48,7 +42,6 @@ namespace Input
 		
 		protected virtual void EndMove(InputAction.CallbackContext context)
 		{
-			Debug.Log("cancel");
 			IsMove = false;
 			MoveDirection = Vector3.zero;
 			
@@ -56,49 +49,37 @@ namespace Input
 				Unit.StopCoroutine(_moveCoroutine);
 		}
 
-		protected virtual void JumpStarted(InputAction.CallbackContext context)
+		protected virtual void StartSprint(InputAction.CallbackContext context)
 		{
-			IsJump = true;
-			
-			if(_moveCoroutine != null)
-				Unit.StopCoroutine(_moveCoroutine);
-			_jumpCoroutine = Unit.StartCoroutine(Jump());
+			IsSprint = true;
 		}
 
-		protected virtual void JumpCanceled(InputAction.CallbackContext context)
+		protected virtual void EndSprint(InputAction.CallbackContext context)
 		{
-			IsJump = false;
-			
-			if(_jumpCoroutine != null)
-				Unit.StopCoroutine(_jumpCoroutine);
+			IsSprint = false;
 		}
 
 		public void SubscribeEvents()
 		{
-			Debug.Log("Sub");
 			InputManager.PlayerActions.Move.performed += StartMove;
 			InputManager.PlayerActions.Move.canceled += EndMove;
-
-			if (!IS_PLATFORMER) return;
 			
-			InputManager.PlayerActions.Jump.started += JumpStarted;
-			InputManager.PlayerActions.Jump.canceled += JumpCanceled;
+			InputManager.PlayerActions.Sprint.started += StartSprint;
+			InputManager.PlayerActions.Sprint.canceled += EndSprint;
 		}
 
 		public void UnsubscribeEvents()
 		{
-			Debug.Log("Unsub");
 			InputManager.PlayerActions.Move.performed -= StartMove;
 			InputManager.PlayerActions.Move.canceled -= EndMove;
-			if (!IS_PLATFORMER) return;
 			
-			InputManager.PlayerActions.Jump.started -= JumpStarted;
-			InputManager.PlayerActions.Jump.canceled -= JumpCanceled;
+			InputManager.PlayerActions.Sprint.started -= StartSprint;
+			InputManager.PlayerActions.Sprint.canceled -= EndSprint;
 		}
 
 		public override string ToString()
 		{
-			return $"IsMove {IsMove}\nIsJump {IsJump}\n_moveVector {MoveDirection}\nUnit.Transform.position {Unit.Transform.position}";
+			return $"IsMove {IsMove}\nIsJump {IsSprint}\n_moveVector {MoveDirection}\nUnit.Transform.position {Unit.Transform.position}";
 		}
 	}
 }

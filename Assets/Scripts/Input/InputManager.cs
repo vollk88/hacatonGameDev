@@ -47,6 +47,7 @@ namespace Input
 
 		public static void EnableActions()
 		{
+			Debug.Log("enable");
 			PlayerActions.Enable();
 			UIActions.Enable();
 		}

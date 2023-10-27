@@ -1,6 +1,6 @@
-﻿using System;
-using Input;
+﻿using Input;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class Debugger : MonoBehaviour
@@ -16,12 +16,15 @@ public class Debugger : MonoBehaviour
 	{
 		if (Keyboard.current.rKey.wasPressedThisFrame)
 			InitRmCharacter(_unitController);
-
-		if(Keyboard.current.tKey.wasPressedThisFrame)
-			InitTmCharacter(_unitController);
 		
-		if (Keyboard.current.yKey.wasPressedThisFrame)
+		if (Keyboard.current.tKey.wasPressedThisFrame)
 			InitCmCharacter(_unitController);
+	}
+
+	private void InitRmCharacter(UnitController unitController)
+	{
+		NavMeshMovement cm = new(_unitController.GetComponent<NavMeshAgent>(), unitController,speed * 2, speed);
+		unitController.SetMovementInput(cm);
 	}
 
 	private void InitCmCharacter(UnitController unitController)
@@ -30,15 +33,4 @@ public class Debugger : MonoBehaviour
 		unitController.SetMovementInput(cm);
 	}
 	
-	private void InitTmCharacter(UnitController unitController)
-	{
-		TransformMovement rm = new(unitController, speed);
-		unitController.SetMovementInput(rm);
-	}
-	
-	private void InitRmCharacter(UnitController unitController)
-	{
-		RigidbodyMovement rm = new(unitController, speed);
-		unitController.SetMovementInput(rm);
-	}
 }
