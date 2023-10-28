@@ -87,6 +87,9 @@ namespace Input
 
 		public void UnsubscribeEvents()
 		{
+			if(_moveCoroutine != null)
+				_character.StopCoroutine(_moveCoroutine);
+
 			InputManager.PlayerActions.Move.performed -= StartMove;
 			InputManager.PlayerActions.Move.canceled -= EndMove;
 			
