@@ -19,19 +19,33 @@ namespace Input
 		
 		protected override IEnumerator Move()
 		{
+			Coroutine stepSound = Character.StartCoroutine(StepSoundCoroutine());
 			while (IsMove)
 			{
 				SetMoveDirection();
 
 				if (IsSprint)
 					Character.Stamina.SpendOnStamina(1);
-
 				_navMeshAgent.Move( IsSprint && !Character.Stamina.IsUnusable ?
 					MoveDirection * (_sprintSpeed * Time.deltaTime) :
 					MoveDirection * (UnitSpeed * Time.deltaTime));
 				
 				yield return WaitForFixedUpdate;
 			}
+			if(stepSound != null)
+				Character.StopCoroutine(StepSoundCoroutine());
 		}
+
+		private IEnumerator StepSoundCoroutine()
+		{
+			WaitForSeconds waitForSeconds = new(0.5f);
+			while (IsMove)
+			{
+				Character.PlayStepSound();
+				yield return waitForSeconds;
+			}
+			yield break;
+		} 
+		
 	}
 }

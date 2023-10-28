@@ -1,4 +1,5 @@
 using System;
+using Audio;
 using BaseClasses;
 using Input;
 using UI;
@@ -8,6 +9,7 @@ using UnityEngine.InputSystem;
 
 namespace Unit.Character
 {
+	[RequireComponent(typeof(SoundManager))]
 	public class CharacterController : CustomBehaviour
 	{
 		[Header("Unit Speed.")]
@@ -26,15 +28,16 @@ namespace Unit.Character
 		[SerializeField] private Transform throwPoint;
 		[SerializeField] private float throwForce = 100;
 		
-		[GetOnObject]
-		private NavMeshAgent _navMeshAgent;
-
+		[GetOnObject] private NavMeshAgent _navMeshAgent;
+		[GetOnObject] private SoundManager _soundManager;
+		
 		private UIManager _uiManager;
 		private IInput _movementInput;
 		private ItemThrower _itemThrower;
 		
 		private Transform _transform;
 
+		public Terr Terr { get; set; }
 		public Health Health => health;
 		public Stamina Stamina => stamina;
 		public Transform Transform => _transform;
@@ -91,6 +94,12 @@ namespace Unit.Character
 			_movementInput.UnsubscribeEvents();
 			_movementInput = movementInput;
 			_movementInput.SubscribeEvents();
+		}
+
+		public void PlayStepSound()
+		{
+			Debug.Log(Terr.GetMaterialIndex(_transform.position));
+			_soundManager.FootstepSound((int)Terr.GetMaterialIndex(_transform.position));
 		}
 	}
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{5bca3906-5cb1-4d71-9e6c-f20bd8ca86d9}">
+		<property name="assetPath">
+			<value>Footsteps/IronFloor/Footsteps_Metal_LowBase_4.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.37444444444444447</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4ba72b2f-e74f-4c98-b47f-49126545d456}</destination>
+		</relationship>
+	</object>
+</objects>
