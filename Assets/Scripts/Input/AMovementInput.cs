@@ -1,7 +1,6 @@
 using UnityEngine;
 using Cinemachine;
 using System.Collections;
-using Unit.Character;
 using UnityEngine.InputSystem;
 using CharacterController = Unit.Character.CharacterController;
 
@@ -17,6 +16,7 @@ namespace Input
 		private readonly Transform _cinemachineBrainTransform;
 		private readonly CharacterController _character;
 		
+		private Vector2 _readValue;
 		private Coroutine _moveCoroutine;
 		private Coroutine _jumpCoroutine;
 		
@@ -38,8 +38,8 @@ namespace Input
 		protected virtual void StartMove(InputAction.CallbackContext context)
 		{
 			IsMove = true;
-
-			SetMoveDirection(context.ReadValue<Vector2>());
+			_readValue = context.ReadValue<Vector2>();
+			SetMoveDirection();
 			
 			if(_moveCoroutine != null)
 				_character.StopCoroutine(_moveCoroutine);
@@ -65,15 +65,13 @@ namespace Input
 			IsSprint = false;
 		}
 
-		private void SetMoveDirection(Vector2 readValue)
+		protected void SetMoveDirection()
 		{
 			Vector3 cameraForward = _cinemachineBrainTransform.forward;
-			cameraForward.y = 0;
 			
-			MoveDirection = cameraForward.normalized * readValue.y
-			                + _cinemachineBrainTransform.right.normalized * readValue.x;
+			MoveDirection = cameraForward.normalized * _readValue.y
+			                + _cinemachineBrainTransform.right.normalized * _readValue.x;
 
-			if (MoveDirection != Vector3.zero)
 				_character.SetRotation(Quaternion.LookRotation(MoveDirection));
 
 		}
