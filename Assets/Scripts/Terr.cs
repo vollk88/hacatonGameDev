@@ -70,7 +70,7 @@ public class Terr : MonoBehaviour
         try
         {
             if (pos.z > 1 || pos.x > 1)
-                return TerrainType.Stone;
+                return TerrainType.Earth;
             
             string textureName = _terr.terrainData.terrainLayers[_splatIndex[(int)(pos.z * (_width - 1)), (int)(pos.x * (_height - 1))]].name.ToLower();
 
