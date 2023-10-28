@@ -82,10 +82,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   runSpeed: 3.5
-  fovAngle: 45
-  fovRadius: 5
+  fovAngle: 120
+  fovRadius: 70
   hearingRadius: 10
   fovOrigin: {fileID: 2943958847578080979}
+  attackDistance: 1.5
 --- !u!33 &1358479771431144927
 MeshFilter:
   m_ObjectHideFlags: 0
