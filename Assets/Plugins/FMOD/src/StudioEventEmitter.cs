@@ -292,6 +292,15 @@ namespace FMODUnity
 
             hasTriggered = true;
         }
+        
+        public void SetInstance(FMOD.Studio.EventInstance eventInstance)
+        {
+            eventDescription = RuntimeManager.GetEventDescription(EventReference);
+            instance = eventInstance;
+            eventDescription.createInstance(out instance);
+            instance.set3DAttributes(gameObject.To3DAttributes());
+            RuntimeManager.AttachInstanceToGameObject(instance, transform);
+        }
 
         public void Stop()
         {
