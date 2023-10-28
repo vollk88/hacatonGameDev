@@ -25,6 +25,8 @@ public class UnitController : CustomBehaviour
 		base.Awake();
 		_movementInput = new NavMeshMovement(_navMeshAgent, this, sprintSpeed, moveSpeed);
 		_movementInput.SubscribeEvents();
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 	}
 
 	private void Update()
