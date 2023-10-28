@@ -20,8 +20,6 @@ namespace Input
 		{
 			while (IsMove)
 			{
-				UpdateCharacterRotationAndMovementDirection();
-
 				_navMeshAgent.Move( IsSprint ?
 					MoveDirection * (_sprintSpeed * Time.deltaTime) :
 					MoveDirection * (UnitSpeed * Time.deltaTime));

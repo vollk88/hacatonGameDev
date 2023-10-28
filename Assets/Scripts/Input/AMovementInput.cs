@@ -36,6 +36,8 @@ namespace Input
 		protected virtual void StartMove(InputAction.CallbackContext context)
 		{
 			IsMove = true;
+
+			SetMoveDirection(context.ReadValue<Vector2>());
 			
 			if(_moveCoroutine != null)
 				_unit.StopCoroutine(_moveCoroutine);
@@ -61,13 +63,19 @@ namespace Input
 			IsSprint = false;
 		}
 
-		protected void UpdateCharacterRotationAndMovementDirection()
+		private void SetMoveDirection(Vector2 readValue)
 		{
-			_unit.SetRotation(_cinemachineBrainTransform.rotation);
-			MoveDirection = _unit.Transform.forward;
-			MoveDirection.y = 0;
-		}
+			Vector3 cameraForward = _cinemachineBrainTransform.forward;
+			cameraForward.y = 0;
+			
+			MoveDirection = cameraForward.normalized * readValue.y
+			                + _cinemachineBrainTransform.right.normalized * readValue.x;
 
+			if (MoveDirection != Vector3.zero)
+				_unit.SetRotation(Quaternion.LookRotation(MoveDirection));
+
+		}
+		
 		public void SubscribeEvents()
 		{
 			InputManager.PlayerActions.Move.performed += StartMove;
