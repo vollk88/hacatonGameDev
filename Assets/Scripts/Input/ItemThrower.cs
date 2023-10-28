@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using CharacterController = Unit.Character.CharacterController;
 
 namespace Input
 {
-    public class ItemThrower : IInput
+    public class ItemThrower : AInput
     {
-        private readonly Unit.Character.CharacterController _characterController;
         private readonly Transform _throwThrowPoint;
         private readonly float _throwForce;
         public bool IsAiming { get; private set; }
 
-        public ItemThrower(Transform throwPoint, 
-            Unit.Character.CharacterController characterController, float throwForce)
+        public ItemThrower(CharacterController characterController, Transform throwPoint,
+            float throwForce) : base(characterController)
         {
             _throwThrowPoint = throwPoint;
-            _characterController = characterController;
             _throwForce = throwForce;
         }
         
@@ -33,15 +32,19 @@ namespace Input
             if(!IsAiming)
                 return;
             
-            GameObject grenade = Object.Instantiate(_characterController.GetThrowableObject(), _throwThrowPoint.position, _throwThrowPoint.rotation);
-            Rigidbody rb = grenade.GetComponent<Rigidbody>();
+            GameObject throwItem = Object.Instantiate(Character.GetThrowableObject(), 
+                _throwThrowPoint.position, _throwThrowPoint.rotation);
+            // GameObject throwItem = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            // throwItem.transform.position = _throwThrowPoint.position;
+
+            Rigidbody rb = throwItem.AddComponent<Rigidbody>();
 
             if (rb != null)
-                rb.AddForce(_throwThrowPoint.forward * _throwForce, ForceMode.VelocityChange);
+                rb.AddForce(CinemachineBrainTransform.forward * _throwForce, ForceMode.VelocityChange);
             IsAiming = false;
         }
         
-        public void SubscribeEvents()
+        public override void SubscribeEvents()
         {
             InputManager.PlayerActions.Throw.started += Throw;
             
@@ -49,7 +52,7 @@ namespace Input
             InputManager.PlayerActions.Aiming.canceled += CancelAiming;
         }
 
-        public void UnsubscribeEvents()
+        public override void UnsubscribeEvents()
         {
             InputManager.PlayerActions.Throw.started -= Throw;
             
