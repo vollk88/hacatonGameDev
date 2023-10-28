@@ -7,7 +7,8 @@ namespace AI.State
 	public abstract class AStateMachine
 	{
 		public float TimeToStay { get; set; }
-		
+		public PatrolPoint NextPatrolPoint { get; private set; }
+
 		protected readonly AUnit AUnit;
 		protected IState CurrentState;
 		protected Dictionary<Type, IState> States = new ();
@@ -45,12 +46,14 @@ namespace AI.State
 			return (T) States[typeof(T)];
 		}
 
-		public abstract void SetPatrolPoint(PatrolPoint point);
-
 		public void SetWaitTime(float timeToStay)
 		{
 			TimeToStay = timeToStay;
 		}
 
+		public virtual void SetPatrolPoint(PatrolPoint point)
+		{
+			NextPatrolPoint = point;
+		}
 	}
 }

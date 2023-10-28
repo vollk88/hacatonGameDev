@@ -1,8 +1,8 @@
-﻿using System;
-using AI.NonPlayableCharacter.State;
+﻿using AI.NonPlayableCharacter.State;
 using AI.State;
 using Unity.VisualScripting;
 using UnityEngine;
+using IState = AI.State.IState;
 
 namespace AI.NonPlayableCharacter
 {
@@ -27,8 +27,8 @@ namespace AI.NonPlayableCharacter
 
 		protected override void InitStates()
 		{
-			StateMachine.AddState(new IdleState(this));
-			StateMachine.AddState(new PatrolState(this));
+			base.InitStates();
+			StateMachine.AddState(new TalkState(this));
 		}
 
 		protected override void Update()

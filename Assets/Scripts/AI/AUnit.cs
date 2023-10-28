@@ -31,7 +31,11 @@ namespace AI
 
 		#endregion
 
-		protected abstract void InitStates();
+		protected virtual void InitStates()
+		{
+			StateMachine.AddState(new IdleState(this));
+			StateMachine.AddState(new PatrolState(this));
+		}
 
 
         protected virtual void Start()
