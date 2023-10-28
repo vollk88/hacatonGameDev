@@ -5,8 +5,8 @@ namespace Items
 	public class Distractor : AItem, IUsable
 	{
 		[Tooltip("Тип")][SerializeField]
-		private EIngredients type;
-		public EIngredients Type => type;
+		private EDistractors type;
+		public EDistractors Type => type;
 		
 		public void Use()
 		{

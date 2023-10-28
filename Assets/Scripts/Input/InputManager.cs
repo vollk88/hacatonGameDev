@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Input
 {
 	public static class InputManager
@@ -38,7 +36,6 @@ namespace Input
 
 		private static void InitActions()
 		{
-			Debug.Log("actions init");
 			_inputSystem = new InputSystem();
 			_playerActions = _inputSystem.Player;
 			_uiActions = _inputSystem.UI;
@@ -47,7 +44,6 @@ namespace Input
 
 		public static void EnableActions()
 		{
-			Debug.Log("enable");
 			PlayerActions.Enable();
 			UIActions.Enable();
 		}

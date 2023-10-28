@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using Unit.Character;
+using CharacterController = Unit.Character.CharacterController;
 
 namespace Input
 {
 	public class ConsoleMovement : AMovementInput
 	{
-		public ConsoleMovement(UnitController unitController, float characterSpeed) : base(unitController, characterSpeed)
+		public ConsoleMovement(CharacterController characterController, float characterSpeed) : base(characterController, characterSpeed)
 		{
 		}
 
