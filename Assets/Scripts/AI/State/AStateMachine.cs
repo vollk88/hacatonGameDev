@@ -6,6 +6,8 @@ namespace AI.State
 {
 	public abstract class AStateMachine
 	{
+		public float TimeToStay { get; set; }
+		
 		protected readonly AUnit AUnit;
 		protected IState CurrentState;
 		protected Dictionary<Type, IState> States = new ();
@@ -26,10 +28,10 @@ namespace AI.State
 			States.Add(type, state);
 		}
 		
-		public void SetState(IState state)
+		public void SetState<T>() where T : IState
 		{
 			CurrentState?.Exit();
-			CurrentState = state;
+			CurrentState = States[typeof(T)];
 			CurrentState.Enter();
 		}
 		
@@ -42,5 +44,13 @@ namespace AI.State
 		{
 			return (T) States[typeof(T)];
 		}
+
+		public abstract void SetPatrolPoint(PatrolPoint point);
+
+		public void SetWaitTime(float timeToStay)
+		{
+			TimeToStay = timeToStay;
+		}
+
 	}
 }

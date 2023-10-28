@@ -2,11 +2,13 @@
 {
 	public abstract class AChildState : AI.State.IState
 	{
-		protected Child Child;
+		protected readonly Child ThisChild;
+		protected readonly ChildStateMachine ThisChildStateMachine;
 
 		protected AChildState(AUnit aUnit)
 		{
-			Child = (Child) aUnit;
+			ThisChild = (Child) aUnit;
+			ThisChildStateMachine = (ChildStateMachine) ThisChild.StateMachine;
 		}
 		
 		public abstract void Enter();
