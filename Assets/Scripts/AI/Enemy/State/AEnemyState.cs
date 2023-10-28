@@ -2,17 +2,14 @@
 
 namespace AI.Enemy.State
 {
-	public abstract class AEnemyState : IState
+	public abstract class AEnemyState : AUnitState
 	{
-		protected AEnemy Enemy;
+		protected readonly Enemy Enemy;
+		protected Perception.Perception Perception => Enemy.Perception;
 		
-		protected AEnemyState(AUnit aUnit)
+		protected AEnemyState(AUnit aUnit) : base(aUnit)
 		{
-			Enemy = (AEnemy) aUnit;
+			Enemy = (Enemy) aUnit;
 		}
-		
-		public abstract void Enter();
-		public abstract void Update();
-		public abstract void Exit();
 	}
 }
