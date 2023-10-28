@@ -2,11 +2,12 @@ using UnityEngine;
 using Cinemachine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 using CharacterController = Unit.Character.CharacterController;
 
 namespace Input
 {
-	public abstract class AMovementInput : AInput
+	public abstract class AMovementInput : IInput
 	{
 		protected readonly WaitForFixedUpdate WaitForFixedUpdate = new();
 
@@ -16,6 +17,8 @@ namespace Input
 		private Vector2 _readValue;
 		private Coroutine _moveCoroutine;
 		private Coroutine _jumpCoroutine;
+		public CharacterController Character { get; set; }
+		public Transform CinemachineBrainTransform { get; set; }
 		
 		#region properties
 		public bool IsMove { get; private set; }
@@ -23,9 +26,10 @@ namespace Input
 		public static bool IsSprint { get; private set; }
 		#endregion
 		
-		protected AMovementInput(CharacterController characterController, float characterSpeed) 
-			: base(characterController)
+		protected AMovementInput(CharacterController characterController, float characterSpeed)
 		{
+			Character = characterController;
+			CinemachineBrainTransform = Object.FindObjectOfType<CinemachineBrain>().transform;
 			UnitSpeed = characterSpeed;
 		}
 
@@ -71,8 +75,9 @@ namespace Input
 				Character.SetRotation(Quaternion.LookRotation(MoveDirection));
 
 		}
-		
-		public override void SubscribeEvents()
+
+
+		public void SubscribeEvents()
 		{
 			InputManager.PlayerActions.Move.performed += StartMove;
 			InputManager.PlayerActions.Move.canceled += EndMove;
@@ -81,7 +86,7 @@ namespace Input
 			InputManager.PlayerActions.Sprint.canceled += EndSprint;
 		}
 
-		public override void UnsubscribeEvents()
+		public void UnsubscribeEvents()
 		{
 			InputManager.PlayerActions.Move.performed -= StartMove;
 			InputManager.PlayerActions.Move.canceled -= EndMove;

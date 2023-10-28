@@ -3,12 +3,14 @@ using Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Inventory;
+using UnityEngine.Serialization;
 
 namespace Items
 {
 	public abstract class AItem : CustomBehaviour, IItem
 	{
-		public Sprite Icon { get; set; }
+		[Tooltip("UI иконка для предмета.")][SerializeField]
+		private Sprite icon;
 		
 		/// <summary>Взять предмет и добавить в инвентарь.</summary>
 		public void Take(InputAction.CallbackContext obj)
@@ -40,5 +42,7 @@ namespace Items
 			
 			InputManager.PlayerActions.Take.started -= Take;
 		}
+		
+		public Sprite GetIcon() => icon;
 	}
 }
