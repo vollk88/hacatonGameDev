@@ -1,36 +1,40 @@
 ﻿using Input;
+using Unit.Character;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using CharacterController = Unit.Character.CharacterController;
 
 public class Debugger : MonoBehaviour
 {
-	private UnitController _unitController;
+	private CharacterController _characterController;
 	[SerializeField] private float speed = 1f;
 	private void Start()
 	{
-		_unitController = gameObject.GetComponent<UnitController>();
+		_characterController = FindObjectOfType<CharacterController>();
 	}
 
 	private void Update()
 	{
 		if (Keyboard.current.rKey.wasPressedThisFrame)
-			InitRmCharacter(_unitController);
+			InitRmCharacter(_characterController);
+		if (Keyboard.current.yKey.wasPressedThisFrame)
+			_characterController.GetDamage(5);
 		
 		if (Keyboard.current.tKey.wasPressedThisFrame)
-			InitCmCharacter(_unitController);
+			InitCmCharacter(_characterController);
 	}
 
-	private void InitRmCharacter(UnitController unitController)
+	private void InitRmCharacter(CharacterController characterController)
 	{
-		NavMeshMovement cm = new(_unitController.GetComponent<NavMeshAgent>(), unitController,speed * 2, speed);
-		unitController.SetMovementInput(cm);
+		NavMeshMovement cm = new(_characterController.GetComponent<NavMeshAgent>(), characterController,speed * 2, speed);
+		characterController.SetMovementInput(cm);
 	}
 
-	private void InitCmCharacter(UnitController unitController)
+	private void InitCmCharacter(CharacterController characterController)
 	{
-		ConsoleMovement cm = new(unitController, speed);
-		unitController.SetMovementInput(cm);
+		ConsoleMovement cm = new(characterController, speed);
+		characterController.SetMovementInput(cm);
 	}
 	
 }
