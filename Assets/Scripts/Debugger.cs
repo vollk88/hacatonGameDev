@@ -16,6 +16,7 @@ public class Debugger : MonoBehaviour
 
 	private void Update()
 	{
+#if UNITY_EDITOR
 		if (Keyboard.current.rKey.wasPressedThisFrame)
 			InitRmCharacter(_characterController);
 		if (Keyboard.current.yKey.wasPressedThisFrame)
@@ -23,6 +24,7 @@ public class Debugger : MonoBehaviour
 		
 		if (Keyboard.current.tKey.wasPressedThisFrame)
 			InitCmCharacter(_characterController);
+#endif
 	}
 
 	private void InitRmCharacter(CharacterController characterController)

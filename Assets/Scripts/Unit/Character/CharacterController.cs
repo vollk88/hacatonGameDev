@@ -19,6 +19,8 @@ namespace Unit.Character
 		[Header("Health&Stamina.")]
 		[SerializeField]
 		private Health health;
+		[SerializeField] 
+		private Stamina stamina;
 
 		[Header("Throw.")]
 		[SerializeField] private Transform throwPoint;
@@ -34,6 +36,8 @@ namespace Unit.Character
 		
 		private Transform _transform;
 
+		public Health Health => health;
+		public Stamina Stamina => stamina;
 		public Transform Transform => _transform;
 		public Transform ThrowPoint => throwPoint;
 		public float ThrowForce => throwForce;
@@ -43,6 +47,7 @@ namespace Unit.Character
 			_transform = transform;
 			_uiManager = FindObjectOfType<UIManager>();
 			health.Init(_uiManager);
+			stamina.Init(_uiManager, this);
 			base.Awake();
 			_movementInput = new NavMeshMovement(_navMeshAgent, this, sprintSpeed, moveSpeed);
 			_movementInput.SubscribeEvents();
@@ -56,10 +61,10 @@ namespace Unit.Character
 #endif
 		}
 
-		public void GetDamage(float damage)
+		public void GetDamage(int damage)
 		{
 			health.GetDamage(damage);
-			if (health.IsDeath)
+			if (health.IsDead)
 				Death();
 		}
 

@@ -23,7 +23,7 @@ namespace Input
 		#region properties
 		public bool IsMove { get; private set; }
 
-		public bool IsSprint { get; private set; }
+		public static bool IsSprint { get; private set; }
 		#endregion
 		
 		protected AMovementInput(CharacterController characterController, float characterSpeed)
