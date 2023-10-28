@@ -13,7 +13,9 @@ namespace AI
 		public bool OnPatrol { get; set; }
 
 		[SerializeField]
-		private int speed = 15;
+		private float speed = 2f;
+		[SerializeField]
+		private float runSpeed = 3.5f;
 		
         [GetOnObject] 
         private NavMeshAgent _agent;
@@ -41,7 +43,7 @@ namespace AI
         protected virtual void Start()
         {
 	        InitStates();
-	        // Agent.speed = speed;
+	        Agent.speed = speed;
         }
 
         protected override void OnEnable()
@@ -80,10 +82,5 @@ namespace AI
 		{
 	        Agent.isStopped = false;
 		}
-
-        public void SetWaitTime(float timeToStay)
-        {
-	        
-        }
     }
 }
