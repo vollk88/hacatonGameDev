@@ -43,7 +43,7 @@ namespace Unit.Character
 			base.Awake();
 			_movementInput = new NavMeshMovement(_navMeshAgent, this, sprintSpeed, moveSpeed);
 			_movementInput.SubscribeEvents();
-			_itemThrower = new ItemThrower(throwPoint, this, throwForce);
+			_itemThrower = new ItemThrower(this, throwPoint, throwForce);
 			_itemThrower.SubscribeEvents();
 		}
 
