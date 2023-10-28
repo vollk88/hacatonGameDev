@@ -22,9 +22,14 @@ namespace Input
 			while (IsMove)
 			{
 				SetMoveDirection();
-				_navMeshAgent.Move( IsSprint ?
+
+				if (IsSprint)
+					Character.Stamina.SpendOnStamina(1);
+
+				_navMeshAgent.Move( IsSprint && !Character.Stamina.IsUnusable ?
 					MoveDirection * (_sprintSpeed * Time.deltaTime) :
 					MoveDirection * (UnitSpeed * Time.deltaTime));
+				
 				yield return WaitForFixedUpdate;
 			}
 		}

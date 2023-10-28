@@ -8,13 +8,13 @@ namespace Unit
     [Serializable]
     public class Health
     {
-        [SerializeField] private float maxHealth;
-        [SerializeField] private float health;
+        [SerializeField] private int maxHealth = 100;
+        [SerializeField] private int health = 100;
 
         private UIManager _uiManager;
-        public bool IsDeath { get; private set; }
-        public float MaxHealth => maxHealth;
-        public float CurrentHealth => health;
+        public bool IsDead { get; private set; }
+        public int MaxHealth => maxHealth;
+        public int CurrentHealth => health;
 
         public void Init(UIManager uiManager)
         {
@@ -22,12 +22,12 @@ namespace Unit
             health = maxHealth;
         }
 
-        public void GetDamage(float damage)
+        public void GetDamage(int damage)
         {
             health -= damage;
             _uiManager.HealthSlider.SetSliderValue(health, maxHealth);
             if (health <= 0)
-                IsDeath = true;
+                IsDead = true;
             
         }
 
