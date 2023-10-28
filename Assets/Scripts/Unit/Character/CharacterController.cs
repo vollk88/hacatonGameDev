@@ -22,6 +22,8 @@ namespace Unit.Character
 
 		[Header("Throw.")]
 		[SerializeField] private Transform throwPoint;
+
+
 		[SerializeField] private float throwForce = 100;
 		
 		[GetOnObject]
@@ -29,11 +31,12 @@ namespace Unit.Character
 
 		private UIManager _uiManager;
 		private IInput _movementInput;
-		private ItemThrower _itemThrower;
 		
 		private Transform _transform;
 
 		public Transform Transform => _transform;
+		public Transform ThrowPoint => throwPoint;
+		public float ThrowForce => throwForce;
 
 		protected override void Awake()
 		{
@@ -43,8 +46,6 @@ namespace Unit.Character
 			base.Awake();
 			_movementInput = new NavMeshMovement(_navMeshAgent, this, sprintSpeed, moveSpeed);
 			_movementInput.SubscribeEvents();
-			_itemThrower = new ItemThrower(this, throwPoint, throwForce);
-			_itemThrower.SubscribeEvents();
 		}
 
 		private void Update()
@@ -64,7 +65,6 @@ namespace Unit.Character
 
 		private void Death()
 		{
-			_itemThrower.UnsubscribeEvents();
 			_movementInput.UnsubscribeEvents();
 			throw new System.NotImplementedException();
 		}

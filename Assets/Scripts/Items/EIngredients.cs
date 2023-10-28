@@ -2,7 +2,6 @@
 {
 	public enum EIngredients
 	{
-		Squash, //кабачок
 		Onion, //лук
 		Tomato, //помидор
 		Carrot, //морковь

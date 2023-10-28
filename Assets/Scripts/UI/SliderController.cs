@@ -6,17 +6,17 @@ namespace UI
     public class SliderController : CustomBehaviour
     {
         [GetOnObject]
-        private Image _healthSlider;
+        private Slider _slider;
 
         protected override void Awake()
         {
             base.Awake();
-            _healthSlider.fillAmount = 1f;
+            _slider.value = 1f;
         }
 
         public void SetSliderValue(float health, float maxHealth)
         {
-            _healthSlider.fillAmount = health / maxHealth;
+            _slider.value = health / maxHealth;
         }
     }
 }
