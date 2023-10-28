@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
-using Unit.Character;
 using CharacterController = Unit.Character.CharacterController;
 
 namespace Input
@@ -22,6 +21,7 @@ namespace Input
 		{
 			while (IsMove)
 			{
+				SetMoveDirection();
 				_navMeshAgent.Move( IsSprint ?
 					MoveDirection * (_sprintSpeed * Time.deltaTime) :
 					MoveDirection * (UnitSpeed * Time.deltaTime));
