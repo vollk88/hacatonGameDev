@@ -55,7 +55,38 @@ namespace BaseClasses
     public class CustomBehaviour : MonoBehaviour
     {
 
+        public static readonly Dictionary<Type, List<CustomBehaviour>> Instances = new();
+        
         protected internal class GetOnObject : Attribute {}
+
+        protected virtual void AddInstance()
+        {
+            Type type = GetType();
+            if (!Instances.ContainsKey(type))
+            {
+                Instances.Add(type, new List<CustomBehaviour>());
+            }
+            Instances[type].Add(this);
+        }
+        
+        protected virtual void RemoveInstance()
+        {
+            Type type = GetType();
+            if (Instances.TryGetValue(type, out List<CustomBehaviour> instance))
+            {
+                instance.Remove(this);
+            }
+        }
+
+        protected virtual void OnEnable()
+        {
+            AddInstance();
+        }
+
+        protected virtual void OnDisable()
+        {
+            RemoveInstance();
+        }
 
         protected virtual void Awake()
         {
