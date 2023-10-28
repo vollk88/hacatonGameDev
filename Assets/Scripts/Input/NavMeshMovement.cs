@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using Unit.Character;
+using CharacterController = Unit.Character.CharacterController;
 
 namespace Input
 {
@@ -9,8 +11,8 @@ namespace Input
 		private readonly NavMeshAgent _navMeshAgent;
 		private readonly float _sprintSpeed;
 
-		public NavMeshMovement(NavMeshAgent navMeshAgent, UnitController unitController, 
-			float sprintSpeed , float characterSpeed) : base(unitController, characterSpeed)
+		public NavMeshMovement(NavMeshAgent navMeshAgent, CharacterController characterController, 
+			float sprintSpeed , float characterSpeed) : base(characterController, characterSpeed)
 		{
 			_navMeshAgent = navMeshAgent;
 			_sprintSpeed = sprintSpeed;
