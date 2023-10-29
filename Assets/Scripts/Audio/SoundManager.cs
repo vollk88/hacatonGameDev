@@ -87,6 +87,7 @@ namespace Audio
 
         public void StopSound() => _studioEvent.Stop();
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public void PlaySound(int i)
         {
             if (_soundsInstancePath == null || _soundsInstancePath.Length <= i 
