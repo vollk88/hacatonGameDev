@@ -31,6 +31,9 @@ namespace AI.State
 		
 		public void SetState<T>() where T : IState
 		{
+			if (CurrentState?.GetType() == typeof(T))
+				return;
+			
 			CurrentState?.Exit();
 			CurrentState = _states[typeof(T)];
 			CurrentState.Enter();
