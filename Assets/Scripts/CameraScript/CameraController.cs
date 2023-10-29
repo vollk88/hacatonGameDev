@@ -10,6 +10,7 @@ namespace CameraScript
 	public class CameraController : CustomBehaviour
 	{
 		[GetOnObject] private StudioListener _studioListener;
+		[GetOnObject] private CinemachineVirtualCamera _cinemachineVirtualCamera;
 		
 		protected override void Awake()
 		{
