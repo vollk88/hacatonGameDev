@@ -1,4 +1,5 @@
-﻿using Inventory;
+﻿using AI.Enemy;
+using Inventory;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using CharacterController = Unit.Character.CharacterController;
@@ -37,9 +38,13 @@ namespace Input
 			// throwItem.transform.position = _throwThrowPoint.position;
 			
 			Rigidbody rb = throwItem.GetComponent<Rigidbody>();
+			EnemySoundTrigger soundTrigger = throwItem.AddComponent<EnemySoundTrigger>();
 
 			if (rb != null)
+			{
 				rb.AddForce(CinemachineBrainTransform.forward * Character.ThrowForce, ForceMode.VelocityChange);
+				soundTrigger.StartTrigger();
+			}
             
 			IsAiming = false;
 		}
