@@ -103,6 +103,9 @@ namespace Unit.Character
 
 		public void GetDamage(int damage)
 		{
+			if(health.IsDead)
+				return;
+
 			health.GetDamage(damage);
 			if (health.IsDead)
 				Death();

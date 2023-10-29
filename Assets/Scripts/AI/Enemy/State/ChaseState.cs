@@ -17,7 +17,7 @@ namespace AI.Enemy.State
 			Target = Enemy.Target;
 			Enemy.SetSpeed(Enemy.RunSpeed);
 			Enemy.StartMove();
-			
+			Enemy.SoundManager.PlaySound(0);
 		}
 
 		public override void Update()

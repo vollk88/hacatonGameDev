@@ -23,6 +23,7 @@ namespace AI.Enemy.State
 			Enemy.StopMove();
 			OnAttack?.Invoke(true);
 			_attackDelay = Enemy.AttackDelay;
+			Enemy.SoundManager.PlaySound(1);
 		}
 
 		public override void Update()
