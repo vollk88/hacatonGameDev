@@ -134,6 +134,7 @@ namespace Unit.Character
 		{
 			PlaySound(3);
 			_movementInput.UnsubscribeEvents();
+			GameStateEvents.GameEnded?.Invoke();
 		}
 		
 		public void SetRotation(Quaternion rotation)
