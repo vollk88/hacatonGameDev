@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{14961a62-eb0b-4530-aeac-8a16d5e8b930}">
+		<property name="assetPath">
+			<value>StepSound.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>15.93469387755102</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4ba72b2f-e74f-4c98-b47f-49126545d456}</destination>
+		</relationship>
+	</object>
+</objects>

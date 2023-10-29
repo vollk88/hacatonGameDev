@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -11,33 +12,81 @@ namespace BaseClasses
     {
         public static void Inject(CustomBehaviour monoBehaviour)
         {
-            Type type = monoBehaviour.GetType();
+            Type? type = monoBehaviour.GetType();
+            List<FieldInfo> fields = new();
+            GetAllFieldsWithAttribute(type, ref fields);
 
-            // Все поля, помеченные атрибутом GetOnObject
-            FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(field => field.GetCustomAttributes(typeof(CustomBehaviour.GetOnObject), false).Length > 0)
-                .ToArray();
-        
             foreach (var field in fields)
             {
-                Type dependencyType = field.FieldType;
+                SetField(field, monoBehaviour);
+            }
+        }
 
-                if (dependencyType.IsSubclassOf(typeof(Component)))
+        private static void GetAllFieldsWithAttribute(Type? type, ref List<FieldInfo> fields)
+        {
+            while (type != typeof(CustomBehaviour))
+            {
+                if (type != null)
                 {
-                    Component component = monoBehaviour.GetComponent(dependencyType);
-                    field.SetValue(monoBehaviour, component);
+                    fields.AddRange(type
+                        .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                        .Where(field => field.GetCustomAttributes(typeof(CustomBehaviour.GetOnObject), false).Any()));
+
+                    type = type.BaseType;
                 }
-                else
-                {
-                    field.SetValue(monoBehaviour, new());
-                }
+            }
+        }
+
+        private static void SetField(FieldInfo field, CustomBehaviour monoBehaviour)
+        {
+            Type dependencyType = field.FieldType;
+
+            if (dependencyType.IsSubclassOf(typeof(Component)))
+            {
+                Component component = monoBehaviour.GetComponent(dependencyType);
+                field.SetValue(monoBehaviour, component);
+            }
+            else
+            {
+                field.SetValue(monoBehaviour, Activator.CreateInstance(dependencyType));
             }
         }
     }
     public class CustomBehaviour : MonoBehaviour
     {
 
+        public static readonly Dictionary<Type, List<CustomBehaviour>> Instances = new();
+        
         protected internal class GetOnObject : Attribute {}
+
+        protected virtual void AddInstance()
+        {
+            Type type = GetType();
+            if (!Instances.ContainsKey(type))
+            {
+                Instances.Add(type, new List<CustomBehaviour>());
+            }
+            Instances[type].Add(this);
+        }
+        
+        protected virtual void RemoveInstance()
+        {
+            Type type = GetType();
+            if (Instances.TryGetValue(type, out List<CustomBehaviour> instance))
+            {
+                instance.Remove(this);
+            }
+        }
+
+        protected virtual void OnEnable()
+        {
+            AddInstance();
+        }
+
+        protected virtual void OnDisable()
+        {
+            RemoveInstance();
+        }
 
         protected virtual void Awake()
         {

@@ -2,6 +2,8 @@ using UnityEngine;
 using Cinemachine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
+using CharacterController = Unit.Character.CharacterController;
 
 namespace Input
 {
@@ -12,23 +14,23 @@ namespace Input
 		protected readonly float UnitSpeed;
 		protected Vector3 MoveDirection;
 
-		private readonly Transform _cinemachineBrainTransform;
-		private readonly UnitController _unit;
-		
+		private Vector2 _readValue;
 		private Coroutine _moveCoroutine;
 		private Coroutine _jumpCoroutine;
+		public CharacterController Character { get; set; }
+		public Transform CinemachineBrainTransform { get; set; }
 		
 		#region properties
 		public bool IsMove { get; private set; }
 
-		public bool IsSprint { get; private set; }
+		public static bool IsSprint { get; private set; }
 		#endregion
 		
-		protected AMovementInput(UnitController unitController, float characterSpeed)
+		protected AMovementInput(CharacterController characterController, float characterSpeed)
 		{
-			_cinemachineBrainTransform = Object.FindObjectOfType<CinemachineBrain>().transform;
+			Character = characterController;
+			CinemachineBrainTransform = Object.FindObjectOfType<CinemachineBrain>().transform;
 			UnitSpeed = characterSpeed;
-			_unit = unitController;
 		}
 
 		protected abstract IEnumerator Move();
@@ -36,10 +38,12 @@ namespace Input
 		protected virtual void StartMove(InputAction.CallbackContext context)
 		{
 			IsMove = true;
+			_readValue = context.ReadValue<Vector2>();
+			SetMoveDirection();
 			
 			if(_moveCoroutine != null)
-				_unit.StopCoroutine(_moveCoroutine);
-			_moveCoroutine = _unit.StartCoroutine(Move());
+				Character.StopCoroutine(_moveCoroutine);
+			_moveCoroutine = Character.StartCoroutine(Move());
 		}
 		
 		protected virtual void EndMove(InputAction.CallbackContext context)
@@ -48,7 +52,7 @@ namespace Input
 			MoveDirection = Vector3.zero;
 			
 			if(_moveCoroutine != null)
-				_unit.StopCoroutine(_moveCoroutine);
+				Character.StopCoroutine(_moveCoroutine);
 		}
 
 		protected virtual void StartSprint(InputAction.CallbackContext context)
@@ -61,12 +65,17 @@ namespace Input
 			IsSprint = false;
 		}
 
-		protected void UpdateCharacterRotationAndMovementDirection()
+		protected void SetMoveDirection()
 		{
-			_unit.SetRotation(_cinemachineBrainTransform.rotation);
-			MoveDirection = _unit.Transform.forward;
-			MoveDirection.y = 0;
+			Vector3 cameraForward = CinemachineBrainTransform.forward;
+			
+			MoveDirection = cameraForward.normalized * _readValue.y
+			                + CinemachineBrainTransform.right.normalized * _readValue.x;
+
+				Character.SetRotation(Quaternion.LookRotation(MoveDirection));
+
 		}
+
 
 		public void SubscribeEvents()
 		{
@@ -79,6 +88,9 @@ namespace Input
 
 		public void UnsubscribeEvents()
 		{
+			if(_moveCoroutine != null)
+				Character.StopCoroutine(_moveCoroutine);
+
 			InputManager.PlayerActions.Move.performed -= StartMove;
 			InputManager.PlayerActions.Move.canceled -= EndMove;
 			
@@ -88,7 +100,7 @@ namespace Input
 
 		public override string ToString()
 		{
-			return $"IsMove {IsMove}\nIsJump {IsSprint}\n_moveVector {MoveDirection}\nUnit.Transform.position {_unit.Transform.position}";
+			return $"IsMove {IsMove}\nIsJump {IsSprint}\n_moveVector {MoveDirection}\nUnit.Transform.position {Character.Transform.position}";
 		}
 	}
 }
