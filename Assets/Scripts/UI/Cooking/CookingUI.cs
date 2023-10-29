@@ -1,7 +1,9 @@
 ﻿using Cooking;
+using Inventory;
 using UnityEngine;
 using BaseClasses;
-using Inventory;
+using Items;
+using Button = UnityEngine.UI.Button;
 
 namespace UI.Cooking
 {
@@ -11,9 +13,24 @@ namespace UI.Cooking
 		[SerializeField] private GameObject dishContentElem;
 		
 		[SerializeField] private GameObject ingredientContentElem;
-		private void Create()
+		[SerializeField] private Button closeButton;
+
+		protected override void Awake()
 		{
-			throw new System.NotImplementedException();
+			base.Awake();
+			closeButton.onClick.AddListener(FindObjectOfType<CookingTable>().CloseTable);
+		}
+
+		private void Create(Recipe recipe)
+		{
+			InventoryController.Debug();
+			foreach (global::Cooking.Items items in recipe.Ingredients)
+			{
+				Item item = InventoryController.GetItemByType(items.ItemType);
+				for(int i = 0; i < items.ItemCount; i++)
+					InventoryController.Remove(item);
+			}
+			InventoryController.Debug();
 		}
 
 		public void Fill(SoRecipes recipes)
@@ -25,7 +42,7 @@ namespace UI.Cooking
 
 				DishElem dishElem = newDish.GetComponent<DishElem>();
 				dishElem.createButton.enabled = true;
-				dishElem.createButton.onClick.AddListener(Create);
+				dishElem.createButton.onClick.AddListener(() => Create(recipe));
 
 				dishElem.DishName.text = recipe.DishName;
 				dishElem.DishImage.sprite = recipe.FinishDishSprite;

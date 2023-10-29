@@ -11,7 +11,7 @@ namespace Inventory
 	{
 		private static Dictionary<Item, uint> _items = new();
 		public static Action InventoryChanged;
-		public static Item CurrentItem = null;
+		public static Item CurrentItem;
 		private static readonly SOItemPrefabs ItemPrefabs;
 		private static SOItemIcons _itemIcons;
 
@@ -96,7 +96,29 @@ namespace Inventory
 
 			return 0;
 		}
+
+		public static Item GetItemByType(EItems eItems)
+		{
+			foreach (Item variable in _items.Keys)
+			{
+				if (variable.Type == eItems)
+					return variable;
+			}
+
+			return null;
+		}
 		
 		public static Dictionary<Item, uint> GetItems() => _items;
+
+		public static void Debug()
+		{ 
+			foreach (var variable in _items)
+			{
+				UnityEngine.Debug.Log("Type - " + 
+					variable.Key.Type + " Key - " +
+				           variable.Key + " Value - " +
+				           variable.Value);
+			}
+		}
 	}
 }

@@ -92,10 +92,5 @@ namespace BaseClasses
         {
             DependencyInjector.Inject(this);
         }
-
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

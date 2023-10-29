@@ -133,6 +133,7 @@ MonoBehaviour:
   dishContentTransform: {fileID: 7774342911057337697}
   dishContentElem: {fileID: 2797041679175238500, guid: 0d87ed7c62533b9419b2a47c9703b8c9, type: 3}
   ingredientContentElem: {fileID: 8074914235067470352, guid: 6b7795e4b6c079342b86f40b99c5357f, type: 3}
+  closeButton: {fileID: 6816121344175959333}
 --- !u!1 &3181136028447020309
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,7 +733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3220072313519474084, guid: 0d87ed7c62533b9419b2a47c9703b8c9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 820
+      value: 1780
       objectReference: {fileID: 0}
     - target: {fileID: 3220072313519474084, guid: 0d87ed7c62533b9419b2a47c9703b8c9, type: 3}
       propertyPath: m_SizeDelta.y
