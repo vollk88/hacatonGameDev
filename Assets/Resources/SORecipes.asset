@@ -16,12 +16,10 @@ MonoBehaviour:
   - DishName: "\u0421\u043B\u0430\u0434\u043A\u0438\u0439 \u043F\u0440\u0438\u0437\u0440\u0430\u043A"
     FinishDishSprite: {fileID: 21300000, guid: 311fc650d51787949b382298349014d8, type: 3}
     Ingredients:
-    - ItemName: "\u042F\u0431\u043B\u043E\u043A\u043E"
-      ItemType: 0
-      ItemCount: 1
-    - ItemName: "\u041B\u0443\u043A"
-      ItemType: 1
-      ItemCount: 1
     - ItemName: "\u0412\u0435\u0442\u043A\u0430"
       ItemType: 8
-      ItemCount: 3
+      ItemCount: 1
+    CookingTime: 25
+    StartCookingTime: 0
+    EndCookingTime: 0
+    IsCooking: 0

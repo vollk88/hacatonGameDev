@@ -19,6 +19,12 @@ namespace Cooking
 		public string DishName;
 		public Sprite FinishDishSprite;
 		public List<Items> Ingredients;
+		public float CookingTime;
+
+		public float StartCookingTime;
+		public float EndCookingTime;
+
+		public bool IsCooking;
 	}
 	
 	[CreateAssetMenu(fileName = "SORecipes", menuName = "Items/SORecipes")]

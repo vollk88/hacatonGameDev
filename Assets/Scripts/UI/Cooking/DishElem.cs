@@ -10,5 +10,6 @@ namespace UI.Cooking
 		public Image DishImage;
 		public Button createButton;
 		public Transform IngredientContentTransform;
+		public Image BackgroundFillingImage;
 	}
 }
