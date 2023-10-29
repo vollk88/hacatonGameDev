@@ -18,17 +18,6 @@ namespace AI.Enemy.Perception
 		
 		private Queue<GameObject> _soundTargets = new ();
 
-		public CharacterController GetCharacterController()
-		{
-			if (CustomBehaviour.Instances.ContainsKey(typeof(CharacterController)) == false)
-			{
-				// Debug.LogError("No CharacterController found");
-				return null;
-			}
-			
-			return CustomBehaviour.Instances[typeof(CharacterController)][0] as CharacterController;
-		}
-		
 		public Perception(Enemy enemy, float fovAngle, float fovRadius, Transform fovOrigin, float hearingRadius)
 		{
 			_fovAngle = fovAngle;
@@ -101,7 +90,7 @@ namespace AI.Enemy.Perception
 		// кидаем лучи по fow и если попадаем в персонажа, то возвращаем его
 		private GameObject HandleFowCharacterRaycast()
 		{
-			CharacterController characterController = GetCharacterController();
+			CharacterController characterController = CustomBehaviour.GetCharacterController();
 			
 			if (characterController is null)
 				return null;

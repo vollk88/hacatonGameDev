@@ -1,5 +1,6 @@
 ﻿using System;
 using AI.State;
+using BaseClasses;
 using Cinemachine;
 using UnityEngine;
 using CharacterController = Unit.Character.CharacterController;
@@ -12,7 +13,7 @@ namespace AI.Enemy.State
 		public event Action<bool> OnAttack; 
 		public AttackState(AUnit aUnit) : base(aUnit)
 		{
-			Target = Enemy.Perception.GetCharacterController();
+			Target = CustomBehaviour.GetCharacterController();
 		}
 
 		private CharacterController Target { get; set; } 
