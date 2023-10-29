@@ -16575,14 +16575,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6363725856193168412, guid: 625fa937d6d765e42ab232ef7f92a331, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6589708416681816807, guid: 625fa937d6d765e42ab232ef7f92a331, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36760,7 +36752,7 @@ MonoBehaviour:
   heightVariation: 0
   areaSize: 33
   flatHeight: 0.78
-  Spawner: {fileID: 0}
+  Spawner: {fileID: 6644949218163397009, guid: 46192cb7d0caed443922a61ed3824b08, type: 3}
 --- !u!114 &1510165217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36808,6 +36800,9 @@ MonoBehaviour:
     requrements: 3
     ratio: 0.019
   SwampArea: {fileID: 2132842732}
+  patrolPoint: {fileID: 7151102383395131418, guid: 337f595f69b4d5f48977c895a0639c82, type: 3}
+  ghostSpawner: {fileID: 6644949218163397009, guid: 2939fb472fa5804479463f7d10d24863, type: 3}
+  leshiySpawner: {fileID: 6644949218163397009, guid: 3d17e4120342f0b4a8a1736c64c572c8, type: 3}
 --- !u!114 &1510165218
 MonoBehaviour:
   m_ObjectHideFlags: 0
