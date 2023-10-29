@@ -25,12 +25,14 @@ public class SpawnItems : CustomBehaviour
     }
     [SerializeField] private List<SpawnRules> _spawnRequrementsList;
     Terrain terr;
+    [SerializeField] private SphereCollider SwampArea;
 
 
     private void Start()
     {
         terr = GetComponent<Terrain>();
         SpawnItemsNearTrees();
+        StartCoroutine(SpawnSwampItems());
     }
 
     
@@ -49,7 +51,7 @@ public class SpawnItems : CustomBehaviour
     
     private void SpawnItemsNearTrees()
     {
-        StartCoroutine(SpawnItemss());
+        StartCoroutine(SpawnWoodItems());
     }
     
 
@@ -70,7 +72,7 @@ public class SpawnItems : CustomBehaviour
         return res.ToArray();
     }
 
-    private IEnumerator SpawnItemss()
+    private IEnumerator SpawnWoodItems()
     {
         Vector3[] treePositions = GetWoodsPositions();
         SpawnRules[] wooditems = GetMathingObj(Requrements.NearWood);
@@ -93,12 +95,43 @@ public class SpawnItems : CustomBehaviour
                 spawnPosition.y = terr.SampleHeight(spawnPosition);
 
                 // Создайте и спавните ваш предмет на полученной позиции.
-                var obj = Instantiate(spawnobj, spawnPosition, Quaternion.identity);
-                var rb = obj.GetComponent<Rigidbody>();
-                rb.useGravity = false;
-                rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
+                SpawnItem(spawnobj, spawnPosition);
             }
         }
     }
 
+    private IEnumerator SpawnSwampItems()
+    {
+        float radius = SwampArea.radius;
+        SpawnRules[] swampitems = GetMathingObj(Requrements.OnSwamp);
+
+        foreach (var item in swampitems)
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                if (Random.Range(0f, 1f) > item.ratio)
+                {
+                    i--;
+                    continue;
+                }
+                Vector3 randPos = Random.onUnitSphere * radius + SwampArea.transform.position;
+                randPos.y = terr.SampleHeight(randPos);
+                if (Physics.Raycast(randPos, Vector3.down * 5, out RaycastHit hit, 8, LayerMask.GetMask("Water")))
+                {
+                    SpawnItem(InventoryController.GetItemFromType(item.item), randPos);
+                }
+            }
+        }
+        //Spawn items on swamp near water
+        yield return null;
+    }
+
+    void SpawnItem(GameObject item, Vector3 pos)
+    {
+        var obj = Instantiate(item, pos, Quaternion.identity);
+        var rb = obj.GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        rb.Sleep();
+    }
 }
