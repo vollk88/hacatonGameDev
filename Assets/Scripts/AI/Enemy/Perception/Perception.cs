@@ -112,7 +112,6 @@ namespace AI.Enemy.Perception
 			{
 				if (hit.collider.gameObject == characterController.gameObject)
 				{
-					Debug.Log("Enemy see player");
 					return hit.collider.gameObject;
 				}
 			}
