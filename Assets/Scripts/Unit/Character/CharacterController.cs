@@ -41,6 +41,7 @@ namespace Unit.Character
 		public Health Health => health;
 		public Stamina Stamina => stamina;
 		public Transform Transform => _transform;
+		public SoundManager SoundManager => _soundManager;
 
 		protected override void Awake()
 		{
@@ -72,6 +73,7 @@ namespace Unit.Character
 
 		private void Death()
 		{
+			PlaySound(3);
 			_itemThrower.UnsubscribeEvents();
 			_movementInput.UnsubscribeEvents();
 			throw new System.NotImplementedException();
@@ -96,10 +98,9 @@ namespace Unit.Character
 			_movementInput.SubscribeEvents();
 		}
 
-		public void PlayStepSound()
-		{
-			Debug.Log(Terr.GetMaterialIndex(_transform.position));
+		public void PlaySound(int i) => _soundManager.PlaySound(i);
+
+		public void PlayStepSound() => 
 			_soundManager.FootstepSound((int)Terr.GetMaterialIndex(_transform.position));
-		}
 	}
 }

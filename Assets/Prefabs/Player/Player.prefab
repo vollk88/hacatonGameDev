@@ -321,6 +321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d62d5f695211218448f89dc3ccd0bb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundsInstancePath: []
+  _soundsInstancePath:
+  - event:/Main/Player/WomanBreath
+  - event:/Main/Player/BranchThrow
+  - event:/Main/Player/TakeFlower
+  - event:/Main/Player/PlayerDie
   _soundsLoopInstancePath: []
   _soundFootstepInstancePath: event:/Main/Player/StepSound
