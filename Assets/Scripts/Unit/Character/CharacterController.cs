@@ -1,6 +1,7 @@
-using System;
 using BaseClasses;
+using Cinemachine;
 using Input;
+using Items;
 using UI;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,6 +11,7 @@ namespace Unit.Character
 {
 	public class CharacterController : CustomBehaviour
 	{
+		private const float INTERACTION_DISTANCE = 4f;
 		[Header("Unit Speed.")]
 		[SerializeField, Tooltip("Скорость передвижения.")]
 		private float moveSpeed = 3f;
@@ -26,13 +28,14 @@ namespace Unit.Character
 		[SerializeField] private Transform throwPoint;
 
 
-		[SerializeField] private float throwForce = 100;
+		[SerializeField] private float throwForce = 10;
 		
 		[GetOnObject]
 		private NavMeshAgent _navMeshAgent;
 
 		private UIManager _uiManager;
 		private IInput _movementInput;
+		private IInput _throwInput;
 		
 		private Transform _transform;
 
@@ -42,8 +45,14 @@ namespace Unit.Character
 		public Transform ThrowPoint => throwPoint;
 		public float ThrowForce => throwForce;
 
+		private GameObject _targetObject;
+		private Item _targetItem;
+		public GameObject TargetObject => _targetObject;
+		private CinemachineBrain _cinemachineBrain;
+
 		protected override void Awake()
 		{
+			_cinemachineBrain = FindObjectOfType<CinemachineBrain>();
 			_transform = transform;
 			_uiManager = FindObjectOfType<UIManager>();
 			health.Init(_uiManager);
@@ -51,6 +60,35 @@ namespace Unit.Character
 			base.Awake();
 			_movementInput = new NavMeshMovement(_navMeshAgent, this, sprintSpeed, moveSpeed);
 			_movementInput.SubscribeEvents();
+			_throwInput = new ThrowItemInput(this, _cinemachineBrain.transform);
+			_throwInput.SubscribeEvents();
+		}
+
+		private void FixedUpdate()
+		{
+			Ray ray = new Ray(_cinemachineBrain.transform.position, _cinemachineBrain.transform.forward);
+			//Debug.DrawRay(ray.origin, ray.direction * INTERACTION_DISTANCE, Color.red);
+
+			if (!Physics.Raycast(ray, out RaycastHit hit, INTERACTION_DISTANCE, 1 << 3))
+			{
+				_uiManager.HideInteractionText();
+				
+				if (_targetObject == null) return;
+				
+				InputManager.PlayerActions.Take.started -= _targetObject.GetComponentInChildren<Item>().Take;
+				_targetObject = null;
+				_targetItem = null;
+				return;
+			}
+			
+			if (_targetObject != null && _targetObject == hit.collider.gameObject) return;
+				
+			//Debug.Log("Found an object - distance: " + hit.distance);
+			_targetObject = hit.collider.gameObject;
+			_targetItem = _targetObject.GetComponentInChildren<Item>();
+			InputManager.PlayerActions.Take.started += _targetItem.Take;
+			
+			_uiManager.ShowInteractionText(_targetItem.GetName());
 		}
 
 		private void Update()
@@ -71,14 +109,6 @@ namespace Unit.Character
 		private void Death()
 		{
 			_movementInput.UnsubscribeEvents();
-			throw new System.NotImplementedException();
-		}
-
-		public GameObject GetThrowableObject()
-		{
-			throw new NotImplementedException();
-			//TODO Implement
-			return new GameObject();
 		}
 		
 		public void SetRotation(Quaternion rotation)

@@ -1,18 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using Items;
+using UnityEngine;
 
 namespace Inventory
 {
 	public static class InventoryController
 	{
-		private static Dictionary<AItem, uint> _items = new();
+		private static Dictionary<Item, uint> _items = new();
 		public static Action InventoryChanged;
-		public static AItem CurrentItem = null;
+		public static Item CurrentItem = null;
+		private static readonly SOItemPrefabs ItemPrefabs;
 
+		static InventoryController()
+		{
+			ItemPrefabs = Resources.Load<SOItemPrefabs>("SOItemPrefabs");
+		}
+
+		public static GameObject GetCurrentItemPrefab()
+		{
+			return CurrentItem is null ? null : ItemPrefabs.Get(CurrentItem.Type);
+		}
 		/// <summary>Добавляет предмет в инвентарь.</summary>
 		/// <param name="item">Предмет, унаследованный от AItem.</param>
-		public static void Add(AItem item)
+		public static void Add(Item item)
 		{
 			if (_items.Count == 0)
 			{
@@ -32,7 +43,7 @@ namespace Inventory
 		
 		/// <summary>Удаляет предмет из инвентаря.</summary>
 		/// <param name="item">Предмет, унаследованный от AItem.</param>
-		public static void Remove(AItem item)
+		public static void Remove(Item item)
 		{
 			if (!_items.ContainsKey(item)) return;
 			
@@ -50,6 +61,6 @@ namespace Inventory
 			}
 			InventoryChanged?.Invoke();
 		}
-		public static Dictionary<AItem, uint> GetItems() => _items;
+		public static Dictionary<Item, uint> GetItems() => _items;
 	}
 }

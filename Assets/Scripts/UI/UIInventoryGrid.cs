@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using BaseClasses;
+using Input;
 using Items;
 using TMPro;
 using UnityEngine;
 using Inventory;
+using UnityEngine.InputSystem;
 
 namespace UI
 {
@@ -14,20 +16,25 @@ namespace UI
 		[Tooltip("Объект с текстом названия текущего предмета.")][SerializeField]
 		private TextMeshProUGUI currentItemName;
 		
-		private Dictionary<AItem, uint> _items = new Dictionary<AItem, uint>();
-		private List<AItem> _orderedItems = new List<AItem>();
-		private int _currentItemIndex = 0;
+		private Dictionary<Item, uint> _items = new();
+		private List<Item> _orderedItems = new();
+		private int _currentItemIndex;
+		
 
-		private void OnEnable()
+		protected override void OnEnable()
 		{
 			// Подписываемся на событие изменения инвентаря
-			Inventory.InventoryController.InventoryChanged += Refill;
+			InventoryController.InventoryChanged += Refill;
+			InputManager.PlayerActions.NextItem.started += Next;
+			InputManager.PlayerActions.PrevItem.started += Prev;
 		}
 
-		private void OnDisable()
+		protected override void OnDisable()
 		{
 			// Отписываемся от события при выключении
-			Inventory.InventoryController.InventoryChanged -= Refill;
+			InventoryController.InventoryChanged -= Refill;
+			InputManager.PlayerActions.NextItem.started -= Next;
+			InputManager.PlayerActions.PrevItem.started -= Prev;
 		}
 
 		private void Start()
@@ -40,11 +47,13 @@ namespace UI
 		{
 			// Обновляем словарь предметов
 			_items = InventoryController.GetItems();
-			_orderedItems = new List<AItem>(_items.Keys);
+			_orderedItems = new List<Item>(_items.Keys);
 
 			// На случай, если инвентарь пуст, сбрасываем текущий выбранный предмет
 			if (_orderedItems.Count == 0)
 			{
+				foreach (var elem in elements)
+					elem.Hide();
 				_currentItemIndex = 0;
 			}
 
@@ -54,12 +63,14 @@ namespace UI
 
 		private void UpdateGrid()
 		{
+			if (_items.Count == 0) return;
+			
 			int itemCount = _orderedItems.Count;
 
 			for (int i = 0; i < elements.Count; i++)
 			{
 				int itemIndex = (_currentItemIndex - elements.Count / 2 + i + itemCount) % itemCount;
-				AItem item = _orderedItems[itemIndex];
+				Item item = _orderedItems[itemIndex];
 
 				// Установите предмет в элемент сетки
 				elements[i].SetItem(item, _items[item]);
@@ -67,27 +78,29 @@ namespace UI
 				// Установите текст текущего предмета, если это центральный элемент
 				if (i == elements.Count / 2)
 				{
-					//currentItemName.text = item.Name;
+					currentItemName.text = item.GetName();
 				}
 			}
 		}
 
-		private void Next()
+		private void Next(InputAction.CallbackContext obj)
 		{
-			if (_orderedItems.Count > 1)
-			{
-				_currentItemIndex = (_currentItemIndex + 1) % _orderedItems.Count;
-				UpdateGrid();
-			}
+			if (_orderedItems.Count <= 1) return;
+				
+			_currentItemIndex = (_currentItemIndex + 1) % _orderedItems.Count;
+			InventoryController.CurrentItem = _orderedItems[_currentItemIndex];
+				
+			UpdateGrid();
 		}
 
-		private void Prev()
+		private void Prev(InputAction.CallbackContext obj)
 		{
-			if (_orderedItems.Count > 1)
-			{
-				_currentItemIndex = (_currentItemIndex - 1 + _orderedItems.Count) % _orderedItems.Count;
-				UpdateGrid();
-			}
+			if (_orderedItems.Count <= 1) return;
+				
+			_currentItemIndex = (_currentItemIndex - 1 + _orderedItems.Count) % _orderedItems.Count;
+			InventoryController.CurrentItem = _orderedItems[_currentItemIndex];
+				
+			UpdateGrid();
 		}
 	}
 }
