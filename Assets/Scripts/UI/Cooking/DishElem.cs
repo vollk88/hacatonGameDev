@@ -8,5 +8,7 @@ namespace UI.Cooking
 	{
 		public TextMeshProUGUI DishName;
 		public Image DishImage;
+		public Button createButton;
+		public Transform IngredientContentTransform;
 	}
 }

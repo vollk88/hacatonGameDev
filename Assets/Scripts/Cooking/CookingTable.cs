@@ -1,35 +1,67 @@
 using System;
 using BaseClasses;
-using Cooking;
+using Cinemachine;
 using Input;
 using UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class CookingTable : CustomBehaviour
+namespace Cooking
 {
-    public Action CookingTableClosed;
-    private SoRecipes _recipes;
-    private UIManager _uiManager;
-    
-    protected override void Awake()
+    public class CookingTable : CustomBehaviour
     {
-        base.Awake();
-        _uiManager = FindObjectOfType<UIManager>();
-        _recipes = Resources.Load<SoRecipes>("SORecipes");
-    }
+        public Action CookingTableClosed;
+        private SoRecipes _recipes;
+        private UIManager _uiManager;
+        private CinemachineVirtualCamera _virtualCamera;
 
-    public void OpenTable()
-    {
-        Debug.Log("open");
-        InputManager.DisableActions();
-        _uiManager.CookingUI.gameObject.SetActive(true);
-        _uiManager.CookingUI.Fill(_recipes);
-    }
+        protected override void Awake()
+        {
+            base.Awake();
+            _uiManager = FindObjectOfType<UIManager>();
+            _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            _recipes = Resources.Load<SoRecipes>("SORecipes");
+        }
 
-    public void CloseTable()
-    {
-        InputManager.EnableActions();
-        _uiManager.CookingUI.gameObject.SetActive(false);
-        CookingTableClosed?.Invoke();
+        public void OpenTable()
+        {
+            SwitchInput(false);
+        
+            InputManager.DisableActions();
+            InputManager.UIActions.Enable();
+            _uiManager.CookingUI.gameObject.SetActive(true);
+            _uiManager.CookingUI.Fill(_recipes);
+            InputManager.UIActions.Cancel.started += CloseTable;
+        }
+
+        private void CloseTable(InputAction.CallbackContext _)
+        {
+            CloseTable();
+        }
+
+        public void CloseTable()
+        {
+            InputManager.EnableActions();
+            _uiManager.CookingUI.gameObject.SetActive(false);
+            CookingTableClosed?.Invoke();
+            SwitchInput(true);
+            InputManager.UIActions.Cancel.started -= CloseTable;
+        }
+
+        private void SwitchInput(bool closeTable)
+        {
+            if (closeTable)
+            {
+                _virtualCamera.enabled = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                _virtualCamera.enabled = false;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+        }
     }
 }

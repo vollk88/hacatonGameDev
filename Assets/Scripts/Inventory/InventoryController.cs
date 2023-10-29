@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using UI.Cooking;
 using UnityEngine;
 
 namespace Inventory
@@ -12,10 +13,12 @@ namespace Inventory
 		public static Action InventoryChanged;
 		public static Item CurrentItem = null;
 		private static readonly SOItemPrefabs ItemPrefabs;
+		private static SOItemIcons _itemIcons;
 
 		static InventoryController()
 		{
 			ItemPrefabs = Resources.Load<SOItemPrefabs>("SOItemPrefabs");
+			_itemIcons = Resources.Load<SOItemIcons>("SOItemIcons");
 		}
 
 		public static GameObject GetCurrentItemPrefab()
@@ -80,13 +83,7 @@ namespace Inventory
 
 		public static Sprite GetIconByType(EItems eItems)
 		{
-			foreach (Item variable in _items.Keys)
-			{
-				if (variable.Type == eItems)
-					return variable.GetIcon();
-			}
-
-			return null;
+			return _itemIcons.ItemSpritesList.First(type => type.ItemType == eItems).Sprite;
 		}
 		
 		public static uint GetItemCountByType(EItems eItems)
