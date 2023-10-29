@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Items;
 using UnityEngine;
 
@@ -29,8 +30,8 @@ namespace Inventory
 			{
 				CurrentItem = item;
 			}
-			
-			if (_items.ContainsKey(item))
+
+			if (IsContains(ref item))
 			{
 				_items[item]++;
 			}
@@ -38,6 +39,7 @@ namespace Inventory
 			{
 				_items.Add(item, 1);
 			}
+			
 			InventoryChanged?.Invoke();
 		}
 		
@@ -45,7 +47,7 @@ namespace Inventory
 		/// <param name="item">Предмет, унаследованный от AItem.</param>
 		public static void Remove(Item item)
 		{
-			if (!_items.ContainsKey(item)) return;
+			if (!IsContains(ref item)) return;
 			
 			if (_items[item] > 1)
 			{
@@ -61,6 +63,43 @@ namespace Inventory
 			}
 			InventoryChanged?.Invoke();
 		}
+
+		private static bool IsContains(ref Item item)
+		{
+			foreach (Item variable in _items.Keys)
+			{
+				if (variable.Type == item.Type)
+				{
+					item = variable;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static Sprite GetIconByType(EItems eItems)
+		{
+			foreach (Item variable in _items.Keys)
+			{
+				if (variable.Type == eItems)
+					return variable.GetIcon();
+			}
+
+			return null;
+		}
+		
+		public static uint GetItemCountByType(EItems eItems)
+		{
+			foreach (Item variable in _items.Keys)
+			{
+				if (variable.Type == eItems)
+					return _items[variable];
+			}
+
+			return 0;
+		}
+		
 		public static Dictionary<Item, uint> GetItems() => _items;
 	}
 }
