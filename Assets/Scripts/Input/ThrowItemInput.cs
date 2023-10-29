@@ -9,7 +9,7 @@ namespace Input
 	{
 		public CharacterController Character { get; set; }
 		public Transform CinemachineBrainTransform { get; set; }
-		private bool IsAiming { get; set; } = false;
+		private bool IsAiming { get; set; }
 		
 		public ThrowItemInput(CharacterController character, Transform cinemachineBrainTransform)
 		{
