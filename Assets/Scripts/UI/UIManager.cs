@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using BaseClasses;
 using TMPro;
+using UI.Cooking;
 using UnityEngine;
 
 namespace UI
@@ -19,9 +20,11 @@ namespace UI
         [SerializeField] private SliderController staminaSlider;
         [SerializeField] private TextMeshProUGUI itemNameText;
         [SerializeField] private List<GameObject> uiTabs;
+        [SerializeField] private CookingUI cookingUI;
 
         public SliderController HealthSlider => healthSlider;
         public SliderController StaminaSlider => staminaSlider;
+        public CookingUI CookingUI => cookingUI;
 
         public void ShowInteractionText(string itemName)
         {

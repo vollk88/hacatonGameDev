@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b61973f97f45cfb187fb21178f10c9, type: 3}
+  m_Name: SORecipes
+  m_EditorClassIdentifier: 
+  recipes:
+  - DishName: "\u0421\u043B\u0430\u0434\u043A\u0438\u0439 \u043F\u0440\u0438\u0437\u0440\u0430\u043A"
+    FinishDishSprite: {fileID: 21300000, guid: 1becbc17131034a4f9067ad2c20af3cb, type: 3}
+    Ingredients:
+    - ItemName: "\u0412\u0435\u0442\u043A\u0430"
+      ItemType: 8
+      ItemCount: 3
+    - ItemName: "\u042F\u0431\u043B\u043E\u043A\u043E"
+      ItemType: 0
+      ItemCount: 5
+    - ItemName: "\u041B\u0443\u043A"
+      ItemType: 1
+      ItemCount: 1
+    CookingTime: 360
+    StartCookingTime: 0
+    EndCookingTime: 0
+    IsCooking: 0
+  - DishName: "\u041B\u0435\u0442\u043D\u0438\u0439 \u0441\u0430\u043B\u0430\u0442"
+    FinishDishSprite: {fileID: 21300000, guid: 0285a1f685dd27f4d932d16f39d2338e, type: 3}
+    Ingredients:
+    - ItemName: "\u041F\u043E\u043C\u0438\u0434\u043E\u0440"
+      ItemType: 2
+      ItemCount: 2
+    - ItemName: "\u041C\u043E\u0440\u043A\u043E\u0432\u044C"
+      ItemType: 3
+      ItemCount: 5
+    - ItemName: "\u041B\u0443\u043A"
+      ItemType: 1
+      ItemCount: 1
+    - ItemName: "\u041E\u0433\u0443\u0440\u0435\u0446"
+      ItemType: 4
+      ItemCount: 3
+    CookingTime: 180
+    StartCookingTime: 0
+    EndCookingTime: 0
+    IsCooking: 0
+  - DishName: "\u0428\u0430\u0440\u043B\u043E\u0442\u0430"
+    FinishDishSprite: {fileID: 21300000, guid: 46bfab94e422cfa41ac92b066bd663a9, type: 3}
+    Ingredients:
+    - ItemName: "\u042F\u0431\u043B\u043E\u043A\u043E"
+      ItemType: 0
+      ItemCount: 10
+    - ItemName: "\u0415\u0436\u0435\u0432\u0438\u043A\u0430"
+      ItemType: 9
+      ItemCount: 3
+    - ItemName: "\u041C\u0430\u043B\u0438\u043D\u0430"
+      ItemType: 10
+      ItemCount: 5
+    CookingTime: 720
+    StartCookingTime: 0
+    EndCookingTime: 0
+    IsCooking: 0
+  - DishName: "\u0413\u0440\u0438\u0431\u043D\u043E\u0439 \u0441\u0443\u043F"
+    FinishDishSprite: {fileID: 21300000, guid: a8f68b2b5354205429b77538bfd22537, type: 3}
+    Ingredients:
+    - ItemName: "\u0413\u0440\u0438\u0431 \u043B\u0435\u0441\u043D\u043E\u0439"
+      ItemType: 5
+      ItemCount: 15
+    - ItemName: "\u0413\u0440\u0438\u0431 \u0431\u043E\u043B\u043E\u0442\u043D\u044B\u0439"
+      ItemType: 6
+      ItemCount: 15
+    - ItemName: "\u041B\u0443\u043A"
+      ItemType: 1
+      ItemCount: 1
+    CookingTime: 720
+    StartCookingTime: 0
+    EndCookingTime: 0
+    IsCooking: 0
+  - DishName: "\u041B\u0435\u0442\u043D\u0438\u0439 \u043C\u0438\u043A\u0441"
+    FinishDishSprite: {fileID: 21300000, guid: 83e3d54c9cb621348aec7e899f062350, type: 3}
+    Ingredients:
+    - ItemName: "\u042F\u0431\u043B\u043E\u043A\u043E"
+      ItemType: 0
+      ItemCount: 10
+    - ItemName: "\u0415\u0436\u0435\u0432\u0438\u043A\u0430"
+      ItemType: 9
+      ItemCount: 7
+    - ItemName: "\u041C\u0430\u043B\u0438\u043D\u0430"
+      ItemType: 10
+      ItemCount: 15
+    - ItemName: "\u041E\u0433\u0443\u0440\u0435\u0446"
+      ItemType: 4
+      ItemCount: 3
+    - ItemName: "\u0413\u0440\u0438\u0431 \u043B\u0435\u0441\u043D\u043E\u0439"
+      ItemType: 5
+      ItemCount: 5
+    CookingTime: 720
+    StartCookingTime: 0
+    EndCookingTime: 0
+    IsCooking: 0

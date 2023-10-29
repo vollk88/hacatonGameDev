@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4241699486928377193
 MonoBehaviour:
@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852c7802b1a4c594984df1a5d74262dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _showGizmos: 0
   nextPoints:
   - {fileID: 0}
+  _radiusFindNextPoints: 20
   timeToStay: 1

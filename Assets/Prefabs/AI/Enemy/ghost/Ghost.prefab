@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 177405723528539502}
   - component: {fileID: 8893362298052476765}
+  - component: {fileID: 227012880088799734}
   - component: {fileID: 7362500985486161274}
   - component: {fileID: 4686513470858265510}
   - component: {fileID: 4842343774170865184}
@@ -89,8 +90,20 @@ MonoBehaviour:
   hearingRadius: 10
   fovOrigin: {fileID: 2943958847578080979}
   attackDistance: 3
-  attackDelay: 0.4
   attackDamage: 10
+--- !u!114 &227012880088799734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4486169949559026598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07ddfe372844967a8337874ccdc8fce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayTime: 0.4
 --- !u!95 &7362500985486161274
 Animator:
   serializedVersion: 5

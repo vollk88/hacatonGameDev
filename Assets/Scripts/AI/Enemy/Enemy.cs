@@ -1,11 +1,17 @@
 ﻿using AI.Enemy.State;
 using AI.State;
+using Damage;
 using UnityEngine;
 
 namespace AI.Enemy
 {
 	public class Enemy : AUnit
 	{
+		#if UNITY_EDITOR 
+		[SerializeField]
+		private bool showGizmos;
+		#endif
+		
 		[Header("Зоны обзора и слуха")]
 		[SerializeField]
 		private float fovAngle = 45f;
@@ -20,21 +26,26 @@ namespace AI.Enemy
 		[Header("Параметры атаки")]
 		[SerializeField]
 		private float attackDistance = 1f;
-		[SerializeField]
-		private float attackDelay = 0.4f;
+		// [SerializeField]
+		// private float attackDelay = 0.4f;
 		[SerializeField]
 		private int attackDamage = 10;
 		
 		private	EnemyStateMachine _stateMachine;
 		private Perception.Perception _perception;
+
+		[GetOnObject]
+		private IDamage _damageStrategy;
 		
-		
+		#region	Properties
 		public float AttackDistance => attackDistance;
-		public float AttackDelay => attackDelay;
-		public int AttackDamage => attackDamage;
+		// public float AttackDelay => attackDelay;
+		// public int AttackDamage => attackDamage;
 		public Perception.Perception Perception => _perception;
+		public IDamage DamageStrategy => _damageStrategy;
 		public GameObject Target => _perception.Target;
 		public override AStateMachine StateMachine => _stateMachine ??= new EnemyStateMachine(this);
+		#endregion
 
 		protected override void Awake()
 		{
@@ -42,12 +53,13 @@ namespace AI.Enemy
 			_perception = new Perception.Perception(enemy:this, fovAngle: fovAngle,
 				fovRadius : fovRadius, fovOrigin: fovOrigin, hearingRadius: hearingRadius);
 		}
-
+		
 		protected override void Start()
 		{
 			base.Start();
 			StateMachine.SetPatrolPoint(PatrolPull.GetClosestPoint(transform));
 			StateMachine.SetState<IdleState>();
+			_damageStrategy.Damage = attackDamage;
 		}
 		protected override void InitStates()
 		{
@@ -71,8 +83,11 @@ namespace AI.Enemy
 		
 		
 
+		#if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
+			if (!showGizmos) return;
+			
 			// show all perception radius
 			var position = transform.position;
 			Gizmos.color = Color.blue;
@@ -85,5 +100,6 @@ namespace AI.Enemy
 			Gizmos.color = Color.red;
 			Gizmos.DrawWireSphere(position, attackDistance);
 		}
+		#endif
 	}
 }
