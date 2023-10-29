@@ -107,7 +107,8 @@ namespace Inventory
 
 			return null;
 		}
-		
+
+		public static void SetItems(Dictionary<Item, uint> newItems) => _items = newItems;
 		public static Dictionary<Item, uint> GetItems() => _items;
 
 		public static void Debug()
