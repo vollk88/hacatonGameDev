@@ -13,6 +13,5 @@
 		Branch, // Ветка
 		Blackberry, // Ежевика 
 		Raspberry, // Малина
-		
 	}
 }

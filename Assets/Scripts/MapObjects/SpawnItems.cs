@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BaseClasses;
 using Inventory;
 using Items;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,6 +27,9 @@ public class SpawnItems : CustomBehaviour
     [SerializeField] private List<SpawnRules> _spawnRequrementsList;
     Terrain terr;
     [SerializeField] private SphereCollider SwampArea;
+    [SerializeField] private GameObject patrolPoint;
+    [SerializeField] private GameObject ghostSpawner;
+    [SerializeField] private GameObject leshiySpawner;
 
 
     private void Start()
@@ -52,6 +56,7 @@ public class SpawnItems : CustomBehaviour
     private void SpawnItemsNearTrees()
     {
         StartCoroutine(SpawnWoodItems());
+        StartCoroutine(SpawnWoodSpawners());
     }
     
 
@@ -71,6 +76,32 @@ public class SpawnItems : CustomBehaviour
     
         return res.ToArray();
     }
+    
+    private IEnumerator SpawnWoodSpawners()
+    {
+        Vector3[] treePositions = GetWoodsPositions();
+        GameObject spawnobj = leshiySpawner;
+        foreach (Vector3 treePosition in treePositions)
+        {
+            if (Random.Range(0f, 1f) > 0.02f)
+                continue;
+
+            yield return new WaitForFixedUpdate();
+            // Генерируйте случайную позицию в радиусе 5 метров от дерева.
+            Vector2 randomOffset = Random.insideUnitSphere * 5f;
+            Vector3 spawnPosition = treePosition + new Vector3(randomOffset.x, 0f, randomOffset.y);
+
+            spawnPosition.y = terr.SampleHeight(spawnPosition);
+
+            // Создайте и спавните ваш предмет на полученной позиции.
+            Instantiate(spawnobj, spawnPosition, Quaternion.identity);
+            randomOffset *= 20;
+            spawnPosition += new Vector3(randomOffset.x, 0f, randomOffset.y);
+            spawnPosition.y = terr.SampleHeight(spawnPosition);
+            Instantiate(patrolPoint, spawnPosition, Quaternion.identity);
+        }
+    }
+    
 
     private IEnumerator SpawnWoodItems()
     {
@@ -79,7 +110,6 @@ public class SpawnItems : CustomBehaviour
         foreach (var item in wooditems)
         {
             GameObject spawnobj = InventoryController.GetItemFromType(item.item);
-            Debug.Log("spawnobj");
             foreach (Vector3 treePosition in treePositions)
             {
                 if (Random.Range(0f, 1f) > item.ratio)
@@ -96,6 +126,7 @@ public class SpawnItems : CustomBehaviour
 
                 // Создайте и спавните ваш предмет на полученной позиции.
                 SpawnItem(spawnobj, spawnPosition);
+                
             }
         }
     }
@@ -126,10 +157,13 @@ public class SpawnItems : CustomBehaviour
         yield return null;
     }
 
-    void SpawnItem(GameObject item, Vector3 pos)
+
+    void SpawnItem(GameObject item, Vector3 pos, bool isrb = true)
     {
         var obj = Instantiate(item, pos, Quaternion.identity);
+        if (!isrb) return;
         var rb = obj.GetComponent<Rigidbody>();
+        if (rb is null) return;
         rb.useGravity = false;
         rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
         rb.Sleep();
