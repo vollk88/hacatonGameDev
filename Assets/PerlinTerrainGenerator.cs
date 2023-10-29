@@ -11,16 +11,19 @@ public class PerlinTerrainGenerator : MonoBehaviour
     public float heightVariation = 3.0f; // Вариация высоты
     public int areaSize = 10; // Размер каждой области
     public float flatHeight = 10.0f; // Высота области
+    public GameObject Spawner;
 
-    // private void OnValidate()
-    // {
-    //     terrain = GetComponent<Terrain>();
-    //     if (terrain != null)
-    //     {
-    //         // GenerateTerrain();
-    //         // FlattenRandomAreas();
-    //     }
-    // }
+    private void OnValidate()
+    {
+        terrain = GetComponent<Terrain>();
+
+    }
+
+
+    void SetSpawners()
+    {
+        
+    }
 
     void GenerateTerrain()
     {
