@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{4f6eadd4-f558-4c27-8998-e412c105beb2}">
+		<property name="assetPath">
+			<value>Footsteps/StoneTile/Footsteps_Stone_Hard_4.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.45029478458049887</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4ba72b2f-e74f-4c98-b47f-49126545d456}</destination>
+		</relationship>
+	</object>
+</objects>

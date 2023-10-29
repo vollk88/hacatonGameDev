@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using BaseClasses;
 using FMOD;
 using FMOD.Studio;
 using FMODUnity;
@@ -9,7 +11,7 @@ using STOP_MODE = FMOD.Studio.STOP_MODE;
 namespace Audio
 {
     [Serializable, RequireComponent(typeof(StudioEventEmitter))]
-    public class SoundManager : MonoBehaviour
+    public class SoundManager : CustomBehaviour
     {
         [Tooltip("Путь к инстансам звуков")]
         [SerializeField] protected string[] _soundsInstancePath;
@@ -27,15 +29,14 @@ namespace Audio
         /// <summary>OneShot звуки.</summary>
         private List<EventInstance> _soundInstance;
         private List<EventReference> _eventReferences;
-    
-        private Dictionary<int, float> _timeStartSounds;
 
         // private PLAYBACK_STATE pS;
+        [GetOnObject]
         private StudioEventEmitter _studioEvent;
 
-        private void Awake()
+        protected override void Awake()
         {
-            _studioEvent = GetComponent<StudioEventEmitter>();
+            base.Awake();
             _studioEvent.StopEvent = EmitterGameEvent.ObjectDisable;
             if (_soundsLoopInstancePath.Length > 0)
                 CreateInstanceAndReference(_soundsLoopInstancePath, ref _soundsLoopInstance, ref _loopReferences);
@@ -49,8 +50,6 @@ namespace Audio
                 _footstepReference.Path = _soundFootstepInstancePath;
                 _soundFootstepInstance = RuntimeManager.CreateInstance(_soundFootstepInstancePath);
             }
-        
-            _timeStartSounds = new Dictionary<int, float>();
         }
 
         private void CreateInstanceAndReference(IReadOnlyCollection<string> soundInstancePath,
@@ -88,22 +87,6 @@ namespace Audio
 
         public void StopSound() => _studioEvent.Stop();
 
-        /// <summary>
-        /// Запуск звука со временем восстановления.
-        /// </summary>
-        /// <param name="i">индекс</param>
-        /// <param name="cooldown">время восстановления</param>
-        public void CoolDownPlaySound(int i, float cooldown)
-        {
-            _timeStartSounds.TryAdd(i, Time.time);
-
-            if (Time.time - _timeStartSounds[i] >= cooldown)
-            {
-                PlaySound(i);
-                _timeStartSounds[i] = Time.time;
-            }
-        }
-    
         public void PlaySound(int i)
         {
             if (_soundsInstancePath == null || _soundsInstancePath.Length <= i 
@@ -134,21 +117,15 @@ namespace Audio
                 _studioEvent.EventInstance.setParameterByName("P_Surface", i);
             _studioEvent.Play();
         }
-    
-        // PLAYBACK_STATE PlaybackState(EventInstance instance)
-        // {
-        //     instance.getPlaybackState(out pS);
-        //     return pS;
-        // }
-    
+
         /// <summary>
         /// Остановка всех звуковых ивентов при переключении вкладки или сворачивании окна
         /// </summary>
-        void OnApplicationFocus(bool hasFocus)
+        private void OnApplicationFocus(bool hasFocus)
         {
-            /*RuntimeManager.PauseAllEvents(!hasFocus);*/
             RuntimeManager.MuteAllEvents(!hasFocus);
         }
+
         private void OnDestroy()
         {
             if(_soundInstance is not null)

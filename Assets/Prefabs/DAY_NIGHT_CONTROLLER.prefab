@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2826985680655614554}
   - component: {fileID: 5533787093104234784}
   - component: {fileID: 2697545757631219619}
+  - component: {fileID: 575552060282608900}
+  - component: {fileID: 2403295980660462162}
   m_Layer: 0
   m_Name: DAY_NIGHT_CONTROLLER
   m_TagString: Untagged
@@ -108,3 +110,52 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &575552060282608900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553490202393744050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
+--- !u!114 &2403295980660462162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553490202393744050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62d5f695211218448f89dc3ccd0bb15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundsInstancePath: []
+  _soundsLoopInstancePath:
+  - event:/Main/Ambience/ChillAmbience
+  - event:/Main/Ambience/NightForestAmbience
+  - event:/Main/Ambience/Boloto
+  _soundFootstepInstancePath: 

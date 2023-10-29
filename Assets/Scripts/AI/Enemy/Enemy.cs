@@ -1,9 +1,6 @@
 ﻿using AI.Enemy.State;
 using AI.State;
-using BaseClasses;
-using Unit.Character;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AI.Enemy
 {
@@ -64,7 +61,9 @@ namespace AI.Enemy
 			base.Update();
 			_perception.Update();
 			
-			if (_perception.Target is not null && StateMachine.CurrentState is not AttackState)
+			if (_perception.Target is not null && 
+			    StateMachine.CurrentState is not AttackState &&
+			    StateMachine.CurrentState is not ChaseState)
 			{
 				StateMachine.SetState<ChaseState>();
 			}

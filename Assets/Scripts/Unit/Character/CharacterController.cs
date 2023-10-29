@@ -1,3 +1,4 @@
+using Audio;
 using BaseClasses;
 using Cinemachine;
 using Input;
@@ -9,6 +10,7 @@ using UnityEngine.InputSystem;
 
 namespace Unit.Character
 {
+	[RequireComponent(typeof(SoundManager))]
 	public class CharacterController : CustomBehaviour
 	{
 		private const float INTERACTION_DISTANCE = 4f;
@@ -26,22 +28,22 @@ namespace Unit.Character
 
 		[Header("Throw.")]
 		[SerializeField] private Transform throwPoint;
-
-
 		[SerializeField] private float throwForce = 10;
 		
-		[GetOnObject]
-		private NavMeshAgent _navMeshAgent;
-
+		[GetOnObject] private NavMeshAgent _navMeshAgent;
+		[GetOnObject] private SoundManager _soundManager;
+		
 		private UIManager _uiManager;
 		private IInput _movementInput;
 		private IInput _throwInput;
 		
 		private Transform _transform;
 
+		public Terr Terr { get; set; }
 		public Health Health => health;
 		public Stamina Stamina => stamina;
 		public Transform Transform => _transform;
+		public SoundManager SoundManager => _soundManager;
 		public Transform ThrowPoint => throwPoint;
 		public float ThrowForce => throwForce;
 
@@ -76,6 +78,7 @@ namespace Unit.Character
 				if (_targetObject == null) return;
 				
 				InputManager.PlayerActions.Take.started -= _targetObject.GetComponentInChildren<Item>().Take;
+				InputManager.PlayerActions.Take.started -= PlayBreathSound;
 				_targetObject = null;
 				_targetItem = null;
 				return;
@@ -87,6 +90,7 @@ namespace Unit.Character
 			_targetObject = hit.collider.gameObject;
 			_targetItem = _targetObject.GetComponentInChildren<Item>();
 			InputManager.PlayerActions.Take.started += _targetItem.Take;
+			InputManager.PlayerActions.Take.started += PlayBreathSound;
 			
 			_uiManager.ShowInteractionText(_targetItem.GetName());
 		}
@@ -99,8 +103,17 @@ namespace Unit.Character
 #endif
 		}
 
+		private void PlayBreathSound(InputAction.CallbackContext _)
+		{
+			InputManager.PlayerActions.Take.started -= PlayBreathSound;
+			PlaySound(2);
+		}
+		
 		public void GetDamage(int damage)
 		{
+			if(health.IsDead)
+				return;
+
 			health.GetDamage(damage);
 			if (health.IsDead)
 				Death();
@@ -108,6 +121,7 @@ namespace Unit.Character
 
 		private void Death()
 		{
+			PlaySound(3);
 			_movementInput.UnsubscribeEvents();
 		}
 		
@@ -122,5 +136,10 @@ namespace Unit.Character
 			_movementInput = movementInput;
 			_movementInput.SubscribeEvents();
 		}
+
+		public void PlaySound(int i) => _soundManager.PlaySound(i);
+
+		public void PlayStepSound() => 
+			_soundManager.FootstepSound((int)Terr.GetMaterialIndex(_transform.position));
 	}
 }
