@@ -109,7 +109,9 @@ namespace Inventory
 		}
 		
 		public static Dictionary<Item, uint> GetItems() => _items;
-
+		
+		public static GameObject GetItemFromType(EItems type) => ItemPrefabs.Get(type);
+		
 		public static void Debug()
 		{ 
 			foreach (var variable in _items)
