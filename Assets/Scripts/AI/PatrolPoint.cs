@@ -7,8 +7,18 @@ namespace AI
 {
     public class PatrolPoint : CustomBehaviour
     {
+        #if UNITY_EDITOR
+        
+        [SerializeField]
+        private bool _showGizmos = true;
+        #endif
+        
+        
         [SerializeField]
         private List<PatrolPoint> nextPoints;
+        
+        [SerializeField]
+        private float _radiusFindNextPoints = 5f;
         public float timeToStay = 1f;
 
         protected override void OnEnable()
@@ -30,6 +40,21 @@ namespace AI
 
         void Start()
         {
+            foreach (var point in PatrolPull.PatrolPoints)
+            {
+                if (point == this || nextPoints.Contains(point))
+                    continue;
+                
+                float distance = Vector3.Distance(transform.position, point.transform.position);
+                if (distance < _radiusFindNextPoints)
+                {
+                    nextPoints.Add(point);
+                }
+                else
+                {
+                    Debug.Log($"Point {point.name} is too far from {name} ({distance})");
+                }
+            }
         }
 
         // Update is called once per frame
@@ -37,5 +62,17 @@ namespace AI
         {
 
         }
+        
+        #if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            if (!_showGizmos)
+                return;
+            
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, _radiusFindNextPoints);
+            
+        }
+        #endif
     }
 }

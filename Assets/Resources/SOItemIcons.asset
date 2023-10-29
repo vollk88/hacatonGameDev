@@ -31,3 +31,7 @@ MonoBehaviour:
     ItemType: 7
   - Sprite: {fileID: 21300000, guid: 801f908c856718940b553e71f2458858, type: 3}
     ItemType: 8
+  - Sprite: {fileID: 21300000, guid: aee9d15b421ab5b48a1aa887224ca0d4, type: 3}
+    ItemType: 9
+  - Sprite: {fileID: 21300000, guid: 61dabf632d1763e4c8fb21bd4a994b79, type: 3}
+    ItemType: 10

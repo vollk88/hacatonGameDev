@@ -1,6 +1,7 @@
 using Audio;
 using BaseClasses;
 using Cinemachine;
+using Damage;
 using Input;
 using Items;
 using UI;
@@ -11,7 +12,7 @@ using UnityEngine.InputSystem;
 namespace Unit.Character
 {
 	[RequireComponent(typeof(SoundManager))]
-	public class CharacterController : CustomBehaviour
+	public class CharacterController : CustomBehaviour, IDamageable
 	{
 		private const float INTERACTION_DISTANCE = 4f;
 		[Header("Unit Speed.")]

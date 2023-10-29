@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using CharacterController = Unit.Character.CharacterController;
 using Debug = UnityEngine.Debug;
 
 namespace BaseClasses
 {
-    
+
     public static class DependencyInjector
     {
         public static void Inject(CustomBehaviour monoBehaviour)
@@ -46,18 +47,31 @@ namespace BaseClasses
                 Component component = monoBehaviour.GetComponent(dependencyType);
                 field.SetValue(monoBehaviour, component);
             }
+            else if (dependencyType.IsInterface)
+            {
+                monoBehaviour.gameObject.GetComponents<Component>().ToList().ForEach(component =>
+                {
+                    if (dependencyType.IsInstanceOfType(component))
+                    {
+                        field.SetValue(monoBehaviour, component);
+                    }
+                });
+            }
             else
             {
                 field.SetValue(monoBehaviour, Activator.CreateInstance(dependencyType));
             }
         }
     }
+
     public class CustomBehaviour : MonoBehaviour
     {
 
         public static readonly Dictionary<Type, List<CustomBehaviour>> Instances = new();
-        
-        protected internal class GetOnObject : Attribute {}
+
+        protected internal class GetOnObject : Attribute
+        {
+        }
 
         protected virtual void AddInstance()
         {
@@ -66,9 +80,10 @@ namespace BaseClasses
             {
                 Instances.Add(type, new List<CustomBehaviour>());
             }
+
             Instances[type].Add(this);
         }
-        
+
         protected virtual void RemoveInstance()
         {
             Type type = GetType();
@@ -91,6 +106,17 @@ namespace BaseClasses
         protected virtual void Awake()
         {
             DependencyInjector.Inject(this);
+        }
+
+        public static CharacterController GetCharacterController()
+        {
+            if (CustomBehaviour.Instances.ContainsKey(typeof(CharacterController)) == false)
+            {
+                // Debug.LogError("No CharacterController found");
+                return null;
+            }
+
+            return CustomBehaviour.Instances[typeof(CharacterController)][0] as CharacterController;
         }
     }
 }
