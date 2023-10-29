@@ -116,5 +116,9 @@ namespace AI
         {
 	        Agent.speed = newSpeed;
         }
+        public void LookAt(Vector3 position)
+		{
+			transform.LookAt(position);
+		}
     }
 }

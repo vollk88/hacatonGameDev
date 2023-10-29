@@ -1,0 +1,20 @@
+using System;
+using BaseClasses;
+using UnityEngine;
+using CharacterController = Unit.Character.CharacterController;
+
+public class ViewOnCharacter : MonoBehaviour
+{
+	private CharacterController _characterController;
+
+	private void Start()
+	{
+		_characterController = CustomBehaviour.GetCharacterController();
+	}
+
+	private void Update()
+	{
+		transform.LookAt(_characterController.transform.position);
+		transform.Rotate(0, 180, 0);
+	}
+}
