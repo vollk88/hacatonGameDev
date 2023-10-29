@@ -1,6 +1,7 @@
 using Audio;
 using BaseClasses;
 using Cinemachine;
+using Damage;
 using Input;
 using Items;
 using UI;
@@ -11,7 +12,7 @@ using UnityEngine.InputSystem;
 namespace Unit.Character
 {
 	[RequireComponent(typeof(SoundManager))]
-	public class CharacterController : CustomBehaviour
+	public class CharacterController : CustomBehaviour, IDamageable
 	{
 		private const float INTERACTION_DISTANCE = 4f;
 		[Header("Unit Speed.")]
@@ -36,6 +37,7 @@ namespace Unit.Character
 		private UIManager _uiManager;
 		private IInput _movementInput;
 		private IInput _throwInput;
+		private IInput _openCookingTable;
 		
 		private Transform _transform;
 
@@ -54,16 +56,25 @@ namespace Unit.Character
 
 		protected override void Awake()
 		{
+			base.Awake();
+
 			_cinemachineBrain = FindObjectOfType<CinemachineBrain>();
-			_transform = transform;
 			_uiManager = FindObjectOfType<UIManager>();
+			_transform = transform;
+
+			InitAndSubscribeInput();
+		}
+
+		private void InitAndSubscribeInput()
+		{
 			health.Init(_uiManager);
 			stamina.Init(_uiManager, this);
-			base.Awake();
 			_movementInput = new NavMeshMovement(_navMeshAgent, this, sprintSpeed, moveSpeed);
 			_movementInput.SubscribeEvents();
 			_throwInput = new ThrowItemInput(this, _cinemachineBrain.transform);
 			_throwInput.SubscribeEvents();
+			_openCookingTable = new OpenCookingTableInput(this, _cinemachineBrain.transform);
+			_openCookingTable.SubscribeEvents();
 		}
 
 		private void FixedUpdate()

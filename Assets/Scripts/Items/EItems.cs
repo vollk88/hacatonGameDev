@@ -10,6 +10,9 @@
 		MushroomForest, //гриб лесной
 		MushroomSwamp, //гриб болотный
 		Pebble, // Галька
-		Branch // Ветка
+		Branch, // Ветка
+		Blackberry, // Ежевика 
+		Raspberry, // Малина
+		
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using BaseClasses;
 using TMPro;
+using UI.Cooking;
 using UnityEngine;
 
 namespace UI
@@ -9,9 +10,11 @@ namespace UI
         [SerializeField] private SliderController healthSlider;
         [SerializeField] private SliderController staminaSlider;
         [SerializeField] private TextMeshProUGUI itemNameText;
+        [SerializeField] private CookingUI cookingUI;
 
         public SliderController HealthSlider => healthSlider;
         public SliderController StaminaSlider => staminaSlider;
+        public CookingUI CookingUI => cookingUI;
 
         public void ShowInteractionText(string itemName)
         {

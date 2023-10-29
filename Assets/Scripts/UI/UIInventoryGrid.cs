@@ -79,6 +79,7 @@ namespace UI
 				if (i == elements.Count / 2)
 				{
 					currentItemName.text = item.GetName();
+					InventoryController.CurrentItem = item;
 				}
 			}
 		}
@@ -88,7 +89,6 @@ namespace UI
 			if (_orderedItems.Count <= 1) return;
 				
 			_currentItemIndex = (_currentItemIndex + 1) % _orderedItems.Count;
-			InventoryController.CurrentItem = _orderedItems[_currentItemIndex];
 				
 			UpdateGrid();
 		}
@@ -98,7 +98,6 @@ namespace UI
 			if (_orderedItems.Count <= 1) return;
 				
 			_currentItemIndex = (_currentItemIndex - 1 + _orderedItems.Count) % _orderedItems.Count;
-			InventoryController.CurrentItem = _orderedItems[_currentItemIndex];
 				
 			UpdateGrid();
 		}
