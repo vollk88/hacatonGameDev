@@ -15,6 +15,7 @@ namespace AI.Enemy.State
 		public override void Enter()
 		{
 			Target = Enemy.Target;
+			Enemy.SetSpeed(Enemy.RunSpeed);
 			Enemy.StartMove();
 			
 		}
@@ -40,6 +41,7 @@ namespace AI.Enemy.State
 
 		public override void Exit()
 		{
+			Enemy.SetSpeed(Enemy.Speed);
 			Perception.TryRemoveSoundTarget();
 			Target = null;
 		}

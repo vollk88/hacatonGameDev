@@ -11,7 +11,9 @@ namespace AI
     {
 	    public abstract AStateMachine StateMachine { get; }
 		public bool OnPatrol { get; set; }
+		public event Action<bool> OnMove; 
 
+		[Header("Скорость")]
 		[SerializeField]
 		private float speed = 2f;
 		[SerializeField]
@@ -23,13 +25,24 @@ namespace AI
         private Collider _collider;
         [GetOnObject]
         private Rigidbody _rigidbody;
+        [GetOnObject]
+	    private Animator _animator;
+        
+        #if UNITY_EDITOR
+	    private string _currentState;
+#endif
 
 
 		#region properties
 
+		public float Speed => speed;
+		public float RunSpeed => runSpeed;
+		
+		public float CurrentSpeed => Agent.velocity.magnitude;
 		protected NavMeshAgent Agent => _agent;
 		protected Collider Collider => _collider;
 		protected Rigidbody Rigidbody => _rigidbody;
+		public Animator Animator => _animator;
 
 		#endregion
 
@@ -55,6 +68,9 @@ namespace AI
         protected virtual void Update()
         {
 	        StateMachine.Update();
+		#if	UNITY_EDITOR
+	        _currentState = StateMachine.CurrentState.ToString();	        
+		#endif
         }
 
         protected override void OnDisable()
@@ -77,10 +93,17 @@ namespace AI
         public void StopMove()
         {
 	        Agent.isStopped = true;
+	        OnMove?.Invoke(false);
         }
         public void StartMove()
 		{
 	        Agent.isStopped = false;
+	        OnMove?.Invoke(true);
 		}
+
+        public void SetSpeed(float newSpeed)
+        {
+	        Agent.speed = newSpeed;
+        }
     }
 }
