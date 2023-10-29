@@ -7,6 +7,11 @@ namespace AI.Enemy
 {
 	public class Enemy : AUnit
 	{
+		#if UNITY_EDITOR 
+		[SerializeField]
+		private bool showGizmos;
+		#endif
+		
 		[Header("Зоны обзора и слуха")]
 		[SerializeField]
 		private float fovAngle = 45f;
@@ -78,8 +83,11 @@ namespace AI.Enemy
 		
 		
 
+		#if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
+			if (!showGizmos) return;
+			
 			// show all perception radius
 			var position = transform.position;
 			Gizmos.color = Color.blue;
@@ -92,5 +100,6 @@ namespace AI.Enemy
 			Gizmos.color = Color.red;
 			Gizmos.DrawWireSphere(position, attackDistance);
 		}
+		#endif
 	}
 }

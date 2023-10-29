@@ -1,4 +1,5 @@
 ﻿using AI.State;
+using BaseClasses;
 using UnityEngine;
 using CharacterController = Unit.Character.CharacterController;
 
@@ -26,7 +27,7 @@ namespace AI.Enemy.State
 			
 			if (distanceToTarget < Enemy.AttackDistance)
 			{
-				CharacterController player = Enemy.Perception.GetCharacterController();
+				CharacterController player = CustomBehaviour.GetCharacterController();
 				if (player is not null && Target == player.gameObject)
 				{
 					ThisUnit.StateMachine.SetState<AttackState>();

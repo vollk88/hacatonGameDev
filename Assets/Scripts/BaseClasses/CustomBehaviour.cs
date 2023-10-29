@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using CharacterController = Unit.Character.CharacterController;
 using Debug = UnityEngine.Debug;
 
 namespace BaseClasses
@@ -106,6 +107,17 @@ namespace BaseClasses
         public override string ToString()
         {
             throw new NotImplementedException();
+        }
+
+        public static CharacterController GetCharacterController()
+        {
+            if (CustomBehaviour.Instances.ContainsKey(typeof(CharacterController)) == false)
+            {
+                // Debug.LogError("No CharacterController found");
+                return null;
+            }
+			
+            return CustomBehaviour.Instances[typeof(CharacterController)][0] as CharacterController;
         }
     }
 }
