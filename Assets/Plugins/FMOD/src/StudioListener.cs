@@ -15,30 +15,20 @@ namespace FMODUnity
 #if UNITY_PHYSICS2D_EXIST
         private Rigidbody2D rigidBody2D;
 #endif
-        private static List<StudioListener> listeners = new List<StudioListener>();
+        private static List<StudioListener> _listeners = new();
 
-        public static int ListenerCount
-        {
-            get
-            {
-                return listeners.Count;
-            }
-        }
+        public static int ListenerCount => _listeners.Count;
 
-        public int ListenerNumber
-        {
-            get
-            {
-                return listeners.IndexOf(this);
-            }
-        }
+        public int ListenerNumber => _listeners.IndexOf(this);
+
+        public void SetAttenuationObject(GameObject newAttenuationObject) => attenuationObject = newAttenuationObject;
 
         public static float DistanceToNearestListener(Vector3 position)
         {
             float result = float.MaxValue;
-            for (int i = 0; i < listeners.Count; i++)
+            for (int i = 0; i < _listeners.Count; i++)
             {
-                result = Mathf.Min(result, Vector3.Distance(position, listeners[i].transform.position));
+                result = Mathf.Min(result, Vector3.Distance(position, _listeners[i].transform.position));
             }
             return result;
         }
@@ -46,9 +36,9 @@ namespace FMODUnity
         public static float DistanceSquaredToNearestListener(Vector3 position)
         {
             float result = float.MaxValue;
-            for (int i = 0; i < listeners.Count; i++)
+            for (int i = 0; i < _listeners.Count; i++)
             {
-                result = Mathf.Min(result, (position - listeners[i].transform.position).sqrMagnitude);
+                result = Mathf.Min(result, (position - _listeners[i].transform.position).sqrMagnitude);
             }
             return result;
         }
@@ -56,26 +46,26 @@ namespace FMODUnity
         private static void AddListener(StudioListener listener)
         {
             // Is the listener already in the list?
-            if (listeners.Contains(listener))
+            if (_listeners.Contains(listener))
             {
                 Debug.LogWarning(string.Format(("[FMOD] Listener has already been added at index {0}."), listener.ListenerNumber));
                 return;
             }
 
             // If already at the max numListeners
-            if (listeners.Count >= FMOD.CONSTANTS.MAX_LISTENERS)
+            if (_listeners.Count >= FMOD.CONSTANTS.MAX_LISTENERS)
             {
                 Debug.LogWarning(string.Format(("[FMOD] Max number of listeners reached : {0}."), FMOD.CONSTANTS.MAX_LISTENERS));
             }
 
-            listeners.Add(listener);
-            RuntimeManager.StudioSystem.setNumListeners(Mathf.Clamp(listeners.Count, 1, FMOD.CONSTANTS.MAX_LISTENERS));
+            _listeners.Add(listener);
+            RuntimeManager.StudioSystem.setNumListeners(Mathf.Clamp(_listeners.Count, 1, FMOD.CONSTANTS.MAX_LISTENERS));
         }
 
         private static void RemoveListener(StudioListener listener)
         {
-            listeners.Remove(listener);
-            RuntimeManager.StudioSystem.setNumListeners(Mathf.Clamp(listeners.Count, 1, FMOD.CONSTANTS.MAX_LISTENERS));
+            _listeners.Remove(listener);
+            RuntimeManager.StudioSystem.setNumListeners(Mathf.Clamp(_listeners.Count, 1, FMOD.CONSTANTS.MAX_LISTENERS));
         }
 
         private void OnEnable()

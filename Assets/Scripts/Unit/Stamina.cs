@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using UI;
 using Input;
-using UI;
+using System;
 using UnityEngine;
+using System.Collections;
 using CharacterController = Unit.Character.CharacterController;
 
 namespace Unit
@@ -13,9 +13,10 @@ namespace Unit
 		[SerializeField] private int maxStamina = 100;
 		[SerializeField] private int stamina = 100;
 
-		private UIManager _uiManager;
 		private CharacterController _characterController;
-		
+		private UIManager _uiManager;
+		private float _lastUsingTime;
+
 		public bool IsUnusable { get; private set; }
 		public int MaxStamina => maxStamina;
 		public int CurrentStamina => stamina;
@@ -30,9 +31,16 @@ namespace Unit
 
 		public void SpendOnStamina(int count)
 		{
+			if(IsUnusable)
+				return;
+			
 			stamina -= count;
 			_uiManager.StaminaSlider.SetSliderValue(stamina, maxStamina);
 			IsUnusable = stamina <= 0;
+			
+			if (!IsUnusable || !(_lastUsingTime + 5 < Time.time)) return;
+			_characterController.PlaySound(0);
+			_lastUsingTime = Time.time;
 		}
 
 		private IEnumerator Replenish()
@@ -46,6 +54,7 @@ namespace Unit
 					continue;
 				}
 
+				IsUnusable = false;
 				stamina += 1;
 				
 				if (stamina >= MaxStamina)

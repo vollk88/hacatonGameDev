@@ -80,6 +80,24 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""09e5a730-fc3a-4dde-af06-f75dc732e6d9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PrevItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""99dc56f5-7be4-4a4d-9246-e4c1b18c9bf8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -289,6 +307,28 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Aiming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72b95c61-a60e-44af-b6cb-5e1bd6600f88"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49778aed-24b0-409d-a1e9-fb81d487d7be"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrevItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -882,6 +922,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Player_Take = m_Player.FindAction("Take", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_Aiming = m_Player.FindAction("Aiming", throwIfNotFound: true);
+        m_Player_NextItem = m_Player.FindAction("NextItem", throwIfNotFound: true);
+        m_Player_PrevItem = m_Player.FindAction("PrevItem", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -961,6 +1003,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Take;
     private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_Aiming;
+    private readonly InputAction m_Player_NextItem;
+    private readonly InputAction m_Player_PrevItem;
     public struct PlayerActions
     {
         private @InputSystem m_Wrapper;
@@ -971,6 +1015,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Take => m_Wrapper.m_Player_Take;
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputAction @Aiming => m_Wrapper.m_Player_Aiming;
+        public InputAction @NextItem => m_Wrapper.m_Player_NextItem;
+        public InputAction @PrevItem => m_Wrapper.m_Player_PrevItem;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -998,6 +1044,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Aiming.started += instance.OnAiming;
             @Aiming.performed += instance.OnAiming;
             @Aiming.canceled += instance.OnAiming;
+            @NextItem.started += instance.OnNextItem;
+            @NextItem.performed += instance.OnNextItem;
+            @NextItem.canceled += instance.OnNextItem;
+            @PrevItem.started += instance.OnPrevItem;
+            @PrevItem.performed += instance.OnPrevItem;
+            @PrevItem.canceled += instance.OnPrevItem;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1020,6 +1072,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Aiming.started -= instance.OnAiming;
             @Aiming.performed -= instance.OnAiming;
             @Aiming.canceled -= instance.OnAiming;
+            @NextItem.started -= instance.OnNextItem;
+            @NextItem.performed -= instance.OnNextItem;
+            @NextItem.canceled -= instance.OnNextItem;
+            @PrevItem.started -= instance.OnPrevItem;
+            @PrevItem.performed -= instance.OnPrevItem;
+            @PrevItem.canceled -= instance.OnPrevItem;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1208,6 +1266,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnTake(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
         void OnAiming(InputAction.CallbackContext context);
+        void OnNextItem(InputAction.CallbackContext context);
+        void OnPrevItem(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

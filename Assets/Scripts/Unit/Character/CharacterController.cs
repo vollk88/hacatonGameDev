@@ -1,6 +1,8 @@
-using System;
+using Audio;
 using BaseClasses;
+using Cinemachine;
 using Input;
+using Items;
 using UI;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,8 +10,10 @@ using UnityEngine.InputSystem;
 
 namespace Unit.Character
 {
+	[RequireComponent(typeof(SoundManager))]
 	public class CharacterController : CustomBehaviour
 	{
+		private const float INTERACTION_DISTANCE = 4f;
 		[Header("Unit Speed.")]
 		[SerializeField, Tooltip("Скорость передвижения.")]
 		private float moveSpeed = 3f;
@@ -24,23 +28,33 @@ namespace Unit.Character
 
 		[Header("Throw.")]
 		[SerializeField] private Transform throwPoint;
-		[SerializeField] private float throwForce = 100;
+		[SerializeField] private float throwForce = 10;
 		
-		[GetOnObject]
-		private NavMeshAgent _navMeshAgent;
-
+		[GetOnObject] private NavMeshAgent _navMeshAgent;
+		[GetOnObject] private SoundManager _soundManager;
+		
 		private UIManager _uiManager;
 		private IInput _movementInput;
-		private ItemThrower _itemThrower;
+		private IInput _throwInput;
 		
 		private Transform _transform;
 
+		public Terr Terr { get; set; }
 		public Health Health => health;
 		public Stamina Stamina => stamina;
 		public Transform Transform => _transform;
+		public SoundManager SoundManager => _soundManager;
+		public Transform ThrowPoint => throwPoint;
+		public float ThrowForce => throwForce;
+
+		private GameObject _targetObject;
+		private Item _targetItem;
+		public GameObject TargetObject => _targetObject;
+		private CinemachineBrain _cinemachineBrain;
 
 		protected override void Awake()
 		{
+			_cinemachineBrain = FindObjectOfType<CinemachineBrain>();
 			_transform = transform;
 			_uiManager = FindObjectOfType<UIManager>();
 			health.Init(_uiManager);
@@ -48,8 +62,37 @@ namespace Unit.Character
 			base.Awake();
 			_movementInput = new NavMeshMovement(_navMeshAgent, this, sprintSpeed, moveSpeed);
 			_movementInput.SubscribeEvents();
-			_itemThrower = new ItemThrower(this, throwPoint, throwForce);
-			_itemThrower.SubscribeEvents();
+			_throwInput = new ThrowItemInput(this, _cinemachineBrain.transform);
+			_throwInput.SubscribeEvents();
+		}
+
+		private void FixedUpdate()
+		{
+			Ray ray = new Ray(_cinemachineBrain.transform.position, _cinemachineBrain.transform.forward);
+			//Debug.DrawRay(ray.origin, ray.direction * INTERACTION_DISTANCE, Color.red);
+
+			if (!Physics.Raycast(ray, out RaycastHit hit, INTERACTION_DISTANCE, 1 << 3))
+			{
+				_uiManager.HideInteractionText();
+				
+				if (_targetObject == null) return;
+				
+				InputManager.PlayerActions.Take.started -= _targetObject.GetComponentInChildren<Item>().Take;
+				InputManager.PlayerActions.Take.started -= PlayBreathSound;
+				_targetObject = null;
+				_targetItem = null;
+				return;
+			}
+			
+			if (_targetObject != null && _targetObject == hit.collider.gameObject) return;
+				
+			//Debug.Log("Found an object - distance: " + hit.distance);
+			_targetObject = hit.collider.gameObject;
+			_targetItem = _targetObject.GetComponentInChildren<Item>();
+			InputManager.PlayerActions.Take.started += _targetItem.Take;
+			InputManager.PlayerActions.Take.started += PlayBreathSound;
+			
+			_uiManager.ShowInteractionText(_targetItem.GetName());
 		}
 
 		private void Update()
@@ -60,8 +103,17 @@ namespace Unit.Character
 #endif
 		}
 
+		private void PlayBreathSound(InputAction.CallbackContext _)
+		{
+			InputManager.PlayerActions.Take.started -= PlayBreathSound;
+			PlaySound(2);
+		}
+		
 		public void GetDamage(int damage)
 		{
+			if(health.IsDead)
+				return;
+
 			health.GetDamage(damage);
 			if (health.IsDead)
 				Death();
@@ -69,16 +121,8 @@ namespace Unit.Character
 
 		private void Death()
 		{
-			_itemThrower.UnsubscribeEvents();
+			PlaySound(3);
 			_movementInput.UnsubscribeEvents();
-			throw new System.NotImplementedException();
-		}
-
-		public GameObject GetThrowableObject()
-		{
-			throw new NotImplementedException();
-			//TODO Implement
-			return new GameObject();
 		}
 		
 		public void SetRotation(Quaternion rotation)
@@ -92,5 +136,10 @@ namespace Unit.Character
 			_movementInput = movementInput;
 			_movementInput.SubscribeEvents();
 		}
+
+		public void PlaySound(int i) => _soundManager.PlaySound(i);
+
+		public void PlayStepSound() => 
+			_soundManager.FootstepSound((int)Terr.GetMaterialIndex(_transform.position));
 	}
 }
