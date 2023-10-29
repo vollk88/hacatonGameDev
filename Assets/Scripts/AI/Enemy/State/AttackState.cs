@@ -1,4 +1,5 @@
-﻿using AI.State;
+﻿using System;
+using AI.State;
 using Cinemachine;
 using UnityEngine;
 using CharacterController = Unit.Character.CharacterController;
@@ -7,6 +8,8 @@ namespace AI.Enemy.State
 {
 	public class AttackState : AEnemyState
 	{
+		// ивент атаки
+		public event Action<bool> OnAttack; 
 		public AttackState(AUnit aUnit) : base(aUnit)
 		{
 			Target = Enemy.Perception.GetCharacterController();
@@ -18,13 +21,13 @@ namespace AI.Enemy.State
 		public override void Enter()
 		{
 			Enemy.StopMove();
+			OnAttack?.Invoke(true);
 			_attackDelay = Enemy.AttackDelay;
 		}
 
 		public override void Update()
 		{
 			float distanceToTarget = Vector3.Distance(Enemy.transform.position, Target.transform.position);
-			Debug.DrawRay(Enemy.transform.position, Target.transform.position - Enemy.transform.position, Color.red);
 			_attackDelay -= Time.deltaTime;
 			if (_attackDelay <= 0)
 			{
@@ -41,7 +44,7 @@ namespace AI.Enemy.State
 
 		public override void Exit()
 		{
-			
+			OnAttack?.Invoke(false);
 		}
 	}
 }
