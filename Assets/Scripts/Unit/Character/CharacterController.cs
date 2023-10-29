@@ -139,7 +139,6 @@ namespace Unit.Character
 
 		public void PlaySound(int i) => _soundManager.PlaySound(i);
 
-		public void PlayStepSound() => 
-			_soundManager.FootstepSound((int)Terr.GetMaterialIndex(_transform.position));
+		public void PlayStepSound() => _soundManager.FootstepSound((int)Terr.GetMaterialIndex(_transform.position));
 	}
 }
