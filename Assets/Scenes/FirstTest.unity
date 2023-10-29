@@ -5246,18 +5246,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 584150987175294809, guid: fe3251ee54641764e98e28313cee7bb2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -240.52753
-      objectReference: {fileID: 0}
-    - target: {fileID: 584150987175294809, guid: fe3251ee54641764e98e28313cee7bb2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 10.274133
-      objectReference: {fileID: 0}
-    - target: {fileID: 584150987175294809, guid: fe3251ee54641764e98e28313cee7bb2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 214.82985
-      objectReference: {fileID: 0}
     - target: {fileID: 804751503964324189, guid: fe3251ee54641764e98e28313cee7bb2, type: 3}
       propertyPath: m_Name
       value: Camera
@@ -5306,14 +5294,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2464513076111529462, guid: fe3251ee54641764e98e28313cee7bb2, type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2464513076111529462, guid: fe3251ee54641764e98e28313cee7bb2, type: 3}
-      propertyPath: m_Lens.FieldOfView
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 2798823420980560869, guid: fe3251ee54641764e98e28313cee7bb2, type: 3}
       propertyPath: m_UpdateMethod
       value: 1
@@ -5328,7 +5308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3322099588059425834, guid: fe3251ee54641764e98e28313cee7bb2, type: 3}
       propertyPath: field of view
-      value: 60
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4391932411428890023, guid: fe3251ee54641764e98e28313cee7bb2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5366,7 +5346,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -0.09
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

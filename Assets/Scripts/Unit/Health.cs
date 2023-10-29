@@ -14,7 +14,12 @@ namespace Unit
         private UIManager _uiManager;
         public bool IsDead { get; private set; }
         public int MaxHealth => maxHealth;
-        public int CurrentHealth => health;
+
+        public int CurrentHealth
+        {
+            get => health;
+            set => health = value;
+        }
 
         public void Init(UIManager uiManager)
         {
