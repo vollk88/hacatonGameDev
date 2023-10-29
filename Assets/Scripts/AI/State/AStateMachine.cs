@@ -10,8 +10,8 @@ namespace AI.State
 		public PatrolPoint NextPatrolPoint { get; private set; }
 
 		protected readonly AUnit AUnit;
-		protected IState CurrentState;
-		protected Dictionary<Type, IState> States = new ();
+		public IState CurrentState { get; private set; }
+		private readonly Dictionary<Type, IState> _states = new ();
 
 		protected AStateMachine(AUnit aUnit)
 		{
@@ -21,18 +21,18 @@ namespace AI.State
 		public void AddState(IState state)
 		{
 			var type = state.GetType();
-			if (States.ContainsKey(type))
+			if (_states.ContainsKey(type))
 			{
 				Debug.LogError($"State {type} already added");
 				return;
 			}
-			States.Add(type, state);
+			_states.Add(type, state);
 		}
 		
 		public void SetState<T>() where T : IState
 		{
 			CurrentState?.Exit();
-			CurrentState = States[typeof(T)];
+			CurrentState = _states[typeof(T)];
 			CurrentState.Enter();
 		}
 		
@@ -43,7 +43,7 @@ namespace AI.State
 
 		public T GetState <T>() where T : IState
 		{
-			return (T) States[typeof(T)];
+			return (T) _states[typeof(T)];
 		}
 
 		public void SetWaitTime(float timeToStay)

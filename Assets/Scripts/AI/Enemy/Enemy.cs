@@ -9,23 +9,32 @@ namespace AI.Enemy
 {
 	public class Enemy : AUnit
 	{
+		[Header("Зоны обзора и слуха")]
 		[SerializeField]
 		private float fovAngle = 45f;
 		[SerializeField]
 		private float fovRadius = 5f;
 		[SerializeField]
 		private float hearingRadius = 10f;
-		[SerializeField]
+		
+		[SerializeField, Header("Голова")]
 		Transform fovOrigin;
 		
+		[Header("Параметры атаки")]
 		[SerializeField]
 		private float attackDistance = 1f;
+		[SerializeField]
+		private float attackDelay = 0.4f;
+		[SerializeField]
+		private int attackDamage = 10;
 		
 		private	EnemyStateMachine _stateMachine;
 		private Perception.Perception _perception;
 		
 		
 		public float AttackDistance => attackDistance;
+		public float AttackDelay => attackDelay;
+		public int AttackDamage => attackDamage;
 		public Perception.Perception Perception => _perception;
 		public GameObject Target => _perception.Target;
 		public override AStateMachine StateMachine => _stateMachine ??= new EnemyStateMachine(this);
@@ -55,7 +64,7 @@ namespace AI.Enemy
 			base.Update();
 			_perception.Update();
 			
-			if (_perception.Target is not null)
+			if (_perception.Target is not null && StateMachine.CurrentState is not AttackState)
 			{
 				StateMachine.SetState<ChaseState>();
 			}

@@ -1,24 +1,50 @@
-﻿using AI.State;
+﻿using System;
+using AI.State;
+using Cinemachine;
+using UnityEngine;
+using CharacterController = Unit.Character.CharacterController;
 
 namespace AI.Enemy.State
 {
 	public class AttackState : AEnemyState
 	{
-		public AttackState(AUnit aUnit) : base(aUnit) { }
+		// ивент атаки
+		public event Action<bool> OnAttack; 
+		public AttackState(AUnit aUnit) : base(aUnit)
+		{
+			Target = Enemy.Perception.GetCharacterController();
+		}
 
+		private CharacterController Target { get; set; } 
+		private float _attackDelay;
+			
 		public override void Enter()
 		{
-			throw new System.NotImplementedException();
+			Enemy.StopMove();
+			OnAttack?.Invoke(true);
+			_attackDelay = Enemy.AttackDelay;
 		}
 
 		public override void Update()
 		{
-			throw new System.NotImplementedException();
+			float distanceToTarget = Vector3.Distance(Enemy.transform.position, Target.transform.position);
+			_attackDelay -= Time.deltaTime;
+			if (_attackDelay <= 0)
+			{
+				Target.GetDamage(Enemy.AttackDamage);
+				_attackDelay = Enemy.AttackDelay;
+			}
+			
+			if (distanceToTarget > Enemy.AttackDistance)
+			{
+				ThisUnit.StateMachine.SetState<IdleState>();
+				return;
+			}
 		}
 
 		public override void Exit()
 		{
-			throw new System.NotImplementedException();
+			OnAttack?.Invoke(false);
 		}
 	}
 }
