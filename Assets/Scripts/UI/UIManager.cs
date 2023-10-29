@@ -13,7 +13,8 @@ namespace UI
             HUD,
             MainMenu,
             PauseMenu,
-            DeadTab
+            DeadTab, 
+            CookingTab
         }
         
         [SerializeField] private SliderController healthSlider;
