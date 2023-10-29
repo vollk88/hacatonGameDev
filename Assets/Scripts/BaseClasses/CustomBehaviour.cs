@@ -8,7 +8,7 @@ using Debug = UnityEngine.Debug;
 
 namespace BaseClasses
 {
-    
+
     public static class DependencyInjector
     {
         public static void Inject(CustomBehaviour monoBehaviour)
@@ -63,12 +63,15 @@ namespace BaseClasses
             }
         }
     }
+
     public class CustomBehaviour : MonoBehaviour
     {
 
         public static readonly Dictionary<Type, List<CustomBehaviour>> Instances = new();
-        
-        protected internal class GetOnObject : Attribute {}
+
+        protected internal class GetOnObject : Attribute
+        {
+        }
 
         protected virtual void AddInstance()
         {
@@ -77,9 +80,10 @@ namespace BaseClasses
             {
                 Instances.Add(type, new List<CustomBehaviour>());
             }
+
             Instances[type].Add(this);
         }
-        
+
         protected virtual void RemoveInstance()
         {
             Type type = GetType();
@@ -104,11 +108,6 @@ namespace BaseClasses
             DependencyInjector.Inject(this);
         }
 
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
-
         public static CharacterController GetCharacterController()
         {
             if (CustomBehaviour.Instances.ContainsKey(typeof(CharacterController)) == false)
@@ -116,7 +115,7 @@ namespace BaseClasses
                 // Debug.LogError("No CharacterController found");
                 return null;
             }
-			
+
             return CustomBehaviour.Instances[typeof(CharacterController)][0] as CharacterController;
         }
     }

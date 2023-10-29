@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 279bf35c14b85874fac24fdf14fd5862, type: 3}
+  m_Name: SOItemIcons
+  m_EditorClassIdentifier: 
+  itemSprites:
+  - Sprite: {fileID: 21300000, guid: 532ac34939d280743b6c6de4474a1720, type: 3}
+    ItemType: 0
+  - Sprite: {fileID: 21300000, guid: e26ad5549cbb6044d890007e17bc7716, type: 3}
+    ItemType: 1
+  - Sprite: {fileID: 21300000, guid: 37b17b5237a82bb4f8807724c4558823, type: 3}
+    ItemType: 2
+  - Sprite: {fileID: 21300000, guid: 5c7335c460e199642b2bcd0da9d12e4e, type: 3}
+    ItemType: 3
+  - Sprite: {fileID: 21300000, guid: 9dcea40d1f23d84439513afc1bf0d6d7, type: 3}
+    ItemType: 4
+  - Sprite: {fileID: 21300000, guid: 8f473296f58cf8a41bd681a40b60836f, type: 3}
+    ItemType: 5
+  - Sprite: {fileID: 21300000, guid: 5b23917f3d1c52a40861b0a44e5f59f7, type: 3}
+    ItemType: 6
+  - Sprite: {fileID: 21300000, guid: 19f28be45fcc4e14d95fcdaed512a55d, type: 3}
+    ItemType: 7
+  - Sprite: {fileID: 21300000, guid: 801f908c856718940b553e71f2458858, type: 3}
+    ItemType: 8
+  - Sprite: {fileID: 21300000, guid: aee9d15b421ab5b48a1aa887224ca0d4, type: 3}
+    ItemType: 9
+  - Sprite: {fileID: 21300000, guid: 61dabf632d1763e4c8fb21bd4a994b79, type: 3}
+    ItemType: 10
