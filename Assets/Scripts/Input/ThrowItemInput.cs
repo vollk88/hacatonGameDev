@@ -26,6 +26,8 @@ namespace Input
 			if (itemPrefab == null)
 				return;
 			
+			Character.SoundManager.PlaySound(1);
+			
 			GameObject throwItem = Object.Instantiate(InventoryController.GetCurrentItemPrefab(), 
 				Character.ThrowPoint.position, Character.ThrowPoint.rotation);
 			

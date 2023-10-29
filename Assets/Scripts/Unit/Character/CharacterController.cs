@@ -78,6 +78,7 @@ namespace Unit.Character
 				if (_targetObject == null) return;
 				
 				InputManager.PlayerActions.Take.started -= _targetObject.GetComponentInChildren<Item>().Take;
+				InputManager.PlayerActions.Take.started -= PlayBreathSound;
 				_targetObject = null;
 				_targetItem = null;
 				return;
@@ -89,6 +90,7 @@ namespace Unit.Character
 			_targetObject = hit.collider.gameObject;
 			_targetItem = _targetObject.GetComponentInChildren<Item>();
 			InputManager.PlayerActions.Take.started += _targetItem.Take;
+			InputManager.PlayerActions.Take.started += PlayBreathSound;
 			
 			_uiManager.ShowInteractionText(_targetItem.GetName());
 		}
@@ -101,6 +103,12 @@ namespace Unit.Character
 #endif
 		}
 
+		private void PlayBreathSound(InputAction.CallbackContext _)
+		{
+			InputManager.PlayerActions.Take.started -= PlayBreathSound;
+			PlaySound(2);
+		}
+		
 		public void GetDamage(int damage)
 		{
 			if(health.IsDead)

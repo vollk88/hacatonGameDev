@@ -277,7 +277,7 @@ MonoBehaviour:
     maxStamina: 100
     stamina: 100
   throwPoint: {fileID: 4451206922278897977}
-  throwForce: 100
+  throwForce: 10
 --- !u!114 &2394805205877150466
 MonoBehaviour:
   m_ObjectHideFlags: 0
