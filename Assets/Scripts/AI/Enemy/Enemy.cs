@@ -1,11 +1,9 @@
 ﻿using AI.Enemy.State;
 using AI.State;
-using Audio;
 using UnityEngine;
 
 namespace AI.Enemy
 {
-	[RequireComponent(typeof(SoundManager))]
 	public class Enemy : AUnit
 	{
 		[Header("Зоны обзора и слуха")]
@@ -26,9 +24,6 @@ namespace AI.Enemy
 		private float attackDelay = 0.4f;
 		[SerializeField]
 		private int attackDamage = 10;
-
-		[GetOnObject] 
-		private SoundManager _soundManager;
 		
 		private	EnemyStateMachine _stateMachine;
 		private Perception.Perception _perception;
@@ -40,7 +35,6 @@ namespace AI.Enemy
 		public Perception.Perception Perception => _perception;
 		public GameObject Target => _perception.Target;
 		public override AStateMachine StateMachine => _stateMachine ??= new EnemyStateMachine(this);
-		public SoundManager SoundManager => _soundManager;
 
 		protected override void Awake()
 		{

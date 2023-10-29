@@ -117,7 +117,7 @@ namespace Audio
                 _studioEvent.EventInstance.setParameterByName("P_Surface", i);
             _studioEvent.Play();
         }
-    
+
         /// <summary>
         /// Остановка всех звуковых ивентов при переключении вкладки или сворачивании окна
         /// </summary>

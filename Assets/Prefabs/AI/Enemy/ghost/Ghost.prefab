@@ -202,7 +202,7 @@ MonoBehaviour:
   - event:/Main/Monster/GhostChase
   - event:/Main/Monster/GhostAttack
   _soundsLoopInstancePath: []
-  _soundFootstepInstancePath: 
+  _soundFootstepInstancePath: event:/Main/Monster/GhostBreath
 --- !u!1001 &1353057178597793683
 PrefabInstance:
   m_ObjectHideFlags: 0

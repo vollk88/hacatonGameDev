@@ -1,13 +1,14 @@
+using Audio;
 using System;
 using AI.State;
 using BaseClasses;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 
 namespace AI
 {
-    public abstract class AUnit : CustomBehaviour, IPatrolActor
+	[RequireComponent(typeof(SoundManager))]
+	public abstract class AUnit : CustomBehaviour, IPatrolActor
     {
 	    public abstract AStateMachine StateMachine { get; }
 		public bool OnPatrol { get; set; }
@@ -27,7 +28,12 @@ namespace AI
         private Rigidbody _rigidbody;
         [GetOnObject]
 	    private Animator _animator;
-        
+	    [GetOnObject] 
+	    private SoundManager _soundManager;
+	    public SoundManager SoundManager => _soundManager;
+
+	    private float _time = 0;
+
         #if UNITY_EDITOR
 	    private string _currentState;
 #endif
@@ -55,6 +61,7 @@ namespace AI
 
         protected virtual void Start()
         {
+	        _time = Time.time;
 	        InitStates();
 	        Agent.speed = speed;
         }
@@ -88,6 +95,10 @@ namespace AI
         public void MoveTo(Vector3 transformPosition)
         {
 	        Agent.SetDestination(transformPosition);
+	        if (_time + 1 > Time.time) return;
+	        
+	        SoundManager.FootstepSound(-1);
+	        _time = Time.time;
         }
 
         public void StopMove()

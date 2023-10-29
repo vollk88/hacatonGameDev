@@ -219,7 +219,7 @@ MonoBehaviour:
   - event:/Main/Monster/LeshyChase
   - event:/Main/Monster/LeshyAttack
   _soundsLoopInstancePath: []
-  _soundFootstepInstancePath: 
+  _soundFootstepInstancePath: event:/Main/Monster/MonsterStep
 --- !u!1001 &3166423388875321718
 PrefabInstance:
   m_ObjectHideFlags: 0

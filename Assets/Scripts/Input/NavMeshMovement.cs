@@ -9,6 +9,8 @@ namespace Input
 	{
 		private readonly NavMeshAgent _navMeshAgent;
 		private readonly float _sprintSpeed;
+		private Coroutine _stepSound;
+		private bool _isCorStarted;
 
 		public NavMeshMovement(NavMeshAgent navMeshAgent, CharacterController characterController, 
 			float sprintSpeed , float characterSpeed) : base(characterController, characterSpeed)
@@ -19,7 +21,13 @@ namespace Input
 		
 		protected override IEnumerator Move()
 		{
-			Coroutine stepSound = Character.StartCoroutine(StepSoundCoroutine());
+			// if(_stepSound != null)
+			// {
+			// 	Character.StopCoroutine(StepSoundCoroutine());
+			// 	_stepSound = null;
+			// }
+
+			_stepSound = Character.StartCoroutine(StepSoundCoroutine());
 			while (IsMove)
 			{
 				SetMoveDirection();
@@ -32,19 +40,26 @@ namespace Input
 				
 				yield return WaitForFixedUpdate;
 			}
-			if(stepSound != null)
-				Character.StopCoroutine(StepSoundCoroutine());
+
+			if (_stepSound == null) yield break;
+			
+			Character.StopCoroutine(StepSoundCoroutine());
+			_stepSound = null;
 		}
 
 		private IEnumerator StepSoundCoroutine()
 		{
-			WaitForSeconds waitForSeconds = new(0.5f);
+			if (_isCorStarted)
+				yield break;
+			_isCorStarted = true;
+			WaitForSeconds waitForSeconds = new(0.7f);
 			while (IsMove)
 			{
 				Character.PlayStepSound();
 				yield return waitForSeconds;
 			}
-			yield break;
+
+			_isCorStarted = false;
 		} 
 		
 	}
