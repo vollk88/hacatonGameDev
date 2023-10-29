@@ -17,25 +17,24 @@ namespace AI.Enemy.State
 		}
 
 		private CharacterController Target { get; set; } 
-		private float _attackDelay;
 			
 		public override void Enter()
 		{
 			Enemy.StopMove();
 			OnAttack?.Invoke(true);
-			_attackDelay = Enemy.AttackDelay;
 			Enemy.SoundManager.PlaySound(1);
 		}
 
 		public override void Update()
 		{
 			float distanceToTarget = Vector3.Distance(Enemy.transform.position, Target.transform.position);
-			_attackDelay -= Time.deltaTime;
-			if (_attackDelay <= 0)
-			{
-				Target.GetDamage(Enemy.AttackDamage);
-				_attackDelay = Enemy.AttackDelay;
-			}
+			// _attackDelay -= Time.deltaTime;
+			// if (_attackDelay <= 0)
+			// {
+			// 	Target.GetDamage(Enemy.AttackDamage);
+			// 	_attackDelay = Enemy.AttackDelay;
+			// }
+			Enemy.DamageStrategy.GetDamage(Target);
 			
 			if (distanceToTarget > Enemy.AttackDistance)
 			{

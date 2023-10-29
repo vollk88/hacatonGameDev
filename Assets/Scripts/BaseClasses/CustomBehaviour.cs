@@ -47,6 +47,16 @@ namespace BaseClasses
                 Component component = monoBehaviour.GetComponent(dependencyType);
                 field.SetValue(monoBehaviour, component);
             }
+            else if (dependencyType.IsInterface)
+            {
+                monoBehaviour.gameObject.GetComponents<Component>().ToList().ForEach(component =>
+                {
+                    if (dependencyType.IsInstanceOfType(component))
+                    {
+                        field.SetValue(monoBehaviour, component);
+                    }
+                });
+            }
             else
             {
                 field.SetValue(monoBehaviour, Activator.CreateInstance(dependencyType));
