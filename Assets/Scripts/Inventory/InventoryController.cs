@@ -62,5 +62,8 @@ namespace Inventory
 			InventoryChanged?.Invoke();
 		}
 		public static Dictionary<Item, uint> GetItems() => _items;
+
+		public static GameObject GetItemFromType(EItems type) => ItemPrefabs.Get(type);
+		
 	}
 }
