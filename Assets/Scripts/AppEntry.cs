@@ -1,6 +1,5 @@
 ﻿using Input;
 using UI;
-using Unit.Character;
 using UnityEngine;
 
 public class AppEntry : MonoBehaviour

@@ -19,14 +19,16 @@ namespace UI
 
 		protected override void OnEnable()
 		{
-			Time.timeScale = 0.0001f;
+			GameTime.Pause();
+			
 			InputManager.PlayerActions.Disable();
 			GameStateEvents.GamePaused?.Invoke();
 		}
 
 		protected override void OnDisable()
 		{
-			Time.timeScale = 1;
+			GameTime.Resume();
+			
 			InputManager.PlayerActions.Enable();
 			GameStateEvents.GameResumed?.Invoke();
 		}
@@ -36,10 +38,10 @@ namespace UI
 			CharacterController characterController = GetCharacterController();
 			Transform playerTransform = characterController.transform;
 			
-			Debug.Log($"Сохранение. Позиция: {playerTransform.position}, " +
+			/*Debug.Log($"Сохранение. Позиция: {playerTransform.position}, " +
 			          $"Поворот: {playerTransform.rotation}, " +
 			          $"Здоровье: {characterController.Health.CurrentHealth}, " +
-			          $"Инвентарь: {InventoryController.GetItems()}");
+			          $"Инвентарь: {InventoryController.GetItems()}");*/
 			
 			SavePrefs.Save(new SaveData(playerTransform.position, playerTransform.rotation, 
 				(uint)characterController.Health.CurrentHealth, InventoryController.GetItems()));
