@@ -26,13 +26,6 @@ namespace AI.NonPlayableCharacter
 		public float RadiusInteraction => radiusInteraction;
 		public DialogueManager DialogueManager => dialogueManager;
 		public override AStateMachine StateMachine => _stateMachine ??= new ChildStateMachine(this);
-
-		protected override void Awake()
-		{
-			base.Awake();
-			Debug.Log("Child awake");
-		}
-
 		protected override void Start()
 		{
 			base.Start();
