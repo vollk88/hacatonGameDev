@@ -320,7 +320,7 @@ TextureImporter:
         width: 304
         height: 152
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -362,7 +362,7 @@ TextureImporter:
         width: 2000
         height: 201
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -370,6 +370,69 @@ TextureImporter:
       bones: []
       spriteID: d8347505651359b4f8540452b834ef58
       internalID: -1257492665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: A_UI_HUD_12
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 877
+        width: 153
+        height: 221
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 450fa27e6169ea048843bb9a29aee850
+      internalID: 188832936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: A_UI_HUD_13
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 78
+        width: 152
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b16fc896e18b91f4381d87e621db6f75
+      internalID: -1226940572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: A_UI_HUD_14
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 79
+        width: 301
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09cb622813a6ee144ab47d39fb64aa18
+      internalID: 1624062218
       vertices: []
       indices: 
       edges: []
@@ -389,6 +452,9 @@ TextureImporter:
       A_UI_HUD_1: 1363676449
       A_UI_HUD_10: 1553038437
       A_UI_HUD_11: -1257492665
+      A_UI_HUD_12: 188832936
+      A_UI_HUD_13: -1226940572
+      A_UI_HUD_14: 1624062218
       A_UI_HUD_2: 902869533
       A_UI_HUD_3: 1618808447
       A_UI_HUD_4: 241578460

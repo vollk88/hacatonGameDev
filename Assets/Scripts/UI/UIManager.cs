@@ -16,7 +16,8 @@ namespace UI
             MainMenu,
             PauseMenu,
             DeadTab, 
-            CookingTab
+            CookingTab,
+            InstructionsTab
         }
         
         [SerializeField] private SliderController healthSlider;
@@ -30,6 +31,7 @@ namespace UI
         public CookingUI CookingUI => cookingUI;
         
         private bool _isPaused;
+        public bool IsPaused => _isPaused;
 
         private void Start()
         {
