@@ -43,6 +43,11 @@ namespace MapObjects
 		{
 			GameStateEvents.GameStarted += Init;
 		}
+		
+		private void OnDestroy()
+		{
+			GameStateEvents.GameStarted -= Init;
+		}
 
 		private void Init()
 		{
