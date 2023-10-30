@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using BaseClasses;
-using TMPro;
+using UI;
 
 namespace MissionData
 {
@@ -11,12 +11,8 @@ namespace MissionData
     {
         [SerializeField]
         private TaskList taskList;
-        
-        [SerializeField]
-        private TextMeshProUGUI taskListText;
-        [SerializeField]
-        private TextMeshProUGUI taskProgressText;
 
+        private UIManager _uiManager;
         public static List<ATask> Tasks { get; } = new ();
         
         private static event Action UIUpdateEvent; 
@@ -24,6 +20,7 @@ namespace MissionData
 
         private void Start()
         {
+            _uiManager = (UIManager)Instances[typeof(UIManager)][0];
             AddTasks(taskList);
             UIUpdateEvent += UIUpdate;
             
@@ -90,22 +87,10 @@ namespace MissionData
 
         private void UIUpdate()
         {
-            string taskListString = "";
-            string taskProgressString = "";
-            
-            foreach (var task in Tasks)
+            foreach (ATask task in Tasks.Where(task => task.Status == ETaskStatus.InProgress))
             {
-                if (task.Status != ETaskStatus.InProgress)
-                {
-                    continue;
-                }
-                
-                taskListString = task.Description + "\n";
-                taskProgressString = task.CurrentProgress + "/" + task.Quantity + "\n";
+                _uiManager.SeeTasks.SetTasks(task.Description, task.CurrentProgress, task.Quantity);
             }
-
-            taskListText.text = taskListString;
-            taskProgressText.text = taskProgressString;
         }
 
         private static void OnUIUpdateEvent()
