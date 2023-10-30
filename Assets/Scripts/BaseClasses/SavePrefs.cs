@@ -42,6 +42,8 @@ namespace BaseClasses
 			string jsonInventory = JsonConvert.SerializeObject(saveData.Inventory);
 			PlayerPrefs.SetString("Inventory", jsonInventory);
 			
+			PlayerPrefs.SetInt("SavedGameExists", 1);
+			
 			//TODO сохранение статуса заданий
 		}
 
