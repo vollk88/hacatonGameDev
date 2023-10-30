@@ -5,8 +5,10 @@ namespace MissionData
 {
 	public class CookingTask : ATask
 	{
-		private string _recipe;
-		public static event Action<string> Cooking; 
+		private readonly string _recipe;
+		public static event Action<string> Cooking;
+
+		public string Recipe => _recipe;
 		
 		public CookingTask(string taskDataName, string taskDataDescription, uint taskDataQuantity, string taskDataRecipe) : base(taskDataName, taskDataDescription, taskDataQuantity)
 		{

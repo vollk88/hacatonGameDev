@@ -4,6 +4,7 @@ using Inventory;
 using UnityEngine;
 using BaseClasses;
 using Items;
+using MissionData;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 
@@ -59,6 +60,11 @@ namespace UI.Cooking
 			}
 			recipe.IsCooking = false;				
 			recipes.Recipes[index] = recipe;
+
+			if (TaskManager.Tasks[0] is not CookingTask task) yield break;
+
+			if (task.Recipe == recipe.DishName)
+				TaskManager.Tasks[0].UpdateProgress(TaskManager.Tasks[0].Quantity);
 		}
 		
 		public void Fill(SoRecipes recipes)
