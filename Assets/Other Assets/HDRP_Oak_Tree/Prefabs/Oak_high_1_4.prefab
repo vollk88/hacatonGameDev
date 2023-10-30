@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9130181780851835513}
   - component: {fileID: 5267857386343091676}
   - component: {fileID: 7998330438289799446}
+  - component: {fileID: 7578668636968482495}
   m_Layer: 0
   m_Name: Oak_high_1_4
   m_TagString: Untagged
@@ -84,3 +85,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &7578668636968482495
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8502579871394470083}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.35
+  m_Height: 20.815016
+  m_Direction: 1
+  m_Center: {x: 0, y: 8.82, z: 0}
