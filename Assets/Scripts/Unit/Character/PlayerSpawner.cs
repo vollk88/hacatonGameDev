@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using BaseClasses;
 using Inventory;
 using Items;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Unit.Character
@@ -14,9 +13,7 @@ namespace Unit.Character
 
 		public void SpawnPlayer(bool isNewGame = true)
 		{
-			SaveData saveData;
-
-			saveData = isNewGame ? 
+			SaveData saveData = isNewGame ? 
 				new SaveData(transform.position, Quaternion.identity, 
 					100, new Dictionary<Item, uint>()) : SavePrefs.Load();
 
@@ -26,6 +23,7 @@ namespace Unit.Character
 			ch.Health.CurrentHealth = (int)saveData.Health;
 			InventoryController.SetItems(saveData.Inventory);
 
+			PlayerPrefs.SetInt("SavedGameExists", 1);
 			virtualCamera.SetActive(true);
 			GameStateEvents.GameStarted?.Invoke();
 		}

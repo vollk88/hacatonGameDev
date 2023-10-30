@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 4069422033210184552}
   - component: {fileID: 4032699608638290041}
   m_Layer: 0
-  m_Name: NewGameButton
+  m_Name: GoToMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1739,6 +1739,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5384309885198369186}
+  - component: {fileID: 5989288013609330611}
   m_Layer: 0
   m_Name: DEAD_WINDOW
   m_TagString: Untagged
@@ -1770,6 +1771,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5989288013609330611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3145524136994408692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de497dc70d8e4a25a6568a94dee55fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goToMenuButton: {fileID: 4032699608638290041}
+  exitButton: {fileID: 937544307461221389}
 --- !u!1 &3178246087436406052
 GameObject:
   m_ObjectHideFlags: 0
@@ -3765,7 +3780,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041D\u043E\u0432\u0430\u044F \u0438\u0433\u0440\u0430"
+  m_text: "\u0413\u043B\u0430\u0432\u043D\u043E\u0435 \u043C\u0435\u043D\u044E"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e754e46386f03f4ebd16e809afa4979, type: 2}
   m_sharedMaterial: {fileID: -792690906266738554, guid: 2e754e46386f03f4ebd16e809afa4979, type: 2}
