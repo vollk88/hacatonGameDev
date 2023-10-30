@@ -70,6 +70,7 @@ namespace AI
         {
 	        base.OnEnable();
 	        PatrolPull.PatrolActors.Add(this);
+	        GameStateEvents.GameWin += Died;
         }
 
         protected virtual void Update()
@@ -84,6 +85,7 @@ namespace AI
         {
 	        base.OnDisable();
 	        PatrolPull.PatrolActors.Remove(this);
+	        GameStateEvents.GameWin -= Died;
         }
 
         public void SetPatrolPoint(PatrolPoint point, float timeToStay = 0f)
@@ -120,5 +122,10 @@ namespace AI
 		{
 			transform.LookAt(position);
 		}
+
+        private void Died()
+        {
+	        Destroy(this);
+        }
     }
 }

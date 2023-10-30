@@ -8,5 +8,6 @@ namespace BaseClasses
 		public static Action GamePaused;
 		public static Action GameResumed;
 		public static Action GameEnded;
+		public static Action GameWin;
 	}
 }

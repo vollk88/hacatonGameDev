@@ -76,6 +76,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{bc8a6d7d-d99b-489f-99a7-bf0c2062b859}">
+		<property name="volume">
+			<value>-39</value>
+		</property>
 		<property name="overridingInputFormat">
 			<value>1</value>
 		</property>
