@@ -8,7 +8,6 @@ namespace UI
 	{
 		[Tooltip("Кнопка назад.")][SerializeField]
 		private Button backButton;
-		
 		[Tooltip("UI Manager.")][SerializeField]
 		private UIManager uiManager;
 		

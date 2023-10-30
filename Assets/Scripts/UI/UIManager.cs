@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BaseClasses;
 using Input;
@@ -25,6 +26,7 @@ namespace UI
         [SerializeField] private TextMeshProUGUI itemNameText;
         [SerializeField] private List<GameObject> uiTabs;
         [SerializeField] private CookingUI cookingUI;
+        [SerializeField] private UISeeTasks seeTasks;
 
         public SliderController HealthSlider => healthSlider;
         public SliderController StaminaSlider => staminaSlider;
@@ -32,6 +34,7 @@ namespace UI
         
         private bool _isPaused;
         public bool IsPaused => _isPaused;
+        public UISeeTasks SeeTasks => seeTasks;
 
         private void Start()
         {
@@ -70,7 +73,8 @@ namespace UI
         private void OnGameStarted()
         {
             InputManager.UIActions.Pause.started += Pause;
-            InputManager.UIActions.SeeTasks.started += SeeTasks;
+            InputManager.UIActions.SeeTasks.started += SeeTasksOn;
+            InputManager.UIActions.SeeTasks.canceled += SeeTasksOff;
             OpenTab(EuiTabs.HUD);
         }
 
@@ -80,11 +84,19 @@ namespace UI
             OpenTab(_isPaused ? EuiTabs.PauseMenu : EuiTabs.HUD);
         }
 
-        private void SeeTasks(InputAction.CallbackContext callbackContext)
+        private void SeeTasksOn(InputAction.CallbackContext callbackContext)
         {
             if (callbackContext.started)
             {
-                
+                seeTasks.gameObject.SetActive(true);
+            }
+        }
+
+        private void SeeTasksOff(InputAction.CallbackContext callbackContext)
+        {
+            if (callbackContext.canceled)
+            {
+                seeTasks.gameObject.SetActive(false);
             }
         }
         
@@ -97,6 +109,17 @@ namespace UI
             uiTabs[(int) tab].SetActive(true);
             if (tab != EuiTabs.HUD)
             {
+                if (_isPaused)
+                {
+                    if (tab == EuiTabs.InstructionsTab)
+                    {
+                        InputManager.UIActions.Pause.started -= Pause;
+                    }
+                    else if (tab == EuiTabs.PauseMenu)
+                    {
+                        InputManager.UIActions.Pause.started += Pause;
+                    }
+                } //простите за этот костыль, я закончился
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
