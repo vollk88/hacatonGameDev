@@ -1,4 +1,5 @@
 ﻿using System;
+using BaseClasses;
 using UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -32,7 +33,10 @@ namespace Unit
             health -= damage;
             _uiManager.HealthSlider.SetSliderValue(health, maxHealth);
             if (health <= 0)
+            {
                 IsDead = true;
+                _uiManager.OpenTab(UIManager.EuiTabs.DeadTab);
+            }
             
         }
 

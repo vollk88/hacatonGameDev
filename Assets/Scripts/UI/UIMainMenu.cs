@@ -21,6 +21,15 @@ namespace UI
 			continueButton.onClick.AddListener(Continue);
 			newGameButton.onClick.AddListener(NewGame);
 			exitButton.onClick.AddListener(Exit);
+
+			if (PlayerPrefs.HasKey("SavedGameExists") && PlayerPrefs.GetInt("SavedGameExists") == 1)
+			{
+				continueButton.gameObject.SetActive(true);
+			}
+			else
+			{
+				continueButton.gameObject.SetActive(false);
+			}
 		}
 
 		private void Exit()

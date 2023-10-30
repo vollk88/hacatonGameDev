@@ -1,8 +1,9 @@
-﻿using System;
-using BaseClasses;
+﻿using BaseClasses;
 using Input;
+using Inventory;
 using UnityEngine;
 using UnityEngine.UI;
+using CharacterController = Unit.Character.CharacterController;
 
 namespace UI
 {
@@ -19,7 +20,7 @@ namespace UI
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			Time.timeScale = 0;
+			Time.timeScale = 0.0001f;
 			Cursor.visible = true;
 			InputManager.PlayerActions.Disable();
 			GameStateEvents.GamePaused?.Invoke();
@@ -36,7 +37,18 @@ namespace UI
 
 		private void SaveAndExit()
 		{
-			throw new NotImplementedException();
+			CharacterController characterController = GetCharacterController();
+			Transform playerTransform = characterController.transform;
+			
+			Debug.Log($"Сохранение. Позиция: {playerTransform.position}, " +
+			          $"Поворот: {playerTransform.rotation}, " +
+			          $"Здоровье: {characterController.Health.CurrentHealth}, " +
+			          $"Инвентарь: {InventoryController.GetItems()}");
+			
+			SavePrefs.Save(new SaveData(playerTransform.position, playerTransform.rotation, 
+				(uint)characterController.Health.CurrentHealth, InventoryController.GetItems()));
+			
+			//Application.Quit();
 		}
 	}
 }
