@@ -23,7 +23,7 @@ namespace Cooking
         public void OpenTable()
         {
             SwitchInput(false);
-        
+            _uiManager.SeeTasks.TaskTextObject.SetActive(false);
             InputManager.DisableActions();
             InputManager.UIActions.Enable();
             _uiManager.CookingUI.gameObject.SetActive(true);
@@ -39,6 +39,7 @@ namespace Cooking
         public void CloseTable()
         {
             InputManager.EnableActions();
+            _uiManager.SeeTasks.TaskTextObject.SetActive(true);
             _uiManager.CookingUI.gameObject.SetActive(false);
             CookingTableClosed?.Invoke();
             SwitchInput(true);

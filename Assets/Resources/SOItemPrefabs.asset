@@ -13,25 +13,25 @@ MonoBehaviour:
   m_Name: SOItemPrefabs
   m_EditorClassIdentifier: 
   items:
-  - type: 0
-    prefab: {fileID: 169110965457352589, guid: ab00885b3ba534a44a0b638a99d19268, type: 3}
   - type: 1
-    prefab: {fileID: 169110965457352589, guid: 04c960ab4d2dd5940be8037992900650, type: 3}
+    prefab: {fileID: 169110965457352589, guid: ab00885b3ba534a44a0b638a99d19268, type: 3}
   - type: 2
-    prefab: {fileID: 169110965457352589, guid: d3204abbda5b27840a5943b948316b01, type: 3}
+    prefab: {fileID: 169110965457352589, guid: 04c960ab4d2dd5940be8037992900650, type: 3}
   - type: 3
-    prefab: {fileID: 169110965457352589, guid: 66d0c242106d6194d91c8557d3df3cf3, type: 3}
+    prefab: {fileID: 169110965457352589, guid: d3204abbda5b27840a5943b948316b01, type: 3}
   - type: 4
-    prefab: {fileID: 169110965457352589, guid: 533d2d84ba418ac4296a3a25f1d34c76, type: 3}
+    prefab: {fileID: 169110965457352589, guid: 66d0c242106d6194d91c8557d3df3cf3, type: 3}
   - type: 5
-    prefab: {fileID: 169110965457352589, guid: a82915d06e2264a49a85166bd9717926, type: 3}
+    prefab: {fileID: 169110965457352589, guid: 533d2d84ba418ac4296a3a25f1d34c76, type: 3}
   - type: 6
-    prefab: {fileID: 169110965457352589, guid: c88f9f423b106eb46875399e525de25c, type: 3}
+    prefab: {fileID: 169110965457352589, guid: a82915d06e2264a49a85166bd9717926, type: 3}
   - type: 7
-    prefab: {fileID: 169110965457352589, guid: 2970cfdde75ea704a820a77e7780e83c, type: 3}
+    prefab: {fileID: 169110965457352589, guid: c88f9f423b106eb46875399e525de25c, type: 3}
   - type: 8
-    prefab: {fileID: 169110965457352589, guid: 1a981a31001cc5e4ea93dbc6e336c5f9, type: 3}
+    prefab: {fileID: 169110965457352589, guid: 2970cfdde75ea704a820a77e7780e83c, type: 3}
   - type: 9
-    prefab: {fileID: 5008801793333260101, guid: eabceb8ff10919147aa251341b1c17cf, type: 3}
+    prefab: {fileID: 169110965457352589, guid: 1a981a31001cc5e4ea93dbc6e336c5f9, type: 3}
   - type: 10
+    prefab: {fileID: 5008801793333260101, guid: eabceb8ff10919147aa251341b1c17cf, type: 3}
+  - type: 11
     prefab: {fileID: 6682914428507878925, guid: b87752f62976747498482a1ff42f993c, type: 3}

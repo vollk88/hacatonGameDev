@@ -47,9 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb77642890840b18e596258bb303f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 7
+  type: 8
   itemName: "\u041A\u0430\u043C\u0435\u043D\u044C"
-  icon: {fileID: 21300000, guid: 19f28be45fcc4e14d95fcdaed512a55d, type: 3}
 --- !u!136 &5123381772183762934
 CapsuleCollider:
   m_ObjectHideFlags: 0

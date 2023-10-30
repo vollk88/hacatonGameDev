@@ -160,7 +160,15 @@ public class SpawnItems : CustomBehaviour
 
     void SpawnItem(GameObject item, Vector3 pos, bool isrb = true)
     {
-        var obj = Instantiate(item, pos, Quaternion.identity);
+        GameObject obj = null;
+        try
+        {
+            obj = Instantiate(item, pos, Quaternion.identity);
+        }
+        catch
+        {
+            return;
+        }
         if (!isrb) return;
         var rb = obj.GetComponent<Rigidbody>();
         if (rb is null) return;

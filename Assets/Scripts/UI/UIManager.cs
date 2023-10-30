@@ -66,25 +66,15 @@ namespace UI
         private void OnGameEnded()
         {
             InputManager.UIActions.Pause.started -= Pause;
-            InputManager.UIActions.SeeTasks.started -= SeeTasksOn;
-            InputManager.UIActions.SeeTasks.canceled -= SeeTasksOff;
         }
 
-        private void OnGameResumed()
-        {
-            //throw new NotImplementedException();
-        }
+        private void OnGameResumed() { }
 
-        private void OnGamePaused()
-        {
-            //throw new NotImplementedException();
-        }
+        private void OnGamePaused() { }
 
         private void OnGameStarted()
         {
             InputManager.UIActions.Pause.started += Pause;
-            InputManager.UIActions.SeeTasks.started += SeeTasksOn;
-            InputManager.UIActions.SeeTasks.canceled += SeeTasksOff;
             OpenTab(EuiTabs.HUD);
         }
 
@@ -92,22 +82,6 @@ namespace UI
         {
             _isPaused = !_isPaused;
             OpenTab(_isPaused ? EuiTabs.PauseMenu : EuiTabs.HUD);
-        }
-
-        private void SeeTasksOn(InputAction.CallbackContext callbackContext)
-        {
-            if (callbackContext.started)
-            {
-                seeTasks.gameObject.SetActive(true);
-            }
-        }
-
-        private void SeeTasksOff(InputAction.CallbackContext callbackContext)
-        {
-            if (callbackContext.canceled)
-            {
-                seeTasks.gameObject.SetActive(false);
-            }
         }
         
         public void OpenTab(EuiTabs tab)

@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using BaseClasses;
+using Items;
 using UI;
 
 namespace MissionData
@@ -113,8 +114,10 @@ namespace MissionData
 
         private void UIUpdate()
         {
+            Debug.Log("ui update start");
             foreach (ATask task in Tasks.Where(task => task.Status == ETaskStatus.InProgress))
             {
+                Debug.Log("ui update");
                 _uiManager.SeeTasks.SetTasks(task.Description, task.CurrentProgress, task.Quantity);
             }
         }

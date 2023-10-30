@@ -7,7 +7,13 @@ namespace MissionData
 {
 	public class InventoryTask : ATask
 	{
-		private readonly EItems _itemToCollect;
+		private EItems _itemToCollect;
+
+		public EItems ItemToCollect
+		{
+			get => _itemToCollect;
+			set => _itemToCollect = value;
+		}
 		
 		public InventoryTask(string name, string description, uint quantity, EItems item)
 			: base(name, description, quantity)
@@ -24,6 +30,7 @@ namespace MissionData
 
 		protected override void OnTaskProgressUpdatedHandler()
 		{
+			Debug.Log(InventoryController.GetItemCountByType(_itemToCollect) + " count");
 			UpdateProgress(InventoryController.GetItemCountByType(_itemToCollect));
 			base.OnTaskProgressUpdatedHandler();
 		}
