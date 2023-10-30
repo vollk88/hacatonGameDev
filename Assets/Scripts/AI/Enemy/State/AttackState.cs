@@ -27,6 +27,7 @@ namespace AI.Enemy.State
 
 		public override void Update()
 		{
+			Enemy.LookAt(Target.transform.position);
 			float distanceToTarget = Vector3.Distance(Enemy.transform.position, Target.transform.position);
 			// _attackDelay -= Time.deltaTime;
 			// if (_attackDelay <= 0)
@@ -38,7 +39,14 @@ namespace AI.Enemy.State
 			
 			if (distanceToTarget > Enemy.AttackDistance)
 			{
-				ThisUnit.StateMachine.SetState<IdleState>();
+				if (Enemy.Target is null)
+				{
+					ThisUnit.StateMachine.SetState<IdleState>();
+				}
+				else
+				{
+					ThisUnit.StateMachine.SetState<ChaseState>();
+				}
 				return;
 			}
 		}
