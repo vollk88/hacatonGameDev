@@ -76,14 +76,7 @@ namespace UI
         private void Pause(InputAction.CallbackContext callbackContext)
         {
             _isPaused = !_isPaused;
-            if (_isPaused)
-            {
-                OpenTab(EuiTabs.PauseMenu);
-            }
-            else
-            {
-                OpenTab(EuiTabs.HUD);
-            }
+            OpenTab(_isPaused ? EuiTabs.PauseMenu : EuiTabs.HUD);
         }
 
         private void SeeTasks(InputAction.CallbackContext callbackContext)
@@ -101,6 +94,16 @@ namespace UI
                 uiTab.SetActive(false);
             }
             uiTabs[(int) tab].SetActive(true);
+            if (tab != EuiTabs.HUD)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
         
     }
