@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI.NonPlayableCharacter;
 using BaseClasses;
 using Input;
 using UI;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class StartCutScene : MonoBehaviour
 {
@@ -26,7 +28,7 @@ public class StartCutScene : MonoBehaviour
 
     private void Update()
     {
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Space)) StartPlay();
+        // if (UnityEngine.Input.GetKeyDown(KeyCode.Space)) StartPlay();
     }
 
     private void StartPlay()
@@ -35,7 +37,6 @@ public class StartCutScene : MonoBehaviour
         mainvirt.gameObject.SetActive(false);
         CustomBehaviour.GetCharacterController().gameObject.SetActive(false);
         leg?.SetActive(true);
-        CustomBehaviour.GetCharacterController().gameObject.SetActive(false);
         FindObjectOfType<UIManager>().gameObject.SetActive(false);
         PlayableDirector play = GetComponent<PlayableDirector>();
         Debug.Log("play:" +play);

@@ -77,7 +77,7 @@ namespace MissionData
             if (Tasks.Count == 0)
             {
                 Debug.Log("All tasks completed!");
-                GameStateEvents.GameEnded?.Invoke();
+                GameStateEvents.GameWin?.Invoke();
             }
             else
             {
