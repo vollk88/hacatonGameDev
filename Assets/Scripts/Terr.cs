@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using BaseClasses;
+using UnityEngine;
 using CharacterController = Unit.Character.CharacterController;
 
 public enum TerrainType
@@ -20,6 +21,11 @@ public class Terr : MonoBehaviour
     private int _height;
 
     private void Start()
+    {
+        GameStateEvents.GameStarted += Init;
+    }
+
+    private void Init()
     {
         FindObjectOfType<CharacterController>().Terr = this;
         _terr = GetComponent<Terrain>();

@@ -70,6 +70,5 @@ namespace BaseClasses
 			
 			return new SaveData(position, rotation, health, inventory);
 		}
-		
 	}
 }
