@@ -82,6 +82,8 @@ namespace Unit.Character
 			Ray ray = new Ray(_cinemachineBrain.transform.position, _cinemachineBrain.transform.forward);
 			//Debug.DrawRay(ray.origin, ray.direction * INTERACTION_DISTANCE, Color.red);
 
+			EnableOvenUseText(ray);
+			
 			if (!Physics.Raycast(ray, out RaycastHit hit, INTERACTION_DISTANCE, 1 << 3))
 			{
 				_uiManager.HideInteractionText();
@@ -104,6 +106,21 @@ namespace Unit.Character
 			InputManager.PlayerActions.Take.started += PlayBreathSound;
 			
 			_uiManager.ShowInteractionText(_targetItem.GetName());
+		}
+
+		private void EnableOvenUseText(Ray ray)
+		{			
+			_uiManager.HideInteractionText();
+			if (!Physics.Raycast(ray, out RaycastHit hit, INTERACTION_DISTANCE * 2)) return;
+			hit.collider.gameObject.TryGetComponent(out Cooking.CookingTable table);
+			
+			if (table == null)
+				return;
+			
+			_uiManager ??= (UIManager)Instances[typeof(UIManager)][0];
+			_uiManager.ShowInteractionText("Использовать");
+			Debug.Log("использовать");
+
 		}
 
 		private void Update()

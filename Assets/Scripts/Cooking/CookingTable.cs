@@ -1,6 +1,5 @@
 using System;
 using BaseClasses;
-using Cinemachine;
 using Input;
 using UI;
 using UnityEngine;
@@ -13,13 +12,11 @@ namespace Cooking
         public Action CookingTableClosed;
         private SoRecipes _recipes;
         private UIManager _uiManager;
-        private CinemachineVirtualCamera _virtualCamera;
 
         protected override void Awake()
         {
             base.Awake();
             _uiManager = FindObjectOfType<UIManager>();
-            _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
             _recipes = Resources.Load<SoRecipes>("SORecipes");
         }
 
@@ -50,16 +47,15 @@ namespace Cooking
 
         private void SwitchInput(bool closeTable)
         {
-            _virtualCamera ??= FindObjectOfType<CinemachineVirtualCamera>();
             if (closeTable)
             {
-                _virtualCamera.enabled = true;
+                InputManager.PlayerActions.Enable();
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
             else
             {
-                _virtualCamera.enabled = false;
+                InputManager.PlayerActions.Disable();
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
