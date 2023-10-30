@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using BaseClasses;
 using Inventory;
+using Items;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Unit.Character
@@ -7,10 +10,15 @@ namespace Unit.Character
 	public class PlayerSpawner : CustomBehaviour
 	{
 		[SerializeField] private GameObject character;
+		[SerializeField] private GameObject virtualCamera;
 
-		public void SpawnPlayer()
+		public void SpawnPlayer(bool isNewGame = true)
 		{
-			SaveData saveData = SavePrefs.Load();
+			SaveData saveData;
+
+			saveData = isNewGame ? 
+				new SaveData(transform.position, Quaternion.identity, 
+					100, new Dictionary<Item, uint>()) : SavePrefs.Load();
 
 			GameObject go = Instantiate(character, saveData.Position, saveData.Rotation);
 
@@ -18,6 +26,7 @@ namespace Unit.Character
 			ch.Health.CurrentHealth = (int)saveData.Health;
 			InventoryController.SetItems(saveData.Inventory);
 
+			virtualCamera.SetActive(true);
 			GameStateEvents.GameStarted?.Invoke();
 		}
 	}

@@ -38,8 +38,6 @@ namespace UI
             GameStateEvents.GamePaused += OnGamePaused;
             GameStateEvents.GameResumed += OnGameResumed;
             GameStateEvents.GameEnded += OnGameEnded;
-            
-            GameStateEvents.GameStarted?.Invoke();
         }
 
         public void ShowInteractionText(string itemName)

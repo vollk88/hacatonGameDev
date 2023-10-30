@@ -17,6 +17,7 @@ namespace AI.Enemy.Perception
 		private readonly Transform _fovOrigin;
 		
 		private Queue<GameObject> _soundTargets = new ();
+		private CharacterController Player { get; set; }
 
 		public Perception(Enemy enemy, float fovAngle, float fovRadius, Transform fovOrigin, float hearingRadius)
 		{
@@ -25,6 +26,7 @@ namespace AI.Enemy.Perception
 			_fovOrigin = fovOrigin;
 			_hearingRadius = hearingRadius;
 			_fovRadius = fovRadius;
+			Player = CustomBehaviour.GetCharacterController();
 		}
 
 		
@@ -90,16 +92,14 @@ namespace AI.Enemy.Perception
 		// кидаем лучи по fow и если попадаем в персонажа, то возвращаем его
 		private GameObject HandleFowCharacterRaycast()
 		{
-			CharacterController characterController = CustomBehaviour.GetCharacterController();
-			
-			if (characterController is null)
+			if (Player is null)
 				return null;
 			
-			Vector3 characterPosition = characterController.Transform.position + (Vector3.up);
+			Vector3 characterPosition = Player.Transform.position + (Vector3.up);
 			
 			if (IsInFOV(characterPosition, _fovRadius, out RaycastHit hit))
 			{
-				if (hit.collider.gameObject == characterController.gameObject)
+				if (hit.collider.gameObject == Player.gameObject)
 				{
 					return hit.collider.gameObject;
 				}

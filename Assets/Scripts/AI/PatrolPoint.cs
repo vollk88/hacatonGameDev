@@ -52,7 +52,7 @@ namespace AI
                 }
                 else
                 {
-                    Debug.Log($"Point {point.name} is too far from {name} ({distance})");
+                    //Debug.Log($"Point {point.name} is too far from {name} ({distance})");
                 }
             }
         }
