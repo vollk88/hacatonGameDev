@@ -50,6 +50,7 @@ namespace Cooking
 
         private void SwitchInput(bool closeTable)
         {
+            _virtualCamera ??= FindObjectOfType<CinemachineVirtualCamera>();
             if (closeTable)
             {
                 _virtualCamera.enabled = true;
