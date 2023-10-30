@@ -3,6 +3,7 @@ using System.Linq;
 using AI;
 using BaseClasses;
 using UnityEngine;
+using CharacterController = Unit.Character.CharacterController;
 using Random = UnityEngine.Random;
 
 namespace MapObjects
@@ -19,6 +20,7 @@ namespace MapObjects
 		private bool _locked;
 		private int _frameCount;
 		private Transform _playerTransform;
+		private CharacterController Player { get; set; }
 		
 		public static void ActivateAllSpawners()
 		{
@@ -39,11 +41,20 @@ namespace MapObjects
 
 		private void Start()
 		{
-			_playerTransform = GetCharacterController().Transform;
+			GameStateEvents.GameStarted += Init;
+		}
+
+		private void Init()
+		{
+			Player = CustomBehaviour.GetCharacterController();
+			_playerTransform = Player.Transform;
 		}
 
 		private void Update()
 		{
+			if (Player is null)
+				return;
+			
 			if (_locked || _frameCount < FrameToCheck)
 			{
 				return;
