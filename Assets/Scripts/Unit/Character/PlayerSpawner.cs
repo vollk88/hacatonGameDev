@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using BaseClasses;
+using Cinemachine;
 using Inventory;
 using Items;
 using UnityEngine;
@@ -26,6 +28,15 @@ namespace Unit.Character
 			PlayerPrefs.SetInt("SavedGameExists", 1);
 			virtualCamera.SetActive(true);
 			GameStateEvents.GameStarted?.Invoke();
+			StartCoroutine(CameraFov());
+		}
+
+		private IEnumerator CameraFov()
+		{
+			var vc = virtualCamera.GetComponent<CinemachineVirtualCamera>();
+			var maxFOV = 60f;
+			while (vc.m_Lens.FieldOfView++ <= maxFOV) 
+				yield return new WaitForEndOfFrame();
 		}
 	}
 }
