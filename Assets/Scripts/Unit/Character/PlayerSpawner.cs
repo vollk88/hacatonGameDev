@@ -22,8 +22,7 @@ namespace Unit.Character
 			CharacterController ch = go.GetComponent<CharacterController>();
 			ch.Health.CurrentHealth = (int)saveData.Health;
 			InventoryController.SetItems(saveData.Inventory);
-
-			PlayerPrefs.SetInt("SavedGameExists", 1);
+			
 			virtualCamera.SetActive(true);
 			GameStateEvents.GameStarted?.Invoke();
 		}
