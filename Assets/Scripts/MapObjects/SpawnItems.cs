@@ -80,7 +80,7 @@ public class SpawnItems : CustomBehaviour
     private IEnumerator SpawnWoodSpawners()
     {
         Vector3[] treePositions = GetWoodsPositions();
-        GameObject spawnobj = leshiySpawner;
+        GameObject spawnobj = ghostSpawner;
         foreach (Vector3 treePosition in treePositions)
         {
             if (Random.Range(0f, 1f) > 0.02f)
