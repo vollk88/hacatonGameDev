@@ -9,12 +9,22 @@ namespace UI
 {
 	public class UIPauseMenu : CustomBehaviour
 	{
+		[Tooltip("UI Manager.")][SerializeField]
+		private UIManager uiManager;
 		[Tooltip("Кнопка Сохранить и выйти")][SerializeField]
 		private Button saveAndExitButton;
+		[Tooltip("Кнопка Управление.")][SerializeField]
+		private Button instructionsButton;
 
 		private void Start()
 		{
 			saveAndExitButton.onClick.AddListener(SaveAndExit);
+			instructionsButton.onClick.AddListener(Instructions);
+		}
+
+		private void Instructions()
+		{
+			uiManager.OpenTab(UIManager.EuiTabs.InstructionsTab);
 		}
 
 		protected override void OnEnable()
