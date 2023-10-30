@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Items;
+using MissionData;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -10,14 +11,16 @@ namespace BaseClasses
 		public Vector3 Position;
 		public Quaternion Rotation;
 		public uint Health;
-		public Dictionary<Item, uint> Inventory;
+		public Dictionary<EItems, uint> Inventory;
+		public List<ATask> Tasks;
 		
-		public SaveData(Vector3 position, Quaternion rotation, uint health, Dictionary<Item, uint> inventory)
+		public SaveData(Vector3 position, Quaternion rotation, uint health, Dictionary<EItems, uint> inventory, List<ATask> tasks)
 		{
 			Position = position;
 			Rotation = rotation;
 			Health = health;
 			Inventory = inventory;
+			Tasks = tasks;
 		}
 	}
 	
@@ -42,7 +45,10 @@ namespace BaseClasses
 			string jsonInventory = JsonConvert.SerializeObject(saveData.Inventory);
 			PlayerPrefs.SetString("Inventory", jsonInventory);
 			
-			//TODO сохранение статуса заданий
+			string jsonTasks = JsonConvert.SerializeObject(saveData.Tasks);
+			PlayerPrefs.SetString("Tasks", jsonTasks);
+			
+			PlayerPrefs.SetInt("SavedGameExists", 1);
 		}
 
 		public static SaveData Load()
@@ -64,12 +70,12 @@ namespace BaseClasses
 			
 			//Загрузка инвентаря
 			string jsonInventory = PlayerPrefs.GetString("Inventory");
-			Dictionary<Item, uint> inventory = JsonConvert.DeserializeObject<Dictionary<Item, uint>>(jsonInventory);
+			Dictionary<EItems, uint> inventory = JsonConvert.DeserializeObject<Dictionary<EItems, uint>>(jsonInventory);
 			
-			//TODO загрузка статуса заданий
+			string jsonTasks = PlayerPrefs.GetString("Tasks");
+			List<ATask> tasks = JsonConvert.DeserializeObject<List<ATask>>(jsonTasks);
 			
-			return new SaveData(position, rotation, health, inventory);
+			return new SaveData(position, rotation, health, inventory, tasks);
 		}
-		
 	}
 }

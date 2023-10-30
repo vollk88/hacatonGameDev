@@ -81,15 +81,18 @@ namespace Unit.Character
 		{
 			Ray ray = new Ray(_cinemachineBrain.transform.position, _cinemachineBrain.transform.forward);
 			//Debug.DrawRay(ray.origin, ray.direction * INTERACTION_DISTANCE, Color.red);
-
+			
 			if (!Physics.Raycast(ray, out RaycastHit hit, INTERACTION_DISTANCE, 1 << 3))
 			{
 				_uiManager.HideInteractionText();
 				
 				if (_targetObject == null) return;
 				
-				InputManager.PlayerActions.Take.started -= _targetObject.GetComponentInChildren<Item>().Take;
-				InputManager.PlayerActions.Take.started -= PlayBreathSound;
+				if (_targetItem != null)
+				{
+					InputManager.PlayerActions.Take.started -= _targetObject.GetComponentInChildren<Item>().Take;
+					InputManager.PlayerActions.Take.started -= PlayBreathSound;
+				}
 				_targetObject = null;
 				_targetItem = null;
 				return;
@@ -99,6 +102,11 @@ namespace Unit.Character
 				
 			//Debug.Log("Found an object - distance: " + hit.distance);
 			_targetObject = hit.collider.gameObject;
+			if (_targetObject.TryGetComponent(out Cooking.CookingTable table) && table is not null)
+			{
+				_uiManager.ShowInteractionText("Использовать");
+				return ;
+			}
 			_targetItem = _targetObject.GetComponentInChildren<Item>();
 			InputManager.PlayerActions.Take.started += _targetItem.Take;
 			InputManager.PlayerActions.Take.started += PlayBreathSound;

@@ -84,10 +84,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  runSpeed: 3.5
-  fovAngle: 120
-  fovRadius: 70
-  hearingRadius: 10
+  runSpeed: 6
+  showGizmos: 1
+  fovAngle: 13.3
+  fovRadius: 16.8
+  hearingRadius: 12.3
   fovOrigin: {fileID: 2943958847578080979}
   attackDistance: 3
   attackDamage: 10

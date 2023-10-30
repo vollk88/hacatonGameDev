@@ -17,6 +17,7 @@ namespace AI.Enemy.Perception
 		private readonly Transform _fovOrigin;
 		
 		private Queue<GameObject> _soundTargets = new ();
+		private CharacterController Player { get; set; }
 
 		public Perception(Enemy enemy, float fovAngle, float fovRadius, Transform fovOrigin, float hearingRadius)
 		{
@@ -25,6 +26,7 @@ namespace AI.Enemy.Perception
 			_fovOrigin = fovOrigin;
 			_hearingRadius = hearingRadius;
 			_fovRadius = fovRadius;
+			Player = CustomBehaviour.GetCharacterController();
 		}
 
 		
@@ -70,19 +72,20 @@ namespace AI.Enemy.Perception
 		
 		protected bool IsInFOV(Vector3 objectPosition , float distance, out RaycastHit hitInfo)
 		{
-			Vector3 dir = objectPosition - _fovOrigin.position;         
-			Vector3 headForward = Quaternion.Euler(0f, -90f, 0f) * _fovOrigin.forward;
+			var fovPosition = _fovOrigin.position;
+			Vector3 dir = objectPosition - fovPosition;         
+			Vector3 headForward = _fovOrigin.forward;
             
+			Debug.DrawRay(fovPosition, objectPosition - fovPosition, Color.red);
 			if (!(dir.magnitude <= distance 
-			      && Math.Abs(Vector3.Angle(headForward, dir)) <= _fovAngle + 5f))
+			      && Vector3.Angle(headForward, dir) <= _fovAngle + 5f))
 			{
+				
 				hitInfo = default;
 				return false;
 			}
 
 			Ray ray = RaycastToPosition(objectPosition);
-			var fovPosition = _fovOrigin.position;
-			Debug.DrawRay(fovPosition, objectPosition - fovPosition, Color.red);
 			
 			return Physics.Raycast(ray, out hitInfo, distance);
 		}
@@ -90,16 +93,14 @@ namespace AI.Enemy.Perception
 		// кидаем лучи по fow и если попадаем в персонажа, то возвращаем его
 		private GameObject HandleFowCharacterRaycast()
 		{
-			CharacterController characterController = CustomBehaviour.GetCharacterController();
-			
-			if (characterController is null)
+			if (Player is null)
 				return null;
 			
-			Vector3 characterPosition = characterController.Transform.position + (Vector3.up);
+			Vector3 characterPosition = Player.Transform.position + (Vector3.up);
 			
 			if (IsInFOV(characterPosition, _fovRadius, out RaycastHit hit))
 			{
-				if (hit.collider.gameObject == characterController.gameObject)
+				if (hit.collider.gameObject == Player.gameObject)
 				{
 					return hit.collider.gameObject;
 				}
@@ -112,7 +113,10 @@ namespace AI.Enemy.Perception
 		{
 			GameObject playerInFov = HandleFowCharacterRaycast();
 			if (playerInFov is not null)
+			{
+				_soundTargets.Clear();
 				return playerInFov;
+			}
 			return _soundTargets.Count > 0 ? _soundTargets.Peek() : null;
 		}
 

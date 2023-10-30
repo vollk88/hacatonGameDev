@@ -8,9 +8,11 @@ namespace AI.Enemy.State
 	public class ChaseState : AEnemyState
 	{
 		private GameObject Target { get; set; }
+		private CharacterController Player { get; set; }
 		
 		public ChaseState(AUnit aUnit) : base(aUnit)
 		{
+			Player = CustomBehaviour.GetCharacterController();
 		}
 
 		public override void Enter()
@@ -27,8 +29,7 @@ namespace AI.Enemy.State
 			
 			if (distanceToTarget < Enemy.AttackDistance)
 			{
-				CharacterController player = CustomBehaviour.GetCharacterController();
-				if (player is not null && Target == player.gameObject)
+				if (Player is not null && Target == Player.gameObject)
 				{
 					ThisUnit.StateMachine.SetState<AttackState>();
 					return;

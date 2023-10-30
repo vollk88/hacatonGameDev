@@ -4,6 +4,7 @@ using Inventory;
 using UnityEngine;
 using BaseClasses;
 using Items;
+using MissionData;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 
@@ -17,6 +18,9 @@ namespace UI.Cooking
 		[SerializeField] private GameObject ingredientContentElem;
 		[SerializeField] private Button closeButton;
 
+		[Tooltip("SO Items Prefab")] [SerializeField]
+		private SOItemPrefabs soItemPrefabs;
+		
 		protected override void Awake()
 		{
 			base.Awake();
@@ -28,9 +32,11 @@ namespace UI.Cooking
 			InventoryController.Debug();
 			foreach (global::Cooking.Items items in recipe.Ingredients)
 			{
-				Item item = InventoryController.GetItemByType(items.ItemType);
+				Item item = soItemPrefabs.Get(items.ItemType)?.GetComponent<Item>();
+				if (item is null)
+					return ;
 				for(int i = 0; i < items.ItemCount; i++)
-					InventoryController.Remove(item);
+					InventoryController.Remove(item.Type);
 			}
 			InventoryController.Debug();
 		}
@@ -59,6 +65,11 @@ namespace UI.Cooking
 			}
 			recipe.IsCooking = false;				
 			recipes.Recipes[index] = recipe;
+
+			if (TaskManager.Tasks[0] is not CookingTask task) yield break;
+
+			if (task.Recipe == recipe.DishName)
+				TaskManager.Tasks[0].UpdateProgress(TaskManager.Tasks[0].Quantity);
 		}
 		
 		public void Fill(SoRecipes recipes)

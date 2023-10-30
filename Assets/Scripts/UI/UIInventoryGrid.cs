@@ -15,9 +15,11 @@ namespace UI
 		private List<ElementGrid> elements = new();
 		[Tooltip("Объект с текстом названия текущего предмета.")][SerializeField]
 		private TextMeshProUGUI currentItemName;
+		[Tooltip("SO Item Prefabs")] [SerializeField]
+		private SOItemPrefabs itemPrefabs;
 		
-		private Dictionary<Item, uint> _items = new();
-		private List<Item> _orderedItems = new();
+		private Dictionary<EItems, uint> _items = new();
+		private List<EItems> _orderedItems = new();
 		private int _currentItemIndex;
 		
 
@@ -47,7 +49,7 @@ namespace UI
 		{
 			// Обновляем словарь предметов
 			_items = InventoryController.GetItems();
-			_orderedItems = new List<Item>(_items.Keys);
+			_orderedItems = new List<EItems>(_items.Keys);
 
 			// На случай, если инвентарь пуст, сбрасываем текущий выбранный предмет
 			if (_orderedItems.Count == 0)
@@ -55,6 +57,7 @@ namespace UI
 				foreach (var elem in elements)
 					elem.Hide();
 				_currentItemIndex = 0;
+				currentItemName.text = "";
 			}
 
 			// Обновляем отображение
@@ -70,17 +73,16 @@ namespace UI
 			for (int i = 0; i < elements.Count; i++)
 			{
 				int itemIndex = (_currentItemIndex - elements.Count / 2 + i + itemCount) % itemCount;
-				Item item = _orderedItems[itemIndex];
+				Item item = itemPrefabs.Get(_orderedItems[itemIndex])?.GetComponent<Item>();
 
 				// Установите предмет в элемент сетки
-				elements[i].SetItem(item, _items[item]);
+				elements[i].SetItem(item, _items[_orderedItems[itemIndex]]);
 
 				// Установите текст текущего предмета, если это центральный элемент
-				if (i == elements.Count / 2)
-				{
-					currentItemName.text = item.GetName();
-					InventoryController.CurrentItem = item;
-				}
+				if (i != elements.Count / 2) continue;
+				
+				currentItemName.text = item.GetName();
+				InventoryController.CurrentItem = item.Type;
 			}
 		}
 
