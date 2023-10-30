@@ -13,25 +13,45 @@ namespace MissionData
         private TaskList taskList;
 
         private UIManager _uiManager;
-        public static List<ATask> Tasks { get; } = new ();
+        public static List<ATask> Tasks { get; private set; } = new ();
         
-        private static event Action UIUpdateEvent; 
-
+        private static event Action UIUpdateEvent;
 
         private void Start()
         {
+            GameStateEvents.GameStarted += Init;
+        }
+
+        private void Init()
+        {
             _uiManager = (UIManager)Instances[typeof(UIManager)][0];
-            AddTasks(taskList);
-            UIUpdateEvent += UIUpdate;
-            
-            if (Tasks.Count == 0)
+            if (PlayerPrefs.HasKey("SavedGameExists") && PlayerPrefs.GetInt("SavedGameExists") == 0)
             {
-                Debug.Log("No tasks to complete!");
-                return;
+                AddTasks(taskList);
+                UIUpdateEvent += UIUpdate;
+                
+                if (Tasks.Count == 0)
+                {
+                    Debug.Log("No tasks to complete!");
+                    return;
+                }
+                
+                Debug.Log("Starting first task: " + Tasks.First().Name);
+                Tasks.First().StartTask();
             }
-            
-            Debug.Log("Starting first task: " + Tasks.First().Name);
-            Tasks.First().StartTask();
+            else
+            {
+                Tasks = SavePrefs.Load().Tasks;
+                UIUpdateEvent += UIUpdate;
+                
+                if (Tasks.Count == 0)
+                {
+                    Debug.Log("No tasks to complete!");
+                    return;
+                }
+                
+                Debug.Log("Starting first task: " + Tasks.First().Name);
+            }
             
             OnUIUpdateEvent();
         }

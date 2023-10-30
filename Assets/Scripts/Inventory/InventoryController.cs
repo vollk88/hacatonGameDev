@@ -9,9 +9,9 @@ namespace Inventory
 {
 	public static class InventoryController
 	{
-		private static Dictionary<Item, uint> _items = new();
+		private static Dictionary<EItems, uint> _items = new();
 		public static Action InventoryChanged;
-		public static Item CurrentItem;
+		public static EItems CurrentItem;
 		private static readonly SOItemPrefabs ItemPrefabs;
 		private static SOItemIcons _itemIcons;
 
@@ -23,18 +23,18 @@ namespace Inventory
 
 		public static GameObject GetCurrentItemPrefab()
 		{
-			return CurrentItem is null ? null : ItemPrefabs.Get(CurrentItem.Type);
+			return CurrentItem is EItems.Null ? null : ItemPrefabs.Get(CurrentItem);
 		}
 		/// <summary>Добавляет предмет в инвентарь.</summary>
 		/// <param name="item">Предмет, унаследованный от AItem.</param>
-		public static void Add(Item item)
+		public static void Add(EItems item)
 		{
 			if (_items.Count == 0)
 			{
 				CurrentItem = item;
 			}
 
-			if (IsContains(ref item))
+			if (_items.ContainsKey(item))
 			{
 				_items[item]++;
 			}
@@ -48,9 +48,9 @@ namespace Inventory
 		
 		/// <summary>Удаляет предмет из инвентаря.</summary>
 		/// <param name="item">Предмет, унаследованный от AItem.</param>
-		public static void Remove(Item item)
+		public static void Remove(EItems item)
 		{
-			if (!IsContains(ref item)) return;
+			if (!_items.ContainsKey(item)) return;
 			
 			if (_items[item] > 1)
 			{
@@ -60,25 +60,11 @@ namespace Inventory
 			{
 				if (CurrentItem == item)
 				{
-					CurrentItem = _items.Count > 1 ? _items.Keys.GetEnumerator().Current : null;
+					CurrentItem = _items.Count > 1 ? _items.Keys.GetEnumerator().Current : EItems.Null;
 				}
 				_items.Remove(item);
 			}
 			InventoryChanged?.Invoke();
-		}
-
-		private static bool IsContains(ref Item item)
-		{
-			foreach (Item variable in _items.Keys)
-			{
-				if (variable.Type == item.Type)
-				{
-					item = variable;
-					return true;
-				}
-			}
-
-			return false;
 		}
 
 		public static Sprite GetIconByType(EItems eItems)
@@ -88,28 +74,17 @@ namespace Inventory
 		
 		public static uint GetItemCountByType(EItems eItems)
 		{
-			foreach (Item variable in _items.Keys)
+			foreach (EItems variable in _items.Keys)
 			{
-				if (variable.Type == eItems)
+				if (variable == eItems)
 					return _items[variable];
 			}
 
 			return 0;
 		}
 
-		public static Item GetItemByType(EItems eItems)
-		{
-			foreach (Item variable in _items.Keys)
-			{
-				if (variable.Type == eItems)
-					return variable;
-			}
-
-			return null;
-		}
-
-		public static void SetItems(Dictionary<Item, uint> newItems) => _items = newItems;
-		public static Dictionary<Item, uint> GetItems() => _items;
+		public static void SetItems(Dictionary<EItems, uint> newItems) => _items = newItems;
+		public static Dictionary<EItems, uint> GetItems() => _items;
 		
 		public static GameObject GetItemFromType(EItems type) => ItemPrefabs.Get(type);
 		
@@ -118,7 +93,7 @@ namespace Inventory
 			foreach (var variable in _items)
 			{
 				UnityEngine.Debug.Log("Type - " + 
-					variable.Key.Type + " Key - " +
+					variable.Key + " Key - " +
 				           variable.Key + " Value - " +
 				           variable.Value);
 			}

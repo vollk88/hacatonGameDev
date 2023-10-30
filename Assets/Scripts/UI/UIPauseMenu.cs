@@ -1,6 +1,7 @@
 ﻿using BaseClasses;
 using Input;
 using Inventory;
+using MissionData;
 using UnityEngine;
 using UnityEngine.UI;
 using CharacterController = Unit.Character.CharacterController;
@@ -54,7 +55,7 @@ namespace UI
 			          $"Инвентарь: {InventoryController.GetItems()}");*/
 			
 			SavePrefs.Save(new SaveData(playerTransform.position, playerTransform.rotation, 
-				(uint)characterController.Health.CurrentHealth, InventoryController.GetItems()));
+				(uint)characterController.Health.CurrentHealth, InventoryController.GetItems(), TaskManager.Tasks));
 			
 			Application.Quit();
 		}

@@ -4,6 +4,7 @@ using BaseClasses;
 using Cinemachine;
 using Inventory;
 using Items;
+using MissionData;
 using UnityEngine;
 
 namespace Unit.Character
@@ -15,10 +16,18 @@ namespace Unit.Character
 
 		public void SpawnPlayer(bool isNewGame = true)
 		{
-			SaveData saveData = isNewGame ? 
-				new SaveData(transform.position, Quaternion.identity, 
-					100, new Dictionary<Item, uint>()) : SavePrefs.Load();
-
+			SaveData saveData;
+			
+			if (isNewGame)
+			{
+				saveData = new SaveData(transform.position, Quaternion.identity,
+					100, new Dictionary<EItems, uint>(), new List<ATask>());
+				PlayerPrefs.SetInt("SavedGameExists", 0);
+			}
+			else
+			{
+				saveData = SavePrefs.Load();
+			}
 			GameObject go = Instantiate(character, saveData.Position, saveData.Rotation);
 
 			CharacterController ch = go.GetComponent<CharacterController>();

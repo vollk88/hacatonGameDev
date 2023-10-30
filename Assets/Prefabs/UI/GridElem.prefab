@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950fd8f46218474e840dd9b60de8d468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemIcons: {fileID: 11400000, guid: 9f0369b48b4de2349a31652337960651, type: 2}
   image: {fileID: 1323117707499562918}
   count: {fileID: 5205008602334451264}
 --- !u!1 &7962085279787681953

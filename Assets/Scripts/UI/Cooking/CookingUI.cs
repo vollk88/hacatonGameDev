@@ -18,6 +18,9 @@ namespace UI.Cooking
 		[SerializeField] private GameObject ingredientContentElem;
 		[SerializeField] private Button closeButton;
 
+		[Tooltip("SO Items Prefab")] [SerializeField]
+		private SOItemPrefabs soItemPrefabs;
+		
 		protected override void Awake()
 		{
 			base.Awake();
@@ -29,9 +32,11 @@ namespace UI.Cooking
 			InventoryController.Debug();
 			foreach (global::Cooking.Items items in recipe.Ingredients)
 			{
-				Item item = InventoryController.GetItemByType(items.ItemType);
+				Item item = soItemPrefabs.Get(items.ItemType)?.GetComponent<Item>();
+				if (item is null)
+					return ;
 				for(int i = 0; i < items.ItemCount; i++)
-					InventoryController.Remove(item);
+					InventoryController.Remove(item.Type);
 			}
 			InventoryController.Debug();
 		}

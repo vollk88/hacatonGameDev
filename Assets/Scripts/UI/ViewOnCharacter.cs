@@ -19,6 +19,8 @@ public class ViewOnCharacter : MonoBehaviour
 
 	private void Update()
 	{
+		if (_characterController is null)
+			return;
 		transform.LookAt(_characterController.transform.position);
 		transform.Rotate(0, 180, 0);
 	}
