@@ -55,6 +55,7 @@ namespace UI
 				foreach (var elem in elements)
 					elem.Hide();
 				_currentItemIndex = 0;
+				currentItemName.text = "";
 			}
 
 			// Обновляем отображение
@@ -76,11 +77,10 @@ namespace UI
 				elements[i].SetItem(item, _items[item]);
 
 				// Установите текст текущего предмета, если это центральный элемент
-				if (i == elements.Count / 2)
-				{
-					currentItemName.text = item.GetName();
-					InventoryController.CurrentItem = item;
-				}
+				if (i != elements.Count / 2) continue;
+				
+				currentItemName.text = item.GetName();
+				InventoryController.CurrentItem = item;
 			}
 		}
 

@@ -21,13 +21,12 @@ namespace UI
 
 		protected override void OnEnable()
 		{
-			Time.timeScale = 0.0001f;
-			PlayerPrefs.SetInt("SavedGameExists", 0);
+			GameTime.Pause();
 		}
 
 		protected override void OnDisable()
 		{
-			Time.timeScale = 1;
+			GameTime.Resume();
 		}
 		
 		private void Exit()
