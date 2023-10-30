@@ -1,4 +1,5 @@
-﻿using BaseClasses;
+﻿using System.Collections;
+using BaseClasses;
 using Cinemachine;
 using FMODUnity;
 using UnityEngine;
@@ -17,6 +18,11 @@ namespace CameraScript
 			base.Awake();
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
+		}
+		
+		protected virtual void OnDisable()
+		{
+			Destroy(this);
 		}
 
 		private void Start()
