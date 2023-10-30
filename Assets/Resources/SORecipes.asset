@@ -29,7 +29,7 @@ MonoBehaviour:
     StartCookingTime: 0
     EndCookingTime: 0
     IsCooking: 0
-  - DishName: "\u041B\u0435\u0442\u043D\u0438\u0439 \u0441\u0430\u043B\u0430\u0442"
+  - DishName: "\u0421\u0443\u043F \"\u041C\u043E\u043B\u043E\u0434\u043E\u0441\u0442\u044C\""
     FinishDishSprite: {fileID: 21300000, guid: 0285a1f685dd27f4d932d16f39d2338e, type: 3}
     Ingredients:
     - ItemName: "\u041F\u043E\u043C\u0438\u0434\u043E\u0440"
@@ -44,9 +44,9 @@ MonoBehaviour:
     - ItemName: "\u041E\u0433\u0443\u0440\u0435\u0446"
       ItemType: 4
       ItemCount: 3
-    CookingTime: 180
-    StartCookingTime: 0
-    EndCookingTime: 0
+    CookingTime: 30
+    StartCookingTime: 135.8424
+    EndCookingTime: 145.8424
     IsCooking: 0
   - DishName: "\u0428\u0430\u0440\u043B\u043E\u0442\u0430"
     FinishDishSprite: {fileID: 21300000, guid: 46bfab94e422cfa41ac92b066bd663a9, type: 3}
