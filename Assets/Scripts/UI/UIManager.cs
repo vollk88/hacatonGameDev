@@ -44,6 +44,14 @@ namespace UI
             GameStateEvents.GameEnded += OnGameEnded;
         }
 
+        private void OnDestroy()
+        {
+            GameStateEvents.GameStarted -= OnGameStarted;
+            GameStateEvents.GamePaused -= OnGamePaused;
+            GameStateEvents.GameResumed -= OnGameResumed;
+            GameStateEvents.GameEnded -= OnGameEnded;
+        }
+
         public void ShowInteractionText(string itemName)
         {
             itemNameText.text = $"{itemName} [F]";
@@ -58,6 +66,8 @@ namespace UI
         private void OnGameEnded()
         {
             InputManager.UIActions.Pause.started -= Pause;
+            InputManager.UIActions.SeeTasks.started -= SeeTasksOn;
+            InputManager.UIActions.SeeTasks.canceled -= SeeTasksOff;
         }
 
         private void OnGameResumed()

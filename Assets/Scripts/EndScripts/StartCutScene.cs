@@ -19,6 +19,11 @@ public class StartCutScene : MonoBehaviour
     {
         GameStateEvents.GameWin += StartPlay;
     }
+    
+    private void OnDisable()
+    {
+        GameStateEvents.GameWin -= StartPlay;
+    }
 
 
     private void Start()
