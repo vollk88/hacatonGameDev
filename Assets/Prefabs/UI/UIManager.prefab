@@ -7215,6 +7215,7 @@ MonoBehaviour:
   - {fileID: 3513911287592375618}
   - {fileID: 6841917015447638953}
   currentItemName: {fileID: 1195635011075694849}
+  itemPrefabs: {fileID: 11400000, guid: ef1f1307eb9f1b84281b45ab1fbe2bd6, type: 2}
 --- !u!1 &7601097744514888250
 GameObject:
   m_ObjectHideFlags: 0
@@ -8571,6 +8572,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: -693.1455
       objectReference: {fileID: 0}
+    - target: {fileID: 8838043490001019379, guid: 06770da7d737c8b459425064847c0312, type: 3}
+      propertyPath: soItemPrefabs
+      value: 
+      objectReference: {fileID: 11400000, guid: ef1f1307eb9f1b84281b45ab1fbe2bd6, type: 2}
     m_RemovedComponents:
     - {fileID: 5278705148508550315, guid: 06770da7d737c8b459425064847c0312, type: 3}
     m_RemovedGameObjects: []

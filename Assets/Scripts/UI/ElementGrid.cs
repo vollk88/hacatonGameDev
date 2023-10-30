@@ -1,6 +1,7 @@
 ﻿using BaseClasses;
 using Items;
 using TMPro;
+using UI.Cooking;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,9 @@ namespace UI
 {
 	public class ElementGrid : CustomBehaviour
 	{
+		[Tooltip("SO Sprites Image предметов.")][SerializeField]
+		private SOItemIcons itemIcons;
+		
 		[Tooltip("Объект с Image.")][SerializeField] 
 		private Image image;
 
@@ -16,7 +20,7 @@ namespace UI
 
 		public void SetItem(Item item, uint itemCount)
 		{
-			image.sprite = item.GetIcon();
+			image.sprite = itemIcons.Get(item.Type);
 			count.text = itemCount.ToString();
 			image.enabled = true;
 			count.enabled = true;

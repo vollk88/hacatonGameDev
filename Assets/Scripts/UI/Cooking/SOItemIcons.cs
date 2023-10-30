@@ -18,5 +18,10 @@ namespace UI.Cooking
 		[SerializeField] private List<ItemSprites> itemSprites;
 
 		public List<ItemSprites> ItemSpritesList => itemSprites;
+		
+		public Sprite Get(EItems type)
+		{
+			return itemSprites.Find(item => item.ItemType == type).Sprite;
+		}
 	}
 }

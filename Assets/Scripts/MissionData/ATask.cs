@@ -1,5 +1,6 @@
 ﻿using System;
 using Cooking;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,13 +13,13 @@ namespace MissionData
 	}
 
 
-	public abstract class ATask
+	public class ATask
 	{
-		public string Name { get; private set; }
-		public string Description { get; private set; }
-		public uint Quantity { get; private set; }
-		public uint CurrentProgress { get; private set; }
-		public ETaskStatus Status { get; private set; }
+		public string Name;
+		public string Description;
+		public uint Quantity;
+		public uint CurrentProgress;
+		public ETaskStatus Status;
 
 		// Declare an event for task completion
 		public event Action<ATask> OnTaskCompleted;
@@ -30,6 +31,16 @@ namespace MissionData
 			Description = description;
 			Quantity = quantity;
 			Status = ETaskStatus.NotStarted;
+		}
+
+		[JsonConstructor]
+		public ATask(string name, string description, uint quantity, uint currentProgress, ETaskStatus status)
+		{
+			Name = name;
+			Description = description;
+			Quantity = quantity;
+			CurrentProgress = currentProgress;
+			Status = status;
 		}
 
 		public virtual void StartTask()
