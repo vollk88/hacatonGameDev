@@ -9,7 +9,7 @@ namespace Input
 	{
 		public CharacterController Character { get; set; }
 		public Transform CinemachineBrainTransform { get; set; }
-		
+
 		public OpenCookingTableInput(CharacterController character, Transform cinemachineBrainTransform)
 		{
 			Character = character;
@@ -24,7 +24,7 @@ namespace Input
 			if (!Physics.Raycast(ray, out RaycastHit hit, 5)) return;
 			
 			if (!hit.collider.gameObject.TryGetComponent(out CookingTable table)) return;
-				
+
 			table.OpenTable();
 			UnsubscribeEvents();
 			table.CookingTableClosed += SubscribeEvents;
@@ -32,12 +32,12 @@ namespace Input
 
 		public void SubscribeEvents()
 		{
-			InputManager.PlayerActions.Throw.started += Use;
+			InputManager.PlayerActions.Take.started += Use;
 		}
 
 		public void UnsubscribeEvents()
 		{
-			InputManager.PlayerActions.Throw.started -= Use;
+			InputManager.PlayerActions.Take.started -= Use;
 		}
 	}
 }
