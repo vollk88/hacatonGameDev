@@ -9,6 +9,11 @@ public class ViewOnCharacter : MonoBehaviour
 
 	private void Start()
 	{
+		GameStateEvents.GameStarted += Init;
+	}
+
+	private void Init()
+	{
 		_characterController = CustomBehaviour.GetCharacterController();
 	}
 

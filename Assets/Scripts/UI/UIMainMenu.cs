@@ -1,4 +1,5 @@
 ﻿using BaseClasses;
+using Unit.Character;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ namespace UI
 		private Button newGameButton;
 		[Tooltip("Кнопка Выход")][SerializeField]
 		private Button exitButton;
+		[Tooltip("Player spawner.")][SerializeField]
+		private PlayerSpawner playerSpawner;
 		
 		private void Start()
 		{
@@ -27,12 +30,12 @@ namespace UI
 
 		private void NewGame()
 		{
-			throw new System.NotImplementedException();
+			playerSpawner.SpawnPlayer();
 		}
 
 		private void Continue()
 		{
-			throw new System.NotImplementedException();
+			playerSpawner.SpawnPlayer(false);
 		}
 	}
 }
