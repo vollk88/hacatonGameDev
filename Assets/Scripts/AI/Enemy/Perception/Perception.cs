@@ -72,19 +72,20 @@ namespace AI.Enemy.Perception
 		
 		protected bool IsInFOV(Vector3 objectPosition , float distance, out RaycastHit hitInfo)
 		{
-			Vector3 dir = objectPosition - _fovOrigin.position;         
-			Vector3 headForward = Quaternion.Euler(0f, -90f, 0f) * _fovOrigin.forward;
+			var fovPosition = _fovOrigin.position;
+			Vector3 dir = objectPosition - fovPosition;         
+			Vector3 headForward = _fovOrigin.forward;
             
+			Debug.DrawRay(fovPosition, objectPosition - fovPosition, Color.red);
 			if (!(dir.magnitude <= distance 
-			      && Math.Abs(Vector3.Angle(headForward, dir)) <= _fovAngle + 5f))
+			      && Vector3.Angle(headForward, dir) <= _fovAngle + 5f))
 			{
+				
 				hitInfo = default;
 				return false;
 			}
 
 			Ray ray = RaycastToPosition(objectPosition);
-			var fovPosition = _fovOrigin.position;
-			Debug.DrawRay(fovPosition, objectPosition - fovPosition, Color.red);
 			
 			return Physics.Raycast(ray, out hitInfo, distance);
 		}
@@ -112,7 +113,10 @@ namespace AI.Enemy.Perception
 		{
 			GameObject playerInFov = HandleFowCharacterRaycast();
 			if (playerInFov is not null)
+			{
+				_soundTargets.Clear();
 				return playerInFov;
+			}
 			return _soundTargets.Count > 0 ? _soundTargets.Peek() : null;
 		}
 
