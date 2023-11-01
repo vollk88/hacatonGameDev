@@ -12,7 +12,7 @@
 Глибин Михаил https://github.com/RouDenr \
 Подройков Кирилл https://github.com/vollk88 \
 Клешнин Владимир https://github.com/vkleshnin \
-Махмутов Ильгам https://github.com/IshinkeyI \
+Махмутов Ильгам https://github.com/IshinkeyI
 
 # Скриншоты:
 
